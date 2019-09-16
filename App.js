@@ -28,7 +28,7 @@ export default class App extends React.Component {
           <Scene
             hideNavBar={true}
             key="splashScreen"
-            component={SearchPage}
+            component={HomeDetails}
             title="splashScreen"
           />
           <Scene

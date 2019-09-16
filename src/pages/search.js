@@ -2,19 +2,14 @@ import React, {Component} from 'react';
 import {
   Text, 
   View,
-  Picker,
-  TouchableOpacity,
-  Image,
-  platform,
-  ScrollView,
-  StatusBar
+  StatusBar,
+  TouchableOpacity
 } from 'react-native';
 import {
   Container,
   Content,
   Icon,
   Header,
-  Card,
   Footer,
   Item,
   Input,
@@ -26,42 +21,6 @@ import {
   getHeight
 } from "../global/util";
 import HouseCardItem from "./../components/houseCardItems";
-import SearchableDropdown from 'react-native-searchable-dropdown';
-
-var items = [
-  {
-    id: 1,
-    name: 'JavaScript',
-  },
-  {
-    id: 2,
-    name: 'Java',
-  },
-  {
-    id: 3,
-    name: 'Ruby',
-  },
-  {
-    id: 4,
-    name: 'React Native',
-  },
-  {
-    id: 5,
-    name: 'PHP',
-  },
-  {
-    id: 6,
-    name: 'Python',
-  },
-  {
-    id: 7,
-    name: 'Go',
-  },
-  {
-    id: 8,
-    name: 'Swift',
-  },
-];
 
 export default class SearchPage extends Component {
 
@@ -76,14 +35,13 @@ export default class SearchPage extends Component {
         { name : "Aise hi kuch v", id: "aisehikuchv" }
       ],
       searchArea : "",
-      selectedItems: []
+      searchedItem: {}
     };
   }
 
   componentDidMount(){}
 
   render() {
-    let { areaList, searchText, selectedItems } = this.state;
     return (
       <Container style={{}}>
         <Header backgroundColor="#2196F3" searchBar rounded autoCorrect={false} style={{backgroundColor: Color.themeColor, marginTop: StatusBar.currentHeight}}>
@@ -94,88 +52,46 @@ export default class SearchPage extends Component {
                   this.setState({ searchText });
                 }}
                 placeholder="Area Name (eg. Boring Road)"
+                value={this.state.searchText}
               />
               <Icon name="md-home" />
             </Item>
-            {
-              (
-              <View style={{
-                  position: 'absolute',
-                  width: '100%',
-                  top: 50
-              }}>
-              {
-              areaList.filter(item => searchText && item.name.toLowerCase().includes(searchText.toLowerCase()))
-              .map((item, index) => {
-                return (<View key={index} style={{
-                            height : getHeight(6),
-                            borderWidth : 1,
-                            borderRadius : 5,
-                            width : '100%',
-                            borderColor : "#bbb",
-                            padding : 5
-                          }}>
-                          <Text> { item.name } </Text>
-                        </View>)
-                  })
-                }
-              </View>
-              )
-            }
-
-
-          {/* <View style={{ width : '100%'}}>
-            <SearchableDropdown
-              onItemSelect={(item) => {
-                const items = this.state.selectedItems;
-                items.push(item)
-                this.setState({ selectedItems: items });
-              }}
-              containerStyle={{ padding: 5 }}
-              onRemoveItem={(item, index) => {
-                const items = this.state.selectedItems.filter((sitem) => sitem.id !== item.id);
-                this.setState({ selectedItems: items });
-              }}
-              itemStyle={{
-                padding: 10,
-                marginTop: 2,
-                backgroundColor: '#ddd',
-                borderColor: '#bbb',
-                borderWidth: 1,
-                borderRadius: 5,
-              }}
-              itemTextStyle={{ color: '#222' }}
-              itemsContainerStyle={{ maxHeight : 250, width : '100%', zIndex : 9999 }}
-              items={this.state.areaList}
-              resetValue={false}
-              textInputProps={
-                {
-                  placeholder: "Area Name (eg. Boring Road)",
-                  underlineColorAndroid: "transparent",
-                  style: {
-                      padding: 12,
-                      borderWidth: 1,
-                      borderColor: '#ccc',
-                      borderRadius: 5,
-                  },
-                  onTextChange: searchText => {
-                    // let selectedItems = areaList.filter(item => searchText && item.name.toLowerCase().includes(searchText.toLowerCase()));
-                    // console.log(selectedItems, "SELECTEDITEMS");
-                    // this.setState({ selectedItems });
-                  }
-                }
-              }
-              
-        />
-        </View>
-         */}
         </Header>
         {
-          !searchText && (
+          this.state.searchText && (
+            <View style={{
+                  marginHorizontal : 10
+                }}>
+                {
+                  this.state.areaList.filter(item => this.state.searchText && item.name.toLowerCase().includes(this.state.searchText.toLowerCase()))
+                  .map((item, index) => <TouchableOpacity 
+                  style={{
+                    height : 40,
+                    width : '100%',
+                    paddingLeft : 16,
+                    borderRadius : 4,
+                    display : 'flex',
+                    justifyContent : 'center',
+                    borderWidth: 1,
+                    borderColor: 'black'
+                  }}
+                  onPress={e => {
+                    this.setState({
+                      searchedItem : item,
+                      searchText : item.name
+                    });
+                  }}>
+                    <Text style={{ fontSize : 16 }}> { item.name } </Text>
+                  </TouchableOpacity>)
+                }
+            </View>
+          )
+        }
+        {
+          !this.state.searchText && (
             <View style={{
               flexDirection : 'row',
-              height: getHeight(6),
-              marginTop : (selectedItems && selectedItems.length > 0) ? 250 : 0
+              height: getHeight(6)
               //marginTop: 6 * getHeight(6)
           }}>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems : 'center', borderWidth: 1, borderColor: '#eee'}}>
@@ -190,7 +106,7 @@ export default class SearchPage extends Component {
           )
         }
         {
-          !searchText && (
+          !this.state.searchText && (
             <Content style={{
               paddingLeft : "5%",
               width : "100%",
@@ -203,7 +119,7 @@ export default class SearchPage extends Component {
           )
         }
         { 
-          !searchText && (
+          !this.state.searchText && (
             <Footer>
           <View style={{ 
             justifyContent : 'center',

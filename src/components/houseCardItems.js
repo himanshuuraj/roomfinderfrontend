@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import { 
   View,
   Image,
-  Text
+  Text,
+  TouchableOpacity
 } from 'react-native';
 import {
   getFont,
   Color,
   getHeight,
-  Font
+  Font,
+  Button
 } from "../global/util";
 import {
     Card
@@ -29,7 +31,7 @@ export default class HouseCardItems extends Component {
 
   render() {
     return (
-        <Card style={{ width: this.props.page != 'search' ? 200 : '100%', marginRight : 8}}>
+      <Card style={{ width: this.props.page != 'search' ? 200 : '100%', marginRight : 8}}>
         <View style={{ height : '70%',height : this.props.page != 'search' ? getHeight(12) : getHeight(20)}}>
           <Image source={{uri : imgSrc}} resizeMode="cover" style={{
             flex:1,
@@ -58,7 +60,7 @@ export default class HouseCardItems extends Component {
             </View>
           </View>
         </View>
-    </Card>
+      </Card>
     )
   }
 }
