@@ -11,7 +11,6 @@ import LoginPage from "./src/pages/login";
 import FilterPage from "./src/pages/filter";
 import RegisterationPage from "./src/pages/registeration";
 import VerifyMobileNumber from "./src/pages/verifyMobileNumber";
-import OptionPage from "./src/pages/options";
 import HomeDetails from "./src/pages/homeDetails";
 import SearchPage from "./src/pages/search";
 import CameraPage from "./src/pages/camera";
@@ -28,7 +27,7 @@ export default class App extends React.Component {
           <Scene
             hideNavBar={true}
             key="splashScreen"
-            component={HomeDetails}
+            component={SplashScreen}
             title="splashScreen"
           />
           <Scene
@@ -66,12 +65,6 @@ export default class App extends React.Component {
             key="homeDetails"
             component={HomeDetails}
             title="HomeDetails"
-          />
-          <Scene
-            hideNavBar={true}
-            key="OptionPage"
-            component={OptionPage}
-            title="OptionPage"
           />
           <Scene
             hideNavBar={true}

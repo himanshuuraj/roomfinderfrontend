@@ -31,6 +31,7 @@ export let postApiCall = (url, bodyObj) => {
             }).then((response) => response.json(), 
             err => {
                 console.log("ERR", err);
+                alert(err.message);
                 return err;
             })
             .then((responseJson) => {

@@ -323,39 +323,41 @@ export default class LoginFormComponent extends Component {
                 />
                 {
                   this.props.screenType === "login" && (
-                    <TouchableOpacity
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: Color.themeFontColor,
-                    height: "100%",
-                    width: "23%",
-                    borderRadius: 4
-                  }}
-                  onPress={() => {
-                    this.props.sendOTP();
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: Color.themeColor,
-                      fontSize: 12
-                    }}
-                  >
-                    {" "}
-                    Send{" "}
-                  </Text>
-                  <Text
-                    style={{
-                      color: Color.themeColor,
-                      fontSize: 12
-                    }}
-                  >
-                    {" "}
-                    OTP{" "}
-                  </Text>
-                </TouchableOpacity>)
+                      <TouchableOpacity
+                      style={{
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: Color.themeFontColor,
+                        height: "100%",
+                        width: "23%",
+                        borderRadius: 4,
+                        marginLeft : 1
+                      }}
+                      onPress={() => {
+                        this.props.sendOTP();
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: Color.themeColor,
+                          fontSize: 12
+                        }}
+                      >
+                        {" "}
+                        Send{" "}
+                      </Text>
+                      <Text
+                        style={{
+                          color: Color.themeColor,
+                          fontSize: 12
+                        }}
+                      >
+                        {" "}
+                        OTP{" "}
+                      </Text>
+                    </TouchableOpacity>
+                  )
                 }
               </View>
             </View>
