@@ -3,7 +3,7 @@ import { View, ScrollView, Image, StyleSheet, Dimensions } from 'react-native';
 import { Constants } from 'expo';
 
 let { width } = Dimensions.get('window');
-width = width - 32;
+width = width - 36;
 const height = width * 0.8;
 
 export default class Carousel extends Component {
@@ -35,7 +35,7 @@ export default class Carousel extends Component {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      paddingTop: Constants.statusBarHeight,
+      paddingTop: Constants.statusBarHeight
     },
     scrollContainer: {
       height,

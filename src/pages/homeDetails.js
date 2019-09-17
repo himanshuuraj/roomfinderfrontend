@@ -90,15 +90,28 @@ export default class HomeDetails extends Component {
 
   state = {
     phone : "",
-    password : ""
+    password : "",
+    amenities : [
+      { id : 1, name : 'Name1'},
+      { id : 2, name : 'Name2'},
+      { id : 3, name : 'Name3'},
+      { id : 5, name : 'Name4'},
+      { id : 6, name : 'Name5'},
+      { id : 7, name : 'Name6'}
+    ],
+    availableRooms : [
+      { id : 1, name : 'room1'},
+      { id : 2, name : 'room2'},
+      { id : 3, name : 'room3'},
+      { id : 4, name : 'room4'},
+      { id : 5, name : 'room5'},
+      { id : 6, name : 'room6'},
+      { id : 7, name : 'room7'},
+    ]
   };
 
   constructor(props){
     super(props);
-  }
-
-  componentDidMount(){
-    //setTimeout(() => this.props.moveToScreen("registeration"), 5000);
   }
 
   render() {
@@ -133,11 +146,57 @@ export default class HomeDetails extends Component {
           width : "100%",
           paddingHorizontal : 16
         }}>
+            <Text style={{ marginTop : 16, fontWeight: 'bold', fontSize: 16 }}> Rooms Available </Text>
+            <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
+              {
+                this.state.availableRooms.map((item, index) => {
+                    return (
+                      <View key={index} 
+                      style={{ 
+                        paddingHorizontal : 16, 
+                        paddingVertical : 8,
+                        marginRight : 8, 
+                        marginTop : 10,
+                        borderWidth : 1,
+                        borderColor : '#ccc'
+                      }}>
+                        <Text style={{ color : 'black' }}> {item.name} </Text>
+                      </View>
+                    )
+                })
+              }
+            </View>
             <View style={styles.container}>
               <Carousel images={images} />
             </View>
+            {
+              this.state.amenities && this.state.amenities.length > 0 && (
+                <Card style={{ paddingHorizontal : 16, paddingVertical : 16, marginTop : 16 }}>
+                  <Text style={{ fontWeight: 'bold', fontSize: 16 }}> Amenities </Text>
+                  <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
+                    {
+                      this.state.amenities.map((item, index) => {
+                          return (
+                            <View key={index} 
+                            style={{ 
+                              paddingHorizontal : 16, 
+                              paddingVertical : 8,
+                              marginRight : 8, 
+                              marginTop : 10,
+                              borderWidth : 1,
+                              borderColor : '#ccc'
+                            }}>
+                              <Text style={{ color : 'black' }}> {item.name} </Text>
+                            </View>
+                          )
+                      })
+                    }
+                  </View>
+                </Card>
+              )}
+
             <Card style={{
-              marginTop : getHeight (5)
+              marginTop : getHeight (2)
             }}>
                 <View style={{
                   width: '100%',
@@ -224,10 +283,10 @@ export default class HomeDetails extends Component {
               </Card>
             </View> */}
               <Text style={{ marginTop : 10, marginBottom : 5}}>Similiar Listing</Text>
-              <ScrollView horizontal={true} style={{marginBottom : getHeight(2)}}>
-              {
-                [...Array(10)].map((item, index) => ( <HouseCardItem key={index} />))
-              }
+              <ScrollView horizontal style={{marginBottom : getHeight(2)}}>
+                {
+                  [...Array(10)].map((item, index) => ( <HouseCardItem key={index} />))
+                }
               </ScrollView>
         </Content>
         <Footer>
@@ -252,7 +311,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight
+    marginTop: 16,
+    borderWidth : 1,
+    padding : 1, 
+    borderColor : 'black'
   },
   scrollContainer: {
     height,
