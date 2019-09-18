@@ -110,7 +110,7 @@ class VerifyMobileNumber extends Component {
               }}
               >
                 <Text style={{
-                  fontSize : getFont(16),
+                  fontSize : getFont(14),
                   color : Color.themeColor,
                   fontWeight : "bold",
                   textAlign : 'center'
@@ -128,7 +128,7 @@ class VerifyMobileNumber extends Component {
 
 function mapStateToProps(state, props) {
   return {
-      userInfo : state.testReducer.userInfo
+      userInfo : state.testReducer.userInfo || {}
   }
 }
 

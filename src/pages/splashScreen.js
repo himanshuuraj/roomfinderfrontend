@@ -9,16 +9,20 @@ export default class SplashScreen extends Component {
 
   componentDidMount(){
     setTimeout(async () => {
+      //await AsyncStorage.removeItem("userInfo");
       let userInfo = await AsyncStorage.getItem("userInfo");
-      let userId;
       if(userInfo){
         userInfo = JSON.parse(userInfo);
         if(!userInfo.isMobileNumberVerified)
           Actions.verifyMobileNumber();
         else if(!userInfo.userType)
-          Actions.OptionsPage();
+          Actions.optionsPage();
+        else
+          Actions.homeDetails();
+      }else{
+        Actions.loginPage();
       }
-    }, 3000);
+    }, 0);
   }
 
   render() {

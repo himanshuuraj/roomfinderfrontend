@@ -44,7 +44,7 @@ export default class App extends React.Component {
           />
           <Scene
             hideNavBar={true}
-            key="OptionsPage"
+            key="optionsPage"
             component={OptionsPage}
             title="OptionsPage"
           />

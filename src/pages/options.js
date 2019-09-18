@@ -57,7 +57,11 @@ export default class Options extends Component {
                   justifyContent : "center",
                   alignItems : "center",
                   width : "50%"
-                }}>
+                }}
+                onPress={e => {
+                  
+                }}
+                >
                   <Image source={require("./../images/owner.jpg")}
                     style={{flex : 1}}
                     resizeMode = "contain"/>

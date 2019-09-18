@@ -10,20 +10,17 @@ import {
 
 function* registerUserInfoSaga(action){
     try {
-        //let state = yield select();
         let obj = action.userData;
         let response = yield call(postApiCall, Api.apiToRegister, obj );
         console.log("RESPONSE", response);
-        if(response.userId){
-            yield put(setData({ 'userInfo' : response }));
-            yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(response));
-            Actions.verifyMobileNumber();
-        }else if(response.err){
-            alert(response.err);
+        if(!response.success){
+            alert(response.message);
             return;
         }
-        //let data = yield call(AsyncStorage.getItem, 'userInfo'); 
-        //console.log(data, "DATA");
+        let userInfo = response.message;
+        yield put(setData({ 'userInfo' : userInfo }));
+        yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
+        Actions.verifyMobileNumber();
     } catch (e) {
         alert(JSON.stringify(e));
     }
@@ -46,18 +43,23 @@ function* sendOTPSaga(action){
 function* verifyOtpSaga(action){
     try{
         let obj = {
-            phoneNumber : action.phoneNumber,
-            otp : action.otp
+            phoneNumber : action.phoneNumber || 7022623975,
+            otp : action.otp || 602225
         };
         let response = yield call(postApiCall, Api.apiToVerifyOTP, obj );
         console.log("RESPONSE", response);
+        if(!response.success){
+            alert(response.message);
+            return;
+        }
         if(response.userId){
             yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(response));
             Actions.HomeDetails();
-        }else if(response.err){
-            alert(response.err);
-            return;
         }
+        let userInfo = response.message;
+        yield put(setData({ 'userInfo' : userInfo }));
+        yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
+        Actions.optionsPage();
     }catch(err){
         alert(JSON.stringify(err));
     }
