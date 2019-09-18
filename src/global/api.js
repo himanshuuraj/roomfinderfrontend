@@ -7,3 +7,5 @@ export const apiToVerifyOTP = HOST + "/verifyOTP";
 export const apiToSendOTP = HOST + "/sendOTP/";
 
 export const apiToVerifyEmail = HOST + "/verifyEmail";
+
+export const apiToUpdateUserInfo = HOST + "/updateUserInfo/";

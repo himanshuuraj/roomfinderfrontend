@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL } from "./../redux/constants";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE } from "./../redux/constants";
 import { getApiCall, postApiCall } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
@@ -86,11 +86,32 @@ function* verifyEmailSaga(action){
     }
 }
 
+function* setUserTypeSaga(action){
+    try{
+        let state = yield select();
+        userInfo = state.testReducer.userInfo;
+        let url = Api.apiToUpdateUserInfo + userInfo.phoneNumber;
+        let response = yield call(postApiCall, url, userInfo );
+        console.log("RESPONSE", response);
+        if(response.success){
+
+        }else{
+            let userInfo = response.message;
+            yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
+            if(userInfo.mobileNumberVerified && userInfo.userType)
+                Actions.HomeDetails();
+        }
+    }catch(err){
+
+    }
+}
+
 const mySaga = [
     takeLatest( REGISTER_USER_INFO, registerUserInfoSaga ),
     takeLatest( SEND_OTP, sendOTPSaga),
     takeLatest( VERIFY_OTP, verifyOtpSaga),
-    takeLatest( VERIFY_EMAIL, verifyEmailSaga)
+    takeLatest( VERIFY_EMAIL, verifyEmailSaga),
+    takeLatest( SET_USER_TYPE, setUserTypeSaga)
 ];
 
 export default mySaga;

@@ -4,7 +4,8 @@ import {
     UPDATE_DATA,
     SEND_OTP,
     VERIFY_OTP,
-    VERIFY_EMAIL
+    VERIFY_EMAIL,
+    SET_USER_TYPE
 } from "./constants";
 
 export const testAction = payload => {
@@ -48,5 +49,12 @@ export const verifyEmail = (email, password) => {
         type : VERIFY_EMAIL,
         email,
         password
+    }
+}
+
+export const setUserType = userType => {
+    return {
+        type : SET_USER_TYPE,
+        userType
     }
 }

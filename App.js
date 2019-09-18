@@ -26,6 +26,18 @@ export default class App extends React.Component {
         <Stack key="root">
           <Scene
             hideNavBar={true}
+            key="searchPage"
+            component={SearchPage}
+            title="SearchPage"
+          />
+          <Scene
+            hideNavBar={true}
+            key="homeDetails"
+            component={HomeDetails}
+            title="HomeDetails"
+          />
+          <Scene
+            hideNavBar={true}
             key="splashScreen"
             component={SplashScreen}
             title="splashScreen"
@@ -50,21 +62,9 @@ export default class App extends React.Component {
           />
           <Scene
             hideNavBar={true}
-            key="CameraPage"
+            key="cameraPage"
             component={CameraPage}
             title="CameraPage"
-          />
-          <Scene
-            hideNavBar={true}
-            key="SearchPage"
-            component={SearchPage}
-            title="SearchPage"
-          />
-          <Scene
-            hideNavBar={true}
-            key="homeDetails"
-            component={HomeDetails}
-            title="HomeDetails"
           />
           <Scene
             hideNavBar={true}

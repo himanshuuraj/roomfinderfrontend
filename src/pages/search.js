@@ -39,7 +39,9 @@ export default class SearchPage extends Component {
     };
   }
 
-  componentDidMount(){}
+  componentDidMount(){
+    
+  }
 
   render() {
     return (
@@ -65,6 +67,7 @@ export default class SearchPage extends Component {
                 {
                   this.state.areaList.filter(item => this.state.searchText && item.name.toLowerCase().includes(this.state.searchText.toLowerCase()))
                   .map((item, index) => <TouchableOpacity 
+                  key={index}
                   style={{
                     height : 40,
                     width : '100%',
