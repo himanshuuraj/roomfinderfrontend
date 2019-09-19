@@ -16,6 +16,7 @@ import SearchPage from "./src/pages/search";
 import CameraPage from "./src/pages/camera";
 import OptionsPage from "./src/pages/options";
 import SplashScreen from "./src/pages/splashScreen";
+import OwnerPage from "./src/pages/ownerPage";
 
 export default class App extends React.Component {
 
@@ -26,15 +27,15 @@ export default class App extends React.Component {
         <Stack key="root">
           <Scene
             hideNavBar={true}
-            key="searchPage"
-            component={SearchPage}
-            title="SearchPage"
+            key="ownerPage"
+            component={OwnerPage}
+            title="OwnerPage"
           />
           <Scene
             hideNavBar={true}
-            key="homeDetails"
-            component={HomeDetails}
-            title="HomeDetails"
+            key="cameraPage"
+            component={CameraPage}
+            title="CameraPage"
           />
           <Scene
             hideNavBar={true}
@@ -50,6 +51,18 @@ export default class App extends React.Component {
           />
           <Scene
             hideNavBar={true}
+            key="searchPage"
+            component={SearchPage}
+            title="SearchPage"
+          />
+          <Scene
+            hideNavBar={true}
+            key="homeDetails"
+            component={HomeDetails}
+            title="HomeDetails"
+          />
+          <Scene
+            hideNavBar={true}
             key="registerationPage"
             component={RegisterationPage}
             title="RegisterationPage"
@@ -59,12 +72,6 @@ export default class App extends React.Component {
             key="optionsPage"
             component={OptionsPage}
             title="OptionsPage"
-          />
-          <Scene
-            hideNavBar={true}
-            key="cameraPage"
-            component={CameraPage}
-            title="CameraPage"
           />
           <Scene
             hideNavBar={true}

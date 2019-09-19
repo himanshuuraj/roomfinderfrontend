@@ -5,7 +5,8 @@ import {
     SEND_OTP,
     VERIFY_OTP,
     VERIFY_EMAIL,
-    SET_USER_TYPE
+    SET_USER_TYPE,
+    GET_AREAS
 } from "./constants";
 
 export const testAction = payload => {
@@ -56,5 +57,11 @@ export const setUserType = userType => {
     return {
         type : SET_USER_TYPE,
         userType
+    }
+}
+
+export const getAreas = () => {
+    return {
+        type : GET_AREAS
     }
 }

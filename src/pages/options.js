@@ -1,28 +1,19 @@
 import React, {Component} from 'react';
 import {
-    StyleSheet,
     View,
     Image,
-    TouchableHighlight,
     TouchableOpacity,
-    TextInput,
-    ScrollView
 } from 'react-native';
-import { Container, Header, Title, 
+import { Container,
     Content, 
-    Footer,
-    FooterTab, Button, 
-    Left, Right, 
-    Body, Icon, 
     Text, 
-    Grid,
-    Row,
-    Col,
-    Card
 } from 'native-base';
-import { Color, getHeight, getFont, getWidth } from "./../global/util";
+import { Color, getHeight, getFont } from "./../global/util";
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { setUserType } from "./../redux/action";
 
-export default class Options extends Component {
+class Options extends Component {
 
   render() {
 
@@ -59,7 +50,7 @@ export default class Options extends Component {
                   width : "50%"
                 }}
                 onPress={e => {
-                  
+                  this.props.setUserType("owner")
                 }}
                 >
                   <Image source={require("./../images/owner.jpg")}
@@ -76,7 +67,11 @@ export default class Options extends Component {
                   justifyContent : "center",
                   alignItems : "center",
                   width : "50%"
-                }}>
+                }}
+                onPress={e => {
+                  this.props.setUserType("renter")
+                }}
+                >
                   <Image source={require("./../images/renter.jpg")}
                     style={{flex : 1}}
                     resizeMode = "contain"/>
@@ -98,22 +93,16 @@ export default class Options extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10,
-    },
-    instructions: {
-      textAlign: 'center',
-      color: '#333333',
-      marginBottom: 5,
-    },
-  });
+  function mapStateToProps(state, props) {
+    return {
+    }
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+      setUserType
+    }, dispatch);
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Options);
   

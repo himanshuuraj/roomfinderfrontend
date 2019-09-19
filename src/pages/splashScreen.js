@@ -4,8 +4,10 @@ import {
   AsyncStorage
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-
-export default class SplashScreen extends Component {
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { setData } from "./../redux/action";
+class SplashScreen extends Component {
 
   componentDidMount(){
     setTimeout(async () => {
@@ -13,7 +15,8 @@ export default class SplashScreen extends Component {
       let userInfo = await AsyncStorage.getItem("userInfo");
       if(userInfo){
         userInfo = JSON.parse(userInfo);
-        if(!userInfo.isMobileNumberVerified)
+        this.props.setData({ userInfo: userInfo });
+        if(!userInfo.mobileNumberVerified)
           Actions.verifyMobileNumber();
         else if(!userInfo.userType)
           Actions.optionsPage();
@@ -38,3 +41,13 @@ export default class SplashScreen extends Component {
     );
   }
 }
+
+function mapStateToProps(state, props) {
+  return { }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ setData }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);

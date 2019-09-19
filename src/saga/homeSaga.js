@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE } from "./../redux/constants";
-import { getApiCall, postApiCall } from "./../global/request";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS } from "./../redux/constants";
+import { getApiCall, postApiCall, putApiCall } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -90,16 +90,37 @@ function* setUserTypeSaga(action){
     try{
         let state = yield select();
         userInfo = state.testReducer.userInfo;
-        let url = Api.apiToUpdateUserInfo + userInfo.phoneNumber;
-        let response = yield call(postApiCall, url, userInfo );
+        userInfo.userType = action.userType;
+        let url = Api.apiToUpdateUserInfo + userInfo.userId;
+        let response = yield call(putApiCall, url, userInfo );
         console.log("RESPONSE", response);
-        if(response.success){
-
+        if(!response.success){
+            alert(response.message);
+            return;
         }else{
             let userInfo = response.message;
             yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
-            if(userInfo.mobileNumberVerified && userInfo.userType)
-                Actions.HomeDetails();
+            if(userInfo.mobileNumberVerified && userInfo.userType){
+                if(userInfo.userType == "owner")
+                    Actions.cameraPage();
+                else
+                    Actions.HomeDetails();
+            }
+        }
+    }catch(err){
+
+    }
+}
+
+function* getAreasList(action){
+    try{
+        let response = yield call(postApiCall, Api.apiToGetAreaList, userInfo );
+        console.log("RESPONSE", response);
+        if(response.success){
+            alert(response.message);
+            return;
+        }else{
+            yield put(setData({ 'areaList' : response.message }));
         }
     }catch(err){
 
@@ -111,7 +132,8 @@ const mySaga = [
     takeLatest( SEND_OTP, sendOTPSaga),
     takeLatest( VERIFY_OTP, verifyOtpSaga),
     takeLatest( VERIFY_EMAIL, verifyEmailSaga),
-    takeLatest( SET_USER_TYPE, setUserTypeSaga)
+    takeLatest( SET_USER_TYPE, setUserTypeSaga),
+    takeLatest( GET_AREAS, getAreasList)
 ];
 
 export default mySaga;

@@ -42,3 +42,27 @@ export let postApiCall = (url, bodyObj) => {
                 return error;
             });
 }
+
+export let putApiCall = (url, bodyObj) => {
+    //console.log("REQUEST", bodyObj);
+    return fetch(url, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bodyObj),
+            }).then((response) => response.json(), 
+            err => {
+                console.log("ERR", err);
+                alert(err.message);
+                return err;
+            })
+            .then((responseJson) => {
+                return responseJson;
+            })
+            .catch((error) => {
+                console.error("ERROR",error);
+                return error;
+            });
+}

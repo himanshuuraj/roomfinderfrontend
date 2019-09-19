@@ -4,7 +4,15 @@ import {
 } from "./constants";
 
 let reducer = {
-    test : {}
+    test : {},
+    userInfo : {},
+    areaList : [
+        { name : "Boring Road", id: "boringRoad" },
+        { name : "Beijing Road", id: "beijingroad" },
+        { name : "Danapur", id: "danapur" },
+        { name : "Gandhi maidan", id: "gandhiMaidan" },
+        { name : "Aise hi kuch v", id: "aisehikuchv" }
+      ]
 };
 
 export default (state = reducer, action) => {

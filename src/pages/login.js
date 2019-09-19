@@ -17,7 +17,6 @@ import ImageLogoComponent from "./../components/imageLogoComponent";
 import { sendOTP, verifyOTP, verifyEmail } from "./../redux/action";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 
 class Login extends Component {
 

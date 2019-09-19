@@ -3,7 +3,8 @@ import {
   Text, 
   View,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  Keyboard
 } from 'react-native';
 import {
   Container,
@@ -20,27 +21,24 @@ import {
   Color,
   getHeight
 } from "../global/util";
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 import HouseCardItem from "./../components/houseCardItems";
+import { getAreas } from "./../redux/action";
 
-export default class SearchPage extends Component {
+class SearchPage extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      areaList : [
-        { name : "Boring Road", id: "boringRoad" },
-        { name : "Beijing Road", id: "beijingroad" },
-        { name : "Danapur", id: "danapur" },
-        { name : "Gandhi maidan", id: "gandhiMaidan" },
-        { name : "Aise hi kuch v", id: "aisehikuchv" }
-      ],
       searchArea : "",
-      searchedItem: {}
+      searchedItem: {},
+      showDropDown : false
     };
   }
 
   componentDidMount(){
-    
+    this.props.getAreas();
   }
 
   render() {
@@ -51,7 +49,7 @@ export default class SearchPage extends Component {
               <Icon name="ios-search" />
               <Input
                 onChangeText={searchText => {
-                  this.setState({ searchText });
+                  this.setState({ searchText, showDropDown : true });
                 }}
                 placeholder="Area Name (eg. Boring Road)"
                 value={this.state.searchText}
@@ -65,26 +63,29 @@ export default class SearchPage extends Component {
                   marginHorizontal : 10
                 }}>
                 {
-                  this.state.areaList.filter(item => this.state.searchText && item.name.toLowerCase().includes(this.state.searchText.toLowerCase()))
-                  .map((item, index) => <TouchableOpacity 
-                  key={index}
-                  style={{
-                    height : 40,
-                    width : '100%',
-                    paddingLeft : 16,
-                    borderRadius : 4,
-                    display : 'flex',
-                    justifyContent : 'center',
-                    borderWidth: 1,
-                    borderColor: 'black'
-                  }}
-                  onPress={e => {
-                    this.setState({
-                      searchedItem : item,
-                      searchText : item.name
-                    });
-                  }}>
-                    <Text style={{ fontSize : 16 }}> { item.name } </Text>
+                  this.state.showDropDown &&
+                  this.props.areaList.filter(item => this.state.searchText && item.name.toLowerCase().includes(this.state.searchText.toLowerCase()))
+                    .map((item, index) => <TouchableOpacity 
+                      key={index}
+                      style={{
+                        height : 40,
+                        width : '100%',
+                        paddingLeft : 16,
+                        borderRadius : 4,
+                        display : 'flex',
+                        justifyContent : 'center',
+                        borderWidth: 1,
+                        borderColor: 'black'
+                      }}
+                      onPress={e => {
+                        this.setState({
+                          searchedItem : item,
+                          searchText : item.name,
+                          showDropDown : false
+                        });
+                        Keyboard.dismiss();
+                      }}>
+                        <Text style={{ fontSize : 16 }}> { item.name } </Text>
                   </TouchableOpacity>)
                 }
             </View>
@@ -141,3 +142,17 @@ export default class SearchPage extends Component {
     );
   }
 }
+
+function mapStateToProps(state, props) {
+  return {
+    areaList : state.testReducer.areaList
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getAreas
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
