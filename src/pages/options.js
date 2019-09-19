@@ -6,12 +6,13 @@ import {
 } from 'react-native';
 import { Container,
     Content, 
-    Text, 
+    Text
 } from 'native-base';
 import { Color, getHeight, getFont } from "./../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setUserType } from "./../redux/action";
+import { UserType } from "./../global/util";
 
 class Options extends Component {
 
@@ -50,7 +51,7 @@ class Options extends Component {
                   width : "50%"
                 }}
                 onPress={e => {
-                  this.props.setUserType("owner")
+                  this.props.setUserType(UserType.OWNER)
                 }}
                 >
                   <Image source={require("./../images/owner.jpg")}

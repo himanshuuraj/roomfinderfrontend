@@ -17,6 +17,7 @@ import CameraPage from "./src/pages/camera";
 import OptionsPage from "./src/pages/options";
 import SplashScreen from "./src/pages/splashScreen";
 import OwnerPage from "./src/pages/ownerPage";
+import AddApartment from "./src/pages/addApartment";
 
 export default class App extends React.Component {
 
@@ -25,6 +26,12 @@ export default class App extends React.Component {
       <Provider store={store}>
         <Router>
         <Stack key="root">
+          <Scene
+            hideNavBar={true}
+            key="addApartment"
+            component={AddApartment}
+            title="AddApartment"
+          />
           <Scene
             hideNavBar={true}
             key="ownerPage"

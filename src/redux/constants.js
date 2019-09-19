@@ -1,3 +1,10 @@
+import { Dimensions } from "react-native";
+const {height, width} = Dimensions.get('window');
+
+export const screenWidth = width;
+
+export const screenHeight = height;
+
 export const TEST_SAGA = "Test_Saga";
 
 export const REGISTER_USER_INFO = "REGISTER_USER_INFO";
@@ -13,3 +20,5 @@ export const VERIFY_EMAIL = "VERIFY_EMAIL";
 export const SET_USER_TYPE = "SET_USER_TYPE";
 
 export const GET_AREAS = "GET_AREAS";
+
+export const GET_AMENITIES = "GET_AMENITIES";

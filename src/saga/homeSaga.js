@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS } from "./../redux/constants";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES } from "./../redux/constants";
 import { getApiCall, postApiCall, putApiCall } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import {
     setData, verifyEmail
 } from "./../redux/action";
+import { UserType } from '../global/util';
 
 function* registerUserInfoSaga(action){
     try {
@@ -101,7 +102,7 @@ function* setUserTypeSaga(action){
             let userInfo = response.message;
             yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
             if(userInfo.mobileNumberVerified && userInfo.userType){
-                if(userInfo.userType == "owner")
+                if(userInfo.userType == UserType.OWNER)
                     Actions.cameraPage();
                 else
                     Actions.HomeDetails();
@@ -116,11 +117,26 @@ function* getAreasList(action){
     try{
         let response = yield call(postApiCall, Api.apiToGetAreaList, userInfo );
         console.log("RESPONSE", response);
-        if(response.success){
+        if(!response.success){
             alert(response.message);
             return;
         }else{
             yield put(setData({ 'areaList' : response.message }));
+        }
+    }catch(err){
+
+    }
+}
+
+function* getAmenitiesSaga(action){
+    try{
+        let response = yield call(getApiCall, Api.apiToGetAmenities );
+        console.log("RESPONSE", response);
+        if(!response.success){
+            alert(response.message);
+            return;
+        }else{
+            yield put(setData({ 'amenitiesList' : response.message }));
         }
     }catch(err){
 
@@ -133,7 +149,8 @@ const mySaga = [
     takeLatest( VERIFY_OTP, verifyOtpSaga),
     takeLatest( VERIFY_EMAIL, verifyEmailSaga),
     takeLatest( SET_USER_TYPE, setUserTypeSaga),
-    takeLatest( GET_AREAS, getAreasList)
+    takeLatest( GET_AREAS, getAreasList),
+    takeLatest( GET_AMENITIES, getAmenitiesSaga )
 ];
 
 export default mySaga;

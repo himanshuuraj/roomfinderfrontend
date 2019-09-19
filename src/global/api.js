@@ -11,3 +11,5 @@ export const apiToVerifyEmail = HOST + "/verifyEmail";
 export const apiToUpdateUserInfo = HOST + "/updateUserInfo/";
 
 export const apiToGetAreaList = HOST + "/getAreas";
+
+export const apiToGetAmenities = HOST + "/getAmenties";

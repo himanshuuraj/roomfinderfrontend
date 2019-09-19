@@ -12,7 +12,8 @@ let reducer = {
         { name : "Danapur", id: "danapur" },
         { name : "Gandhi maidan", id: "gandhiMaidan" },
         { name : "Aise hi kuch v", id: "aisehikuchv" }
-      ]
+      ],
+      amenitiesList : []
 };
 
 export default (state = reducer, action) => {

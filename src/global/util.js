@@ -37,9 +37,25 @@ export const Color = {
     white : "#fff",
     gray : "gray",
     black : "#000",
-    green : "#3cb878"
+    green : "#3cb878",
+    backgroundThemeColor : "#eee"
 }
 
 export const Font = {
     themeFont : "monospace"
+}
+
+export const HomeType = {
+    APARTMENT : "apartment",
+    HOUSE : "house"
+}
+
+export const UserType = {
+    OWNER : 'owner',
+    RENTAL : 'rental'
+}
+
+export const FoodPreference = {
+    VEG : 'vegeterian',
+    NONVEG : 'non-vegeterian'
 }
