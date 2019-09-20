@@ -22,3 +22,5 @@ export const SET_USER_TYPE = "SET_USER_TYPE";
 export const GET_AREAS = "GET_AREAS";
 
 export const GET_AMENITIES = "GET_AMENITIES";
+
+export const UPLOAD_PHOTO_ON_AWS = "UPLOAD_PHOTO_ON_AWS";

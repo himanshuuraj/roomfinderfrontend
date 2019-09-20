@@ -19,10 +19,11 @@ import {
 import {
   Color, HomeType, FoodPreference
 } from "./../global/util";
-import { getAmenities } from "./../redux/action";
+import { getAmenities, setData } from "./../redux/action";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Carousel from "./../components/carousel";
+import { Actions } from 'react-native-router-flux';
+import Camera from "./../pages/camera";
 
 class AddApartment extends Component {
 
@@ -36,9 +37,15 @@ class AddApartment extends Component {
       city : "",
       state : "",
       pincode : ""
-    }
+    },
+    modalVisible: true,
+    showImageOption : false,
+    showCamera : false
   }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
   constructor(props){
     super(props);
   }
@@ -294,65 +301,134 @@ class AddApartment extends Component {
     );
   }
 
+  openModal = () => {
+    return (
+      <View style={{
+          position : 'absolute',
+          justifyContent : 'center',
+          alignItems : 'center',
+          backgroundColor : 'green'
+        }}>
+          <View style={{
+            width : 250,
+            height : 250
+          }}>
+
+          </View>
+      </View>
+    );
+  }
+
+  getImageUrl = () => {
+
+  }
+
   rules = () => {}
 
-  render() {
+  hideCamera = () => {
+    this.setState({ showCamera : false, showCamera : false });
+  }
+
+  getAwsImageUrl = (url) => {
+    alert(url);
+    this.setState({ url });
+  }
+
+  addImage = () => {
     return (
-      <Container>
-          <Content style={{
-            backgroundColor : Color.backgroundThemeColor,
-            paddingLeft : "4%",
-            width : "100%",
-            paddingRight : "4%",
-            marginTop: StatusBar.currentHeight
-          }}>
-                <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
-                enabled>
-                    <View style={{ marginTop : 40}}>
-                      <View style={{ flexDirection: 'row', flex : 1}}>
-                        <View style={{ flex : 1 }}>
-                          <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                        </View>
-                        <View style={{ flex : 1 }}></View>
-                      </View>
-                      <View style={{ flexDirection: 'row', flex : 1}}>
-                        <View style={{ flex : 1 }}></View>
-                        <View style={{ flex : 1 }}></View>
-                      </View>
-                      <Button style={{
-                        backgroundColor : Color.themeColor,
-                        color : Color.themeColor
-                      }}title={'Add Image'} />
-                      
-                      {
-                        this.amenitiesList()
-                      }
-                    
-                      {
-                        this.apartMentType()
-                      }
-                      
-                      {
-                        this.foodPreference()
-                      }
+      <View>
+        <View style={{ marginBottom : 8 }}>
+          <TouchableOpacity
+            style={{
+              borderWidth : 1,
+              borderColor : Color.black,
+              borderRadius : 4,
+              justifyContent : 'center',
+              alignItems : 'center',
+              marginVertical : 8,
+              height : 48
+            }}
+            onPress={e => {
+              this.setState({ showCamera : true });
+            }}
+          >
+            <Text style={{ fontSize : 16 }}>From Camera</Text>
+          </TouchableOpacity>
+          <Camera type={'gallery'} /> 
+        </View>
 
-                      {
-                        this.addAddress()
-                      }
-
-                      {/* {
-                        this.rules()
-                      } */}
-
-                      <Button title={'ADD'} onPress={e => {
-                        
-                      }}/>
-
-                    </View>
-                </KeyboardAvoidingView>
-            </Content>
-      </Container>
+        <Button
+          onPress={e=> {
+            this.setState({ showImageOption : true })
+          }}
+          style={{
+            backgroundColor : Color.themeColor,
+            color : Color.themeColor
+          }} title={'Add Image'} />
+      </View>
     );
+  }
+
+  render() {
+      return (
+        <Container>
+            <Content style={{
+              backgroundColor : Color.backgroundThemeColor,
+              paddingLeft : "4%",
+              width : "100%",
+              paddingRight : "4%",
+              marginTop: StatusBar.currentHeight
+            }}>
+                  <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
+                  enabled>
+                    <View style={{ marginTop : 40, position: 'relative'}}>
+                        <View style={{ flexDirection: 'row', flex : 1, height : 150}}>
+                          <View style={{ flex : 1 }}>
+                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
+                          </View>
+                          <View style={{ flex : 1 }}>
+                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
+                          </View>
+                        </View>
+                        <View style={{ flexDirection: 'row', flex : 1, height : 150}}>
+                          <View style={{ flex : 1 }}>
+                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
+                          </View>
+                          <View style={{ flex : 1 }}>
+                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
+                          </View>
+                        </View>
+                        
+                        {
+                          this.addImage()
+                        }
+
+                        {
+                          this.amenitiesList()
+                        }
+                      
+                        {
+                          this.apartMentType()
+                        }
+                        
+                        {
+                          this.foodPreference()
+                        }
+
+                        {
+                          this.addAddress()
+                        }                      
+
+                        <Button title={'ADD'} onPress={e => {
+                          
+                        }}/>
+
+                      </View>
+                  </KeyboardAvoidingView>
+              </Content>
+              <Camera type="camera" showCamera={this.state.showCamera} hideCamera={this.hideCamera} getAwsImageUrl={this.getAwsImageUrl} />
+        </Container>
+      );
   }
 }
 
@@ -364,7 +440,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getAmenities
+    getAmenities,
+    setData
   }, dispatch);
 }
 

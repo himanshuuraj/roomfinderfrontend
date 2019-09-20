@@ -7,7 +7,8 @@ import {
     VERIFY_EMAIL,
     SET_USER_TYPE,
     GET_AREAS,
-    GET_AMENITIES
+    GET_AMENITIES,
+    UPLOAD_PHOTO_ON_AWS
 } from "./constants";
 
 export const testAction = payload => {
@@ -70,5 +71,12 @@ export const getAreas = () => {
 export const getAmenities = () => {
     return {
         type : GET_AMENITIES
+    }
+}
+
+export const uploadOnAws = data => {
+    return {
+        type : UPLOAD_PHOTO_ON_AWS,
+        data
     }
 }

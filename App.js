@@ -25,7 +25,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <Router>
-        <Stack key="root">
+        <Stack key="root"> 
           <Scene
             hideNavBar={true}
             key="addApartment"
@@ -34,16 +34,17 @@ export default class App extends React.Component {
           />
           <Scene
             hideNavBar={true}
-            key="ownerPage"
-            component={OwnerPage}
-            title="OwnerPage"
-          />
-          <Scene
-            hideNavBar={true}
             key="cameraPage"
             component={CameraPage}
             title="CameraPage"
           />
+          <Scene
+            hideNavBar={true}
+            key="ownerPage"
+            component={OwnerPage}
+            title="OwnerPage"
+          />
+          
           <Scene
             hideNavBar={true}
             key="splashScreen"

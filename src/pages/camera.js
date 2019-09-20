@@ -4,79 +4,79 @@ import {
   Text, 
   View,
   Image,
-  KeyboardAvoidingView,
   TouchableOpacity,
-  TextInput,
-  Dimensions
+  StatusBar
 } from 'react-native';
-import {
-  Container,
-  Content,
-  Badge,
-  CheckBox,
-  Button,
-  Icon
-} from "native-base";
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { DocumentPicker, ImagePicker } from 'expo';
-import {
-  HOST
-} from "./../global/api";
+import { Color, getHeight } from '../global/util';
+import { uploadOnAWSRequest } from "./../global/request";
 
-export default class CameraPage extends Component {
 
-state = {
-    hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
-    image : null
-};
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { screenHeight, screenWidth } from '../redux/constants';
 
-camera = null;
+class CameraPage extends Component {
 
-_pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
-
-    this.ajaxCall(result);
-    console.log(result)
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
+  state = {
+      hasCameraPermission: null,
+      type: Camera.Constants.Type.back,
+      image : null,
+      showCamera : false
   };
 
-ajaxCall = async (obj) => {
-    const url = HOST + '/upload';
-    var data = new FormData();
-    //data.append("image", obj);
-    let v = obj.uri.split('/');
-    v = v[v.length - 1];
-    let type = v.split(".")[1];
-    data.append('file', {
-        uri: obj.uri,
-        type: 'image/*',
-        name: v
-    });
-    console.log(data);
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-            console.log(this.responseText);
-        }
-    });
-    xhr.open("POST", url);
-    xhr.send(data);
+  constructor(props){
+    super(props);
+  }
 
-}
+  camera = null;
 
-snap = async () => {
+  _pickImage = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+
+      this.ajaxCall(result);
+      console.log(result)
+
+      if (!result.cancelled) {
+        this.setState({ image: result.uri });
+      }
+    };
+
+  ajaxCall = async (obj) => {
+      var data = new FormData();
+      let v = obj.uri.split('/');
+      v = v[v.length - 1];
+      data.append('file', {
+          uri: obj.uri,
+          type: 'image/*',
+          name: v
+      });
+      console.log(data);
+      let response;
+      try{
+        response = await uploadOnAWSRequest(data);
+      }catch(err){
+        alert(JSON.stringify(err));
+        this.props.hideCamera();
+        return;
+      }
+      if(response.success){
+        this.props.getAwsImageUrl(response.message);
+      }else{
+          alert(response.message);
+      }
+      this.props.hideCamera();
+  }
+
+  snap = async () => {
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
       this.ajaxCall(photo);
-      //console.log(photo);
     }
   };
 
@@ -86,15 +86,15 @@ snap = async () => {
   }
 
   render() {
-    const { hasCameraPermission, image } = this.state;
+    const { hasCameraPermission, showCamera } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
-    } else if (hasCameraPermission === false) {
+    }else if (hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
-    } else {
+    } else if(this.props.showCamera && this.props.type == "camera"){
       return (
-        <View style={{ flex: 1 }}>
-            <View style={{height: '80%'}}>
+        <View style={{ position : 'absolute', height : screenHeight, width : screenWidth, top: StatusBar.currentHeight, left : 0 }}>
+            <View style={{flex : 1}}>
                 <Camera 
                 ref={ref => {
                     this.camera = ref;
@@ -105,26 +105,106 @@ snap = async () => {
                         backgroundColor: 'transparent',
                         flexDirection: 'row',
                     }}>
-                    <TouchableOpacity
-                        style={{
-                        flex: 0.1,
-                        alignSelf: 'flex-end',
-                        alignItems: 'center',
-                        }}
-                        onPress={() => {
-                        this.setState({
-                            type:
-                            this.state.type === Camera.Constants.Type.back
-                                ? Camera.Constants.Type.front
-                                : Camera.Constants.Type.back,
-                        });
+                        <TouchableOpacity
+                            style={{
+                              position : 'absolute',
+                              top : StatusBar.currentHeight,
+                              right : 10,
+                              borderWidth : 1,
+                              borderColor : Color.white,
+                              borderRadius : 4,
+                              justifyContent : 'center',
+                              alignItems : 'center',
+                              height : 36,
+                              paddingHorizontal : 20
+                            }}
+                            onPress={() => {
+                              this.props.hideCamera();
+                          }}>
+                          <Text style={{ fontSize: 18, color: 'white'}}> CLOSE </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                          style={{
+                            position : 'absolute',
+                            bottom : 10,
+                            left : 10,
+                            borderWidth : 1,
+                            borderColor : Color.white,
+                            borderRadius : 4,
+                            width : 60,
+                            justifyContent : 'center',
+                            alignItems : 'center',
+                            height : 36
+                          }}
+                          onPress={() => {
+                          this.setState({
+                              type:
+                              this.state.type === Camera.Constants.Type.back
+                                  ? Camera.Constants.Type.front
+                                  : Camera.Constants.Type.back,
+                          });
                         }}>
-                        <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-                    </TouchableOpacity>
+                          <Text style={{ fontSize: 18, color: 'white' }}> Flip </Text>
+                      </TouchableOpacity>
                     </View>
                 </Camera>
-                
-                {/* <View style={{ 'marginTop': 20}}>
+           </View>
+           <View style={{height: getHeight(6)}}>
+                <TouchableOpacity style={{
+                    width: '100%',
+                    height: '100%',
+                    justifyContent : 'center',
+                    alignItems : 'center',
+                    backgroundColor : 'blue'
+                }} onPress={() => {
+                    this.snap();
+                }}>
+                    <Text style={{ 
+                      color : 'white',
+                      fontSize : 18
+                    }}>Save Image</Text>
+                </TouchableOpacity>
+           </View>
+        </View>
+      );
+    }else if(this.props.type == "gallery"){
+      return (
+          <TouchableOpacity
+            style={{
+              borderWidth : 1,
+              borderColor : Color.black,
+              borderRadius : 4,
+              justifyContent : 'center',
+              alignItems : 'center',
+              marginVertical : 8,
+              height : 48
+            }}
+            onPress={this._pickImage}
+          >
+            <Text style={{ fontSize : 16 }}>From Gallery</Text>
+          </TouchableOpacity>
+      );
+    }else{
+      return null;
+    }
+  }
+}
+
+function mapStateToProps(state, props) {
+  return {
+      data : state.testReducer.test
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CameraPage);
+
+{/* <View style={{ 'marginTop': 20}}>
                     <TouchableOpacity
                     onPress={this._pickImage}
                     >
@@ -133,21 +213,3 @@ snap = async () => {
                     {image &&
                     <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                 </View> */}
-           </View>
-           <View style={{height: '20%'}}>
-                <TouchableOpacity style={{
-                    width: '100%',
-                    height: '100%',
-                    justifyContent : 'center',
-                    alignItems : 'center'
-                }} onPress={() => {
-                    this.snap();
-                }}>
-                    <Text>Touch Here</Text>
-                </TouchableOpacity>
-           </View>
-        </View>
-      );
-    }
-  }
-}

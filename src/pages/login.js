@@ -29,15 +29,6 @@ class Login extends Component {
     super(props);
   }
 
-  async componentDidMount(){
-    // let userInfo = await AsyncStorage.getItem("userInfo");
-    // if(!userInfo){
-    //   userInfo = JSON.parse(userInfo);
-    // }else{
-    //   Actions.registerationPage();
-    // }
-  }
-
   updateData = (obj) => {
     this.setState(obj);
   }

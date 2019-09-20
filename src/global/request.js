@@ -66,3 +66,50 @@ export let putApiCall = (url, bodyObj) => {
                 return error;
             });
 }
+
+export let uploadOnAWSRequest = (bodyObj) => {
+    let url = Api.apiToUploadIntoAWS;
+    let promise = new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                if(this.status == 200){
+                    if(this.responseText){
+                        let message = this.responseText;
+                        resolve(JSON.parse(message));
+                    }
+                }else{
+                    reject("ERROR");
+                }
+            }
+        });
+        xhr.open("POST", url);
+        xhr.onerror = function () { 
+            reject("XHR ERROR"); 
+        }; 
+        xhr.send(bodyObj);
+    });
+    return promise;
+
+    // return fetch(url, {
+    //     method: 'POST',
+    //     headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'multipart/form-data',
+    //     },
+    //     body: JSON.stringify(bodyObj),
+    //     }).then((response) => response.json(), 
+    //     err => {
+    //         console.log("ERR", err);
+    //         alert(err.message);
+    //         return err;
+    //     })
+    //     .then((responseJson) => {
+    //         return responseJson;
+    //     })
+    //     .catch((error) => {
+    //         console.error("ERROR",error);
+    //         return error;
+    //     });
+    
+}

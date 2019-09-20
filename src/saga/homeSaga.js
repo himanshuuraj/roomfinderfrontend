@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES } from "./../redux/constants";
-import { getApiCall, postApiCall, putApiCall } from "./../global/request";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS } from "./../redux/constants";
+import { getApiCall, postApiCall, putApiCall, uploadOnAWSRequest } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -115,7 +115,7 @@ function* setUserTypeSaga(action){
 
 function* getAreasList(action){
     try{
-        let response = yield call(postApiCall, Api.apiToGetAreaList, userInfo );
+        let response = yield call(getApiCall, Api.apiToGetAreaList, userInfo );
         console.log("RESPONSE", response);
         if(!response.success){
             alert(response.message);
@@ -143,6 +143,22 @@ function* getAmenitiesSaga(action){
     }
 }
 
+function* uploadPicOnAWSSaga(action){
+    try {
+        let obj = action.data;
+        let response = yield call(uploadOnAWSRequest, Api.apiToUploadIntoAWS, obj );
+        console.log("RESPONSE", response);
+        if(!response.success){
+            alert(response.message);
+            return;
+        }else{
+            alert(response.message);
+        }
+    } catch (e) {
+        alert(JSON.stringify(e));
+    }
+}
+
 const mySaga = [
     takeLatest( REGISTER_USER_INFO, registerUserInfoSaga ),
     takeLatest( SEND_OTP, sendOTPSaga),
@@ -150,7 +166,8 @@ const mySaga = [
     takeLatest( VERIFY_EMAIL, verifyEmailSaga),
     takeLatest( SET_USER_TYPE, setUserTypeSaga),
     takeLatest( GET_AREAS, getAreasList),
-    takeLatest( GET_AMENITIES, getAmenitiesSaga )
+    takeLatest( GET_AMENITIES, getAmenitiesSaga ),
+    takeLatest( UPLOAD_PHOTO_ON_AWS, uploadPicOnAWSSaga )
 ];
 
 export default mySaga;

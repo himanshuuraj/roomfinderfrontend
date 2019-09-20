@@ -13,3 +13,5 @@ export const apiToUpdateUserInfo = HOST + "/updateUserInfo/";
 export const apiToGetAreaList = HOST + "/getAreas";
 
 export const apiToGetAmenities = HOST + "/getAmenties";
+
+export const apiToUploadIntoAWS = HOST + "/upload";
