@@ -8,7 +8,10 @@ let reducer = {
     userInfo : {},
     areaList : [],
     amenitiesList : [],
-    addApartmentData : {}
+
+    //owner
+    selectedApartment : {},
+    allApartments : []
 };
 
 export default (state = reducer, action) => {

@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS } from "./../redux/constants";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS, SAVE_APARTMENT, GET_APARTMENTS } from "./../redux/constants";
 import { getApiCall, postApiCall, putApiCall, uploadOnAWSRequest } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
@@ -103,7 +103,7 @@ function* setUserTypeSaga(action){
             yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
             if(userInfo.mobileNumberVerified && userInfo.userType){
                 if(userInfo.userType == UserType.OWNER)
-                    Actions.cameraPage();
+                    Actions.ownerPage();
                 else
                     Actions.HomeDetails();
             }
@@ -159,6 +159,43 @@ function* uploadPicOnAWSSaga(action){
     }
 }
 
+function* saveApartmentSaga(action){
+    try{
+        let state = yield select();
+        userInfo = state.testReducer.userInfo;
+        let url = Api.apiToSaveApartment + userInfo.userId;
+        let response = yield call(postApiCall, url, action.apartment );
+        console.log("RESPONSE", response);
+        if(!response.success){
+            alert(response.message);
+            return;
+        }else{
+            yield put(setData({ 'selectedApartment' : response.message }));
+            Actions.ownerPage();
+        }
+    }catch(e){
+        alert(JSON.stringify(e));
+    }
+}
+
+function* getApartmentsSaga(action){
+    try{
+        let state = yield select();
+        userInfo = state.testReducer.userInfo;
+        let url = Api.apiToGetApartments + userInfo.userId;
+        let response = yield call(getApiCall, url );
+        console.log("RESPONSE", response);
+        if(!response.success){
+            alert(response.message);
+            return;
+        }else{
+            yield put(setData({ 'allApartments' : response.message }));
+        }
+    }catch(e){
+        alert(JSON.stringify(e));
+    }
+}
+
 const mySaga = [
     takeLatest( REGISTER_USER_INFO, registerUserInfoSaga ),
     takeLatest( SEND_OTP, sendOTPSaga),
@@ -167,7 +204,9 @@ const mySaga = [
     takeLatest( SET_USER_TYPE, setUserTypeSaga),
     takeLatest( GET_AREAS, getAreasList),
     takeLatest( GET_AMENITIES, getAmenitiesSaga ),
-    takeLatest( UPLOAD_PHOTO_ON_AWS, uploadPicOnAWSSaga )
+    takeLatest( UPLOAD_PHOTO_ON_AWS, uploadPicOnAWSSaga ),
+    takeLatest( SAVE_APARTMENT, saveApartmentSaga ),
+    takeLatest( GET_APARTMENTS, getApartmentsSaga )
 ];
 
 export default mySaga;

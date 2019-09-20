@@ -8,7 +8,9 @@ import {
     SET_USER_TYPE,
     GET_AREAS,
     GET_AMENITIES,
-    UPLOAD_PHOTO_ON_AWS
+    UPLOAD_PHOTO_ON_AWS,
+    SAVE_APARTMENT,
+    GET_APARTMENTS
 } from "./constants";
 
 export const testAction = payload => {
@@ -78,5 +80,18 @@ export const uploadOnAws = data => {
     return {
         type : UPLOAD_PHOTO_ON_AWS,
         data
+    }
+}
+
+export const saveApartment = apartment => {
+    return {
+        type : SAVE_APARTMENT,
+        apartment
+    }
+}
+
+export const getApartments = () => {
+    return {
+        type : GET_APARTMENTS
     }
 }

@@ -27,10 +27,6 @@ class CameraPage extends Component {
       showCamera : false
   };
 
-  constructor(props){
-    super(props);
-  }
-
   camera = null;
 
   _pickImage = async () => {
@@ -203,13 +199,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraPage);
-
-{/* <View style={{ 'marginTop': 20}}>
-                    <TouchableOpacity
-                    onPress={this._pickImage}
-                    >
-                    <Text>Select Image</Text>
-                    </TouchableOpacity>
-                    {image &&
-                    <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                </View> */}

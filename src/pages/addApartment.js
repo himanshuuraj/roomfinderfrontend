@@ -24,12 +24,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Camera from "./../pages/camera";
+import {
+  saveApartment
+} from "./../redux/action";
 
 class AddApartment extends Component {
 
   state = {
-    selectedAmenities : [],
-    selectedType : "",
+    amentiesList : [],
+    apartmentType : "",
     address : {
       line1 : "",
       line2 : "",
@@ -38,6 +41,8 @@ class AddApartment extends Component {
       state : "",
       pincode : ""
     },
+    images : [],
+    foodPreference : "",
     modalVisible: true,
     showImageOption : false,
     showCamera : false
@@ -85,7 +90,7 @@ class AddApartment extends Component {
               <TouchableOpacity key={index} 
                   onPress={ e => {
                     this.setState({
-                      selectedType: FoodPreference[item]
+                      foodPreference: FoodPreference[item]
                     })
                   }}
                   style={{ 
@@ -96,10 +101,10 @@ class AddApartment extends Component {
                       borderWidth : 1,
                       marginRight : 4,
                       marginTop : 4,
-                      backgroundColor : this.state.selectedType == FoodPreference[item] ? Color.themeColor : Color.white
+                      backgroundColor : this.state.foodPreference == FoodPreference[item] ? Color.themeColor : Color.white
                   }}>
                       <Text style={{
-                        color : this.state.selectedType == FoodPreference[item] ? Color.white : "#696969",
+                        color : this.state.foodPreference == FoodPreference[item] ? Color.white : "#696969",
                       }}>{ FoodPreference[item].toUpperCase() }</Text>
               </TouchableOpacity>
             ))
@@ -129,7 +134,7 @@ class AddApartment extends Component {
               <TouchableOpacity key={index} 
                   onPress={ e => {
                     this.setState({
-                      selectedType: HomeType[item]
+                      apartmentType: HomeType[item]
                     })
                   }}
                   style={{ 
@@ -140,10 +145,10 @@ class AddApartment extends Component {
                       borderWidth : 1,
                       marginRight : 4,
                       marginTop : 4,
-                      backgroundColor : this.state.selectedType == HomeType[item] ? Color.themeColor : Color.white
+                      backgroundColor : this.state.apartmentType == HomeType[item] ? Color.themeColor : Color.white
                   }}>
                       <Text style={{
-                        color : this.state.selectedType == HomeType[item] ? Color.white : "#696969",
+                        color : this.state.apartmentType == HomeType[item] ? Color.white : "#696969",
                       }}>{ HomeType[item].toUpperCase() }</Text>
               </TouchableOpacity>
             ))
@@ -173,17 +178,17 @@ class AddApartment extends Component {
             this.props.amenitiesList.map((item, index) => (
                 <TouchableOpacity key={index} 
                     onPress={ e => {
-                      let selectedAmenities = this.state.selectedAmenities;
+                      let amentiesList = this.state.amentiesList;
                       let indexOfMatch;
-                      if(selectedAmenities.find((item1, index1) => {
+                      if(amentiesList.find((item1, index1) => {
                         indexOfMatch = index1;
                         return item1.amentyId == item.amentyId
                       })){
-                        selectedAmenities.splice(indexOfMatch, 1);
+                        amentiesList.splice(indexOfMatch, 1);
                       }else{
-                        selectedAmenities.push(item);
+                        amentiesList.push(item);
                       }
-                      this.setState(selectedAmenities);
+                      this.setState(amentiesList);
                     }}
                     style={{ 
                         borderRadius : 4,
@@ -193,10 +198,10 @@ class AddApartment extends Component {
                         borderWidth : 1,
                         marginRight : 4,
                         marginTop : 4,
-                        backgroundColor : this.state.selectedAmenities.find(item1 => item1.amentyId == item.amentyId) ? Color.themeColor : Color.white
+                        backgroundColor : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.themeColor : Color.white
                     }}>
                         <Text style={{
-                          color : this.state.selectedAmenities.find(item1 => item1.amentyId == item.amentyId) ? Color.white : "#696969",
+                          color : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.white : "#696969",
                         }}>{item.amenityName}</Text>
                 </TouchableOpacity>
             ))
@@ -319,9 +324,7 @@ class AddApartment extends Component {
     );
   }
 
-  getImageUrl = () => {
-
-  }
+  getImageUrl = () => {}
 
   rules = () => {}
 
@@ -354,7 +357,7 @@ class AddApartment extends Component {
           >
             <Text style={{ fontSize : 16 }}>From Camera</Text>
           </TouchableOpacity>
-          <Camera type={'gallery'} /> 
+          <Camera type={'gallery'} getAwsImageUrl={this.getAwsImageUrl} /> 
         </View>
 
         <Button
@@ -367,6 +370,31 @@ class AddApartment extends Component {
           }} title={'Add Image'} />
       </View>
     );
+  }
+
+  addApartment = () => {
+    let { amentiesList, apartmentType, address, images, foodPreference } = this.state;
+    if(amentiesList.length == 0){
+      alert("Please select an amenity");
+      return;
+    }
+    if(!apartmentType){
+      alert("Please select an apartmentType");
+      return;
+    }
+    if(!address.line1){
+      alert("Please write address");
+      return;
+    }
+    if(!address.pincode){
+      alert("Please write pincode");
+      return;
+    }
+    if(!foodPreference){
+      alert("Please select foodpreference");
+      return;
+    }
+    this.props.saveApartment(this.state);
   }
 
   render() {
@@ -403,6 +431,18 @@ class AddApartment extends Component {
                           this.addImage()
                         }
 
+                      <Text>Name</Text>
+                      <TextInput
+                        underlineColorAndroid="#bbb"
+                        style={{
+                          paddingLeft : 16,
+                          paddingBottom : 4
+                        }}
+                        onChangeText={apartmentName => {
+                          this.setState({ apartmentName });
+                        }}
+                        value={this.state.apartmentName}/>
+
                         {
                           this.amenitiesList()
                         }
@@ -420,7 +460,7 @@ class AddApartment extends Component {
                         }                      
 
                         <Button title={'ADD'} onPress={e => {
-                          
+                          this.addApartment();
                         }}/>
 
                       </View>
@@ -441,7 +481,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getAmenities,
-    setData
+    setData,
+    saveApartment
   }, dispatch);
 }
 

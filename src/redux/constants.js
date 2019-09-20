@@ -24,3 +24,7 @@ export const GET_AREAS = "GET_AREAS";
 export const GET_AMENITIES = "GET_AMENITIES";
 
 export const UPLOAD_PHOTO_ON_AWS = "UPLOAD_PHOTO_ON_AWS";
+
+export const SAVE_APARTMENT = "SAVE_APARTMENT";
+
+export const GET_APARTMENTS = "GET_APARTMENTS";

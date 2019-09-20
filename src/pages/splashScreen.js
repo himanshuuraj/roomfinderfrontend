@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setData } from "./../redux/action";
+import { UserType } from '../global/util';
 class SplashScreen extends Component {
 
   componentDidMount(){
@@ -20,6 +21,8 @@ class SplashScreen extends Component {
           Actions.verifyMobileNumber();
         else if(!userInfo.userType)
           Actions.optionsPage();
+        else if(userInfo.userType == UserType.OWNER)
+          Actions.ownerPage();
         else
           Actions.homeDetails();
       }else{

@@ -1,4 +1,4 @@
-export const HOST = "http://192.168.0.179:8082";
+export const HOST = "http://192.168.0.80:8082";
 
 export const apiToRegister = HOST + "/insertUserInfo";
 
@@ -15,3 +15,7 @@ export const apiToGetAreaList = HOST + "/getAreas";
 export const apiToGetAmenities = HOST + "/getAmenties";
 
 export const apiToUploadIntoAWS = HOST + "/upload";
+
+export const apiToSaveApartment = HOST + "/insertApartment/";
+
+export const apiToGetApartments = HOST + "/getApartments/";

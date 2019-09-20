@@ -15,9 +15,12 @@ import {
 import {
   Color, getHeight
 } from "./../global/util";
-import { sendOTP, verifyOTP, verifyEmail } from "./../redux/action";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
+import {
+  getApartments
+} from "./../redux/action";
+import { Actions } from 'react-native-router-flux';
 
 class OwnerPage extends Component {
 
@@ -29,6 +32,10 @@ class OwnerPage extends Component {
             apartmentName : "Apartment Name"
         }]
     }
+  }
+
+  componentDidMount(){
+    this.props.getApartments();
   }
 
   separator = () => {
@@ -59,8 +66,12 @@ class OwnerPage extends Component {
                     Your Houses
                 </Text>
                 {
-                    this.state.apartmentList.map((item, index) =>
-                        <TouchableOpacity style={{
+                    this.props.allApartments.map((item, index) =>
+                        <TouchableOpacity 
+                        onPress={e => {
+                          
+                        }}
+                        style={{
                             backgroundColor : 'white',
                             width : 200,
                             height : getHeight(5),
@@ -88,7 +99,7 @@ class OwnerPage extends Component {
                         backgroundColor : Color.themeColor
                     }}
                     onPress={() => {
-                        
+                        Actions.addApartment();
                     }}
                 >
                     <Text style={{ fontSize : 16, color : Color.themeFontColor, textAlign: 'center' }}> 
@@ -103,15 +114,13 @@ class OwnerPage extends Component {
 
 function mapStateToProps(state, props) {
   return {
-      data : state.testReducer.test
+    allApartments : state.testReducer.allApartments
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    sendOTP,
-    verifyOTP,
-    verifyEmail
+    getApartments
   }, dispatch);
 }
 
