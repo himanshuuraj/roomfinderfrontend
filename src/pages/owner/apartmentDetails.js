@@ -67,30 +67,6 @@ let tableContent = [
   },
 ];
 
-const images = [
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/16/21/24/gorilla-2318998__340.jpg',
-    },
-  },
-  
-];
-
 class HomeDetails extends Component {
 
   constructor(props){
@@ -98,12 +74,6 @@ class HomeDetails extends Component {
     this.state = {
       isOwner : true
     }
-  }
-
-  componentDidMount(){
-    let userInfo = this.props.userInfo;
-    this.props.setData({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
-    this.setState({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
   }
 
   render() {

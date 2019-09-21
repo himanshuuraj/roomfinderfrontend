@@ -131,7 +131,12 @@ class RoomDetails extends Component {
           paddingHorizontal : 16
         }}>
             <View style={styles.container}>
-              <Carousel images={images} />
+                <Carousel images={selectedRoom.imageList.map(item => { 
+                            let obj = {
+                              uri : item.imageUrl
+                            };
+                            return obj;
+                          })} />
             </View>
             {
               selectedRoom.amentiesList && selectedRoom.amentiesList.length > 0 && (
@@ -159,6 +164,17 @@ class RoomDetails extends Component {
                 </Card>
               )}
 
+          <View 
+            style={{ 
+              paddingHorizontal : 16, 
+              paddingVertical : 8,
+              marginRight : 8, 
+              marginTop : 10,
+              borderWidth : 1,
+              borderColor : '#ccc'
+            }}>
+              <Text>Room Rent - { selectedRoom.roomRent }</Text>
+          </View>
             
         </Content>
         <Footer>

@@ -9,7 +9,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   TextInput,
-  Image
+  Dimensions
 } from 'react-native';
 import {
   Container,
@@ -25,12 +25,14 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Camera from "../../components/camera";
 import { saveRoom } from "../../redux/action";
-
+import Carousel from "./../../components/carousel";
+let { width } = Dimensions.get('window');
+const height = width * 0.8
 class AddRoom extends Component {
 
   state = {
     amentiesList : [],
-    images : [],
+    imageList : [],
     modalVisible: true,
     showImageOption : false,
     showCamera : false
@@ -138,9 +140,10 @@ class AddRoom extends Component {
     this.setState({ showCamera : false, showCamera : false });
   }
 
-  getAwsImageUrl = (url) => {
-    alert(url);
-    this.setState({ url });
+  getAwsImageUrl = (imageUrl) => {
+    let imageList = this.state.imageList;
+    imageList.push({imageUrl});
+    this.setState({ imageList });
   }
 
   addImage = () => {
@@ -200,21 +203,14 @@ class AddRoom extends Component {
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
                     <View style={{ marginTop : 40, position: 'relative'}}>
-                        <View style={{ flexDirection: 'row', flex : 1, height : 150}}>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
-                        </View>
-                        <View style={{ flexDirection: 'row', flex : 1, height : 150}}>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
+                        
+                        <View style={styles.container}>
+                          <Carousel images={this.state.imageList.map(item => { 
+                            let obj = {
+                              uri : item.imageUrl
+                            };
+                            return obj;
+                          })} />
                         </View>
                         
                         {
@@ -277,3 +273,22 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddRoom);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    borderWidth : 1,
+    padding : 1, 
+    borderColor : 'black'
+  },
+  scrollContainer: {
+    height,
+  },
+  image: {
+    width,
+    height,
+  },
+});

@@ -4,9 +4,7 @@ import { getApiCall, postApiCall, putApiCall, uploadOnAWSRequest } from "./../gl
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import {
-    setData, verifyEmail, getRoomDetails
-} from "./../redux/action";
+import { setData, getApartment } from "./../redux/action";
 import { UserType } from '../global/util';
 
 function* registerUserInfoSaga(action){
@@ -217,14 +215,16 @@ function* saveRoomSaga(action){
     try{
         let state = yield select();
         selectedApartment = state.testReducer.selectedApartment;
-        let url = Api.apiToSaveRoom + selectedApartment.apartmentId;
+        let apartmentId = selectedApartment.apartmentId;
+        let url = Api.apiToSaveRoom + apartmentId;
         let response = yield call(postApiCall, url, action.room );
         console.log("RESPONSE", response);
         if(!response.success){
             alert(response.message);
             return;
         }else{
-            Actions.appartmentDetails();
+            yield put(getApartment(apartmentId));
+            // Actions.appartmentDetails();
         }
     }catch(e){
         alert(JSON.stringify(e));
