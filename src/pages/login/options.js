@@ -8,11 +8,11 @@ import { Container,
     Content, 
     Text
 } from 'native-base';
-import { Color, getHeight, getFont } from "./../global/util";
+import { Color, getHeight, getFont } from "../../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { setUserType } from "./../redux/action";
-import { UserType } from "./../global/util";
+import { setUserType } from "../../redux/action";
+import { UserType } from "../../global/util";
 
 class Options extends Component {
 
@@ -29,7 +29,7 @@ class Options extends Component {
               justifyContent : "center",
               alignItems : "center"
               }}>
-              <Image source={require("./../images/home_icon.jpg")}
+              <Image source={require("./../../images/home_icon.jpg")}
                     style={{flex : 1}}
                     resizeMode = "contain"/>
             </View>
@@ -54,7 +54,7 @@ class Options extends Component {
                   this.props.setUserType(UserType.OWNER)
                 }}
                 >
-                  <Image source={require("./../images/owner.jpg")}
+                  <Image source={require("./../../images/owner.jpg")}
                     style={{flex : 1}}
                     resizeMode = "contain"/>
                   <Text style={{
@@ -73,7 +73,7 @@ class Options extends Component {
                   this.props.setUserType("renter")
                 }}
                 >
-                  <Image source={require("./../images/renter.jpg")}
+                  <Image source={require("./../../images/renter.jpg")}
                     style={{flex : 1}}
                     resizeMode = "contain"/>
                   <Text style={{

@@ -22,10 +22,10 @@ import {
   Color,
   getHeight,
   Font
-} from "./../global/util";
-import ImageLogoComponent from '../components/imageLogoComponent';
-import OrWithComponent from "./../components/orWithComponent";
-import RegisterationComponent from "./../components/registerationComponent";
+} from "../../global/util";
+import ImageLogoComponent from '../../components/imageLogoComponent';
+import OrWithComponent from "../../components/orWithComponent";
+import RegisterationComponent from "../../components/registerationComponent";
 
 export default class ForgotPassword extends Component {
 

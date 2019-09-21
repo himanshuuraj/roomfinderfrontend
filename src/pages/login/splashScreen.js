@@ -6,8 +6,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { setData } from "./../redux/action";
-import { UserType } from '../global/util';
+import { setData } from "../../redux/action";
+import { UserType } from '../../global/util';
 class SplashScreen extends Component {
 
   componentDidMount(){
@@ -39,7 +39,7 @@ class SplashScreen extends Component {
           height: null,
           resizeMode: 'cover',
         }}
-        source={require('./../images/background_image.jpg')}>
+        source={require('./../../images/background_image.jpg')}>
       </ImageBackground>
     );
   }

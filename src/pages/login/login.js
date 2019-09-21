@@ -10,11 +10,11 @@ import {
 } from "native-base";
 import {
   Color
-} from "./../global/util";
-import LoginFormComponent from './../components/loginFormComponent';
-import RegisterationComponent from "./../components/registerationComponent";
-import ImageLogoComponent from "./../components/imageLogoComponent";
-import { sendOTP, verifyOTP, verifyEmail } from "./../redux/action";
+} from "../../global/util";
+import LoginFormComponent from '../../components/loginFormComponent';
+import RegisterationComponent from "../../components/registerationComponent";
+import ImageLogoComponent from "../../components/imageLogoComponent";
+import { sendOTP, verifyOTP, verifyEmail } from "../../redux/action";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 

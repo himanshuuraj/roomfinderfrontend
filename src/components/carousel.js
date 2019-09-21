@@ -20,7 +20,7 @@ export default class Carousel extends Component {
               showsHorizontalScrollIndicator={true}
             >
               {images.map((image, index) => (
-                <Image key={index} style={{ width : width, height : height }} resizeMode="stretch" source={image.source} />
+                <Image key={index} style={{ width : width, height : height }} resizeMode="stretch" source={image} />
               ))}
             </ScrollView>
           </View>

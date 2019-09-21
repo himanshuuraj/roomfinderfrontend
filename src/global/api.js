@@ -19,3 +19,7 @@ export const apiToUploadIntoAWS = HOST + "/upload";
 export const apiToSaveApartment = HOST + "/insertApartment/";
 
 export const apiToGetApartments = HOST + "/getApartments/";
+
+export const apiToGetApartmentData = HOST + "/getApartment/";
+
+export const apiToSaveRoom = HOST + "/insertRoom/";

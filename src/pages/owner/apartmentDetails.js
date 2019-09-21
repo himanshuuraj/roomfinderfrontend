@@ -19,12 +19,17 @@ import {
 import {
   getFont,
   Color,
-  getHeight
-} from "../global/util";
+  getHeight,
+  UserType
+} from "../../global/util";
 // import Location from "./../components/location";
-import HouseCardItem from "./../components/houseCardItems";
-import Carousel from "./../components/carousel";
+import HouseCardItem from "../../components/houseCardItems";
+import Carousel from "../../components/carousel";
 import { Constants } from 'expo';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { setData } from "../../redux/action";
+import { Actions } from 'react-native-router-flux';
 
 let { width } = Dimensions.get('window');
 const height = width * 0.8
@@ -46,7 +51,7 @@ let tableContent = [
     value : "Appartment"
   },
   {
-    id : "foodpreferance",
+    id : "foodpreference",
     name : "Food Preference",
     value : "None"
   },
@@ -86,35 +91,28 @@ const images = [
   
 ];
 
-export default class HomeDetails extends Component {
-
-  state = {
-    phone : "",
-    password : "",
-    amenities : [
-      { id : 1, name : 'Name1'},
-      { id : 2, name : 'Name2'},
-      { id : 3, name : 'Name3'},
-      { id : 5, name : 'Name4'},
-      { id : 6, name : 'Name5'},
-      { id : 7, name : 'Name6'}
-    ],
-    availableRooms : [
-      { id : 1, name : 'room1'},
-      { id : 2, name : 'room2'},
-      { id : 3, name : 'room3'},
-      { id : 4, name : 'room4'},
-      { id : 5, name : 'room5'},
-      { id : 6, name : 'room6'},
-      { id : 7, name : 'room7'},
-    ]
-  };
+class HomeDetails extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      isOwner : true
+    }
+  }
+
+  componentDidMount(){
+    let userInfo = this.props.userInfo;
+    this.props.setData({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
+    this.setState({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
   }
 
   render() {
+    let selectedApartment = this.props.selectedApartment;
+    if(!selectedApartment) return null;
+    tableContent[0].value = selectedApartment.size || "N/A";
+    tableContent[1].value = selectedApartment.houseId || "N/A";
+    tableContent[2].value = selectedApartment.apartmentType || "N/A";
+    tableContent[3].value = selectedApartment.foodPreference || "N/A";
     return (
       <Container>
         <Header style={{
@@ -138,7 +136,7 @@ export default class HomeDetails extends Component {
               fontSize : getFont(18),
               color : Color.white
             }}>
-              Bipul Belmonte
+              { selectedApartment.apartmentName }
             </Text>
           </TouchableOpacity>
         </Header>
@@ -149,9 +147,14 @@ export default class HomeDetails extends Component {
             <Text style={{ marginTop : 16, fontWeight: 'bold', fontSize: 16 }}> Rooms Available </Text>
             <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
               {
-                this.state.availableRooms.map((item, index) => {
+                selectedApartment.roomlist && selectedApartment.roomlist.map((item, index) => {
                     return (
-                      <View key={index} 
+                      <TouchableOpacity key={index} 
+                      onPress={e => {
+                        this.props.setData({ selectedRoom : item });
+                        Actions.roomDetails();
+                        //this.props.getRoomDetails();
+                      }}
                       style={{ 
                         paddingHorizontal : 16, 
                         paddingVertical : 8,
@@ -160,22 +163,46 @@ export default class HomeDetails extends Component {
                         borderWidth : 1,
                         borderColor : '#ccc'
                       }}>
-                        <Text style={{ color : 'black' }}> {item.name} </Text>
-                      </View>
+                        <Text style={{ color : 'black' }}> {item.roomName} </Text>
+                      </TouchableOpacity>
                     )
                 })
               }
             </View>
+            {
+                  <TouchableOpacity
+                    style={{
+                      borderWidth : 1,
+                      borderColor : Color.black,
+                      borderRadius : 4,
+                      justifyContent : 'center',
+                      alignItems : 'center',
+                      marginVertical : 8,
+                      height : 48
+                    }}
+                    onPress={e => {
+                      this.props.setData({ addType : "room" });
+                      Actions.addRoom();
+                    }}
+                  >
+                    <Text style={{ fontSize : 16 }}>Add Room</Text>
+                </TouchableOpacity>
+            }
             <View style={styles.container}>
-              <Carousel images={images} />
+              <Carousel images={selectedApartment.imageList.map(item => { 
+                            let obj = {
+                              uri : item.imageUrl
+                            };
+                            return obj;
+                          })} />
             </View>
             {
-              this.state.amenities && this.state.amenities.length > 0 && (
+              selectedApartment.amentiesList && selectedApartment.amentiesList.length > 0 && (
                 <Card style={{ paddingHorizontal : 16, paddingVertical : 16, marginTop : 16 }}>
                   <Text style={{ fontWeight: 'bold', fontSize: 16 }}> Amenities </Text>
                   <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
                     {
-                      this.state.amenities.map((item, index) => {
+                      selectedApartment.amentiesList.map((item, index) => {
                           return (
                             <View key={index} 
                             style={{ 
@@ -186,7 +213,7 @@ export default class HomeDetails extends Component {
                               borderWidth : 1,
                               borderColor : '#ccc'
                             }}>
-                              <Text style={{ color : 'black' }}> {item.name} </Text>
+                              <Text style={{ color : 'black' }}> {item.amenityName} </Text>
                             </View>
                           )
                       })
@@ -251,13 +278,14 @@ export default class HomeDetails extends Component {
                       }
                       </View>
                       {
-                        item.id === 'address' && (
+                        item.id === 'address' && selectedApartment.address && (
                           <View style={{ padding : '5%' }}>
-                              <Text style={{color : '#4a4a4a'}}> line1 </Text>
-                              <Text style={{color : '#4a4a4a'}}> line2 </Text>
-                              <Text style={{color : '#4a4a4a'}}> city </Text>
-                              <Text style={{color : '#4a4a4a'}}> state </Text>
-                              <Text style={{color : '#4a4a4a'}}> pincode </Text>
+                              <Text style={{color : '#4a4a4a'}}> { selectedApartment.address.line1 } </Text>
+                              <Text style={{color : '#4a4a4a'}}> { selectedApartment.address.line2 } </Text>
+                              <Text style={{color : '#4a4a4a'}}> { selectedApartment.address.landmark } </Text>
+                              <Text style={{color : '#4a4a4a'}}> { selectedApartment.address.city } </Text>
+                              <Text style={{color : '#4a4a4a'}}> { selectedApartment.address.state } </Text>
+                              <Text style={{color : '#4a4a4a'}}> { selectedApartment.address.pincode } </Text>
                           </View>)
                       }
                     </View>
@@ -282,12 +310,12 @@ export default class HomeDetails extends Component {
                 <Location/>
               </Card>
             </View> */}
-              <Text style={{ marginTop : 10, marginBottom : 5}}>Similiar Listing</Text>
+              {/* <Text style={{ marginTop : 10, marginBottom : 5}}>Similiar Listing</Text>
               <ScrollView horizontal style={{marginBottom : getHeight(2)}}>
                 {
                   [...Array(10)].map((item, index) => ( <HouseCardItem key={index} />))
                 }
-              </ScrollView>
+              </ScrollView> */}
         </Content>
         <Footer>
           <View style={{ 
@@ -305,6 +333,21 @@ export default class HomeDetails extends Component {
     );
   }
 }
+
+function mapStateToProps(state, props) {
+  return {
+    selectedApartment : state.testReducer.selectedApartment,
+    userInfo : state.testReducer.userInfo
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    setData
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeDetails);
 
 const styles = StyleSheet.create({
   container: {

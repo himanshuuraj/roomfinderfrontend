@@ -20,11 +20,11 @@ import {
   getFont,
   Color,
   getHeight
-} from "../global/util";
+} from "../../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import HouseCardItem from "./../components/houseCardItems";
-import { getAreas } from "./../redux/action";
+import HouseCardItem from "../../components/houseCardItems";
+import { getAreas } from "../../redux/action";
 
 class SearchPage extends Component {
 

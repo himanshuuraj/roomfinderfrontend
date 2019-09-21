@@ -14,13 +14,15 @@ import {
 } from "native-base";
 import {
   Color, getHeight
-} from "./../global/util";
+} from "../../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import {
-  getApartments
-} from "./../redux/action";
+  getApartments,
+  setData
+} from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
+import { getApartment } from "../../redux/action";
 
 class OwnerPage extends Component {
 
@@ -69,7 +71,7 @@ class OwnerPage extends Component {
                     this.props.allApartments.map((item, index) =>
                         <TouchableOpacity 
                         onPress={e => {
-                          
+                          this.props.getApartment(item.apartmentId);
                         }}
                         style={{
                             backgroundColor : 'white',
@@ -99,6 +101,7 @@ class OwnerPage extends Component {
                         backgroundColor : Color.themeColor
                     }}
                     onPress={() => {
+                        this.props.setData({ addType : "apartment" });
                         Actions.addApartment();
                     }}
                 >
@@ -114,13 +117,15 @@ class OwnerPage extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    allApartments : state.testReducer.allApartments
+    allApartments : state.testReducer.allApartments || []
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getApartments
+    setData,
+    getApartments,
+    getApartment
   }, dispatch);
 }
 

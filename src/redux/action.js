@@ -10,7 +10,10 @@ import {
     GET_AMENITIES,
     UPLOAD_PHOTO_ON_AWS,
     SAVE_APARTMENT,
-    GET_APARTMENTS
+    GET_APARTMENTS,
+    GET_APARTMENT_DATA,
+    SAVE_ROOM,
+    GET_ROOM_DETAILS
 } from "./constants";
 
 export const testAction = payload => {
@@ -93,5 +96,26 @@ export const saveApartment = apartment => {
 export const getApartments = () => {
     return {
         type : GET_APARTMENTS
+    }
+}
+
+export const getApartment = apartmentId => {
+    return {
+        type : GET_APARTMENT_DATA,
+        apartmentId
+    }
+}
+
+export const saveRoom = room => {
+    return {
+        type : SAVE_ROOM,
+        room
+    }
+}
+
+export const getRoomDetails = roomId => {
+    return {
+        type : GET_ROOM_DETAILS,
+        roomId
     }
 }

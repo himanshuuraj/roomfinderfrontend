@@ -14,12 +14,12 @@ import {
   getFont,
   Color,
   getHeight
-} from "../global/util";
-import ImageLogoComponent from "./../components/imageLogoComponent";
-import EnterOTP from "./../components/enterOtp";
+} from "../../global/util";
+import ImageLogoComponent from "../../components/imageLogoComponent";
+import EnterOTP from "../../components/enterOtp";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { verifyOTP } from "./../redux/action";
+import { verifyOTP } from "../../redux/action";
 
 class VerifyMobileNumber extends Component {
 

@@ -11,7 +11,7 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { DocumentPicker, ImagePicker } from 'expo';
 import { Color, getHeight } from '../global/util';
-import { uploadOnAWSRequest } from "./../global/request";
+import { uploadOnAWSRequest } from "../global/request";
 
 
 import {bindActionCreators} from 'redux';

@@ -22,10 +22,10 @@ import {
   Color,
   getHeight,
   Font
-} from "./../global/util";
-import LoginFormComponent from './../components/loginFormComponent';
-import RegisterationComponent from "./../components/registerationComponent";
-import ImageLogoComponent from "./../components/imageLogoComponent";
+} from "../../global/util";
+import LoginFormComponent from '../../components/loginFormComponent';
+import RegisterationComponent from "../../components/registerationComponent";
+import ImageLogoComponent from "../../components/imageLogoComponent";
 
 export default class Login extends Component {
 

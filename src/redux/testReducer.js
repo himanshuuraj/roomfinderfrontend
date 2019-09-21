@@ -11,7 +11,9 @@ let reducer = {
 
     //owner
     selectedApartment : {},
-    allApartments : []
+    allApartments : [],
+    addType : "",
+    selectedRoom : {}
 };
 
 export default (state = reducer, action) => {

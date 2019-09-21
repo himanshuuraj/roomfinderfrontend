@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   View,
   Text,
-  StyleSheet,
   KeyboardAvoidingView,
   TextInput,
-  Image
+  StyleSheet,
+  Dimensions
 } from 'react-native';
 import {
   Container,
@@ -18,15 +18,16 @@ import {
 } from "native-base";
 import {
   Color, HomeType, FoodPreference
-} from "./../global/util";
-import { getAmenities, setData } from "./../redux/action";
+} from "../../global/util";
+import { getAmenities, setData } from "../../redux/action";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import Camera from "./../pages/camera";
-import {
-  saveApartment
-} from "./../redux/action";
+import Camera from "../../components/camera";
+import { saveApartment } from "../../redux/action";
+import Carousel from "./../../components/carousel";
+let { width } = Dimensions.get('window');
+const height = width * 0.8
 
 class AddApartment extends Component {
 
@@ -41,7 +42,7 @@ class AddApartment extends Component {
       state : "",
       pincode : ""
     },
-    images : [],
+    imageList : [],
     foodPreference : "",
     modalVisible: true,
     showImageOption : false,
@@ -51,9 +52,7 @@ class AddApartment extends Component {
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
-  constructor(props){
-    super(props);
-  }
+
 
   componentDidMount(){
       if(this.props.amenitiesList.length == 0){
@@ -188,7 +187,7 @@ class AddApartment extends Component {
                       }else{
                         amentiesList.push(item);
                       }
-                      this.setState(amentiesList);
+                      this.setState({ amentiesList: amentiesList });
                     }}
                     style={{ 
                         borderRadius : 4,
@@ -332,9 +331,10 @@ class AddApartment extends Component {
     this.setState({ showCamera : false, showCamera : false });
   }
 
-  getAwsImageUrl = (url) => {
-    alert(url);
-    this.setState({ url });
+  getAwsImageUrl = (imageUrl) => {
+    let imageList = this.state.imageList;
+    imageList.push({imageUrl});
+    this.setState({ imageList });
   }
 
   addImage = () => {
@@ -373,7 +373,7 @@ class AddApartment extends Component {
   }
 
   addApartment = () => {
-    let { amentiesList, apartmentType, address, images, foodPreference } = this.state;
+    let { amentiesList, apartmentType, address, foodPreference } = this.state;
     if(amentiesList.length == 0){
       alert("Please select an amenity");
       return;
@@ -410,21 +410,14 @@ class AddApartment extends Component {
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
                     <View style={{ marginTop : 40, position: 'relative'}}>
-                        <View style={{ flexDirection: 'row', flex : 1, height : 150}}>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
-                        </View>
-                        <View style={{ flexDirection: 'row', flex : 1, height : 150}}>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
-                          <View style={{ flex : 1 }}>
-                            <Image source={{ uri : "http://pngimg.com/uploads/lion/lion_PNG23293.png"}} resizeMode={'stretch'} style={{ flex : 1 }}/>
-                          </View>
+
+                        <View style={styles.container}>
+                          <Carousel images={this.state.imageList.map(item => { 
+                            let obj = {
+                              uri : item.imageUrl
+                            };
+                            return obj;
+                          })} />
                         </View>
                         
                         {
@@ -474,7 +467,8 @@ class AddApartment extends Component {
 
 function mapStateToProps(state, props) {
   return {
-      amenitiesList : state.testReducer.amenitiesList
+      amenitiesList : state.testReducer.amenitiesList,
+      addType : state.testReducer.addType
   }
 }
 
@@ -487,3 +481,22 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddApartment);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+    borderWidth : 1,
+    padding : 1, 
+    borderColor : 'black'
+  },
+  scrollContainer: {
+    height,
+  },
+  image: {
+    width,
+    height,
+  },
+});

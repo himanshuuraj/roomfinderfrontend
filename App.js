@@ -1,23 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
-import { Scene, Router, Actions, Reducer } from "react-native-router-flux";
+import { Scene, Router } from "react-native-router-flux";
 
 import { Provider } from "react-redux";
 import store from "./store";
 import { Stack } from "react-native-router-flux";
-import HomePage from "./src/components/home";
-import LoginPage from "./src/pages/login";
-import FilterPage from "./src/pages/filter";
-import RegisterationPage from "./src/pages/registeration";
-import VerifyMobileNumber from "./src/pages/verifyMobileNumber";
-import HomeDetails from "./src/pages/homeDetails";
-import SearchPage from "./src/pages/search";
-import CameraPage from "./src/pages/camera";
-import OptionsPage from "./src/pages/options";
-import SplashScreen from "./src/pages/splashScreen";
-import OwnerPage from "./src/pages/ownerPage";
-import AddApartment from "./src/pages/addApartment";
+import LoginPage from "./src/pages/login/login";
+import RegisterationPage from "./src/pages/login/registeration";
+import VerifyMobileNumber from "./src/pages/login/verifyMobileNumber";
+import HomeDetails from "./src/pages/rental/homeDetails";
+import SearchPage from "./src/pages/rental/search";
+import OptionsPage from "./src/pages/login/options";
+import SplashScreen from "./src/pages/login/splashScreen";
+import OwnerPage from "./src/pages/owner/ownerPage";
+import AddApartment from "./src/pages/owner/addApartment";
+import AddRoom from "./src/pages/owner/addRoom";
+import AppartmentDetails from "./src/pages/owner/apartmentDetails";
+import RoomDetails from "./src/pages/owner/roomDetails";
 
 export default class App extends React.Component {
 
@@ -32,17 +31,29 @@ export default class App extends React.Component {
             component={SplashScreen}
             title="splashScreen"
           />
+           <Scene
+            hideNavBar={true}
+            key="roomDetails"
+            component={RoomDetails}
+            title="RoomDetails"
+          />
+          <Scene
+            hideNavBar={true}
+            key="appartmentDetails"
+            component={AppartmentDetails}
+            title="AppartmentDetails"
+          />
+          <Scene
+            hideNavBar={true}
+            key="addRoom"
+            component={AddRoom}
+            title="addRoom"
+          />
           <Scene
             hideNavBar={true}
             key="addApartment"
             component={AddApartment}
             title="AddApartment"
-          />
-          <Scene
-            hideNavBar={true}
-            key="cameraPage"
-            component={CameraPage}
-            title="CameraPage"
           />
           <Scene
             hideNavBar={true}
@@ -85,12 +96,6 @@ export default class App extends React.Component {
             key="verifyMobileNumber"
             component={VerifyMobileNumber}
             title="verifyMobileNumber"
-          />
-          <Scene
-            hideNavBar={true}
-            key="homePage"
-            component={HomePage}
-            title="HomePage"
           />
           </Stack>
         </Router>

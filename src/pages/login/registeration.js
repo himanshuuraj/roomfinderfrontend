@@ -9,15 +9,15 @@ import {
 } from "native-base";
 import {
   Color
-} from "../global/util";
+} from "../../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import LoginFormComponent from '../components/loginFormComponent';
-import RegisterationComponent from "../components/registerationComponent";
-import ImageLogoComponent from "./../components/imageLogoComponent";
+import LoginFormComponent from '../../components/loginFormComponent';
+import RegisterationComponent from "../../components/registerationComponent";
+import ImageLogoComponent from "../../components/imageLogoComponent";
 import {
   registerUser
-} from "./../redux/action";
+} from "../../redux/action";
 
 class Registeration extends Component {
 
