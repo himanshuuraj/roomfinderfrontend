@@ -46,7 +46,7 @@ export const Font = {
 }
 
 export const HomeType = {
-    HOUSE : "house",
+    HOUSE : "house", 
     FLAT : 'flat',
     LODGE : 'lodge'
 }
