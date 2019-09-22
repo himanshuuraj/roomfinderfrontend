@@ -46,8 +46,9 @@ export const Font = {
 }
 
 export const HomeType = {
-    APARTMENT : "apartment",
-    HOUSE : "house"
+    HOUSE : "house",
+    FLAT : 'flat',
+    LODGE : 'lodge'
 }
 
 export const UserType = {

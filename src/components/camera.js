@@ -165,7 +165,7 @@ class CameraPage extends Component {
       );
     }else if(this.props.type == "gallery"){
       return (
-          <TouchableOpacity
+        <TouchableOpacity
             style={{
               borderWidth : 1,
               borderColor : Color.black,
@@ -173,11 +173,11 @@ class CameraPage extends Component {
               justifyContent : 'center',
               alignItems : 'center',
               marginVertical : 8,
-              height : 48
+              height : 36
             }}
             onPress={this._pickImage}
           >
-            <Text style={{ fontSize : 16 }}>From Gallery</Text>
+            <Text style={{ fontSize : 14 }}>ADD IMAGE FROM GALLERY</Text>
           </TouchableOpacity>
       );
     }else{

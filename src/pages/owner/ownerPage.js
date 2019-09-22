@@ -45,7 +45,7 @@ class OwnerPage extends Component {
         marginVertical: 8,
         width : 200,
         borderBottomColor: 'black',
-        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomWidth: StyleSheet.hairlineWidth
     }} />;
   }
 
@@ -62,7 +62,7 @@ class OwnerPage extends Component {
             alignItems : 'center'
         }}>
                 <Text style={{
-                        fontSize: 24,
+                        fontSize: 22,
                         marginBottom : 20
                     }}>
                     Your Houses
@@ -70,18 +70,20 @@ class OwnerPage extends Component {
                 {
                     this.props.allApartments.map((item, index) =>
                         <TouchableOpacity 
-                        onPress={e => {
-                          this.props.getApartment(item.apartmentId);
-                        }}
-                        style={{
-                            backgroundColor : 'white',
-                            width : 200,
-                            height : getHeight(5),
-                            justifyContent : 'center',
-                            alignItems : 'center',
-                            borderRadius : 8,
-                            marginBottom : 8
-                        }} key ={index}>
+                          onPress={e => {
+                            this.props.getApartment(item.apartmentId);
+                          }}
+                          style={{
+                              backgroundColor : 'white',
+                              width : 200,
+                              height : getHeight(5),
+                              justifyContent : 'center',
+                              alignItems : 'center',
+                              borderRadius : 8,
+                              marginBottom : 8,
+                              borderWidth : StyleSheet.hairlineWidth,
+                              borderColor : Color.black
+                          }} key ={index}>
                             <Text style={{ fontSize : 16 }}> 
                                 { item.apartmentName }
                             </Text>
@@ -106,7 +108,7 @@ class OwnerPage extends Component {
                     }}
                 >
                     <Text style={{ fontSize : 16, color : Color.themeFontColor, textAlign: 'center' }}> 
-                        Add 
+                        ADD
                     </Text>
                 </TouchableOpacity>
         </View>

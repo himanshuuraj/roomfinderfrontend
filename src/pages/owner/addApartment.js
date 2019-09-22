@@ -45,7 +45,6 @@ class AddApartment extends Component {
     imageList : [],
     foodPreference : "",
     modalVisible: true,
-    showImageOption : false,
     showCamera : false
   }
 
@@ -71,18 +70,15 @@ class AddApartment extends Component {
 
   foodPreference = () => {
     return (
-      <Card style={{
-        paddingHorizontal : 4,
-        paddingVertical : 8
-      }}>
-        <Text style={{
-          marginBottom : 4,
-          fontWeight : 'bold',
-          fontSize : 14
-        }}>FOOD PREFERENCE</Text>
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Food Preference</Text>
           <View style={{ 
             flexDirection : 'row',
-            flexWrap : 'wrap'
+            flexWrap : 'wrap',
+            paddingHorizontal : 8,
+            paddingVertical : 16
           }}>
           {
             Object.keys(FoodPreference).map((item, index) => (
@@ -109,24 +105,21 @@ class AddApartment extends Component {
             ))
           }
           </View>
-      </Card>
+      </View>
     )
   }
 
   apartMentType = () => {
     return (
-      <Card style={{
-        paddingHorizontal : 4,
-        paddingVertical : 8
-      }}>
-        <Text style={{
-          marginBottom : 4,
-          fontWeight : 'bold',
-          fontSize : 14
-        }}>Type</Text>
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Type</Text>
           <View style={{ 
             flexDirection : 'row',
-            flexWrap : 'wrap'
+            flexWrap : 'wrap',
+            paddingHorizontal : 8,
+            paddingVertical : 16
           }}>
           {
             Object.keys(HomeType).map((item, index) => (
@@ -153,27 +146,24 @@ class AddApartment extends Component {
             ))
           }
           </View>
-      </Card>
+      </View>
     )
   }
   
   amenitiesList = () => {
     return (
-      <Card style={{
-        paddingHorizontal : 4,
-        paddingVertical : 8
-      }}>
-      <Text style={{
-        marginBottom : 4,
-        fontWeight : 'bold',
-        fontSize : 14
-      }}>Select Amenities</Text>
-        <View style={{ 
-          flexDirection : 'row',
-          flexWrap : 'wrap',
-          justifyContent : 'space-between'
-        }}>
-        {
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Select Amenities</Text>
+          <View style={{ 
+            flexDirection : 'row',
+            flexWrap : 'wrap',
+            justifyContent : 'space-between',
+            paddingHorizontal : 8,
+            paddingVertical : 16
+          }}>
+          {
             this.props.amenitiesList.map((item, index) => (
                 <TouchableOpacity key={index} 
                     onPress={ e => {
@@ -198,110 +188,116 @@ class AddApartment extends Component {
                         marginRight : 4,
                         marginTop : 4,
                         backgroundColor : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.themeColor : Color.white
-                    }}>
-                        <Text style={{
-                          color : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.white : "#696969",
-                        }}>{item.amenityName}</Text>
+                  }}>
+                  <Text style={{
+                    color : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.white : "#696969",
+                  }}>{item.amenityName}</Text>
                 </TouchableOpacity>
             ))
         }
         </View>
-      </Card>
+      </View>
     );
   }
 
   addAddress = () => {
     return (
-      <Card style={{
-        paddingHorizontal : 4,
-        paddingVertical : 8
-      }}>
-        <Text style={{
-          marginBottom : 4,
-          fontWeight : 'bold',
-          fontSize : 14
-        }}>Address</Text>
-        <Text>Line1</Text>
-        <TextInput 
-          multiline
-          numberOfLines={4}
-          underlineColorAndroid="#bbb"
-          style={{
-            paddingLeft : 16
-          }}
-          onChangeText={line1 => {
-            this.setState({
-              address : { ...this.state.address, line1 }
-            });
-          }}
-          value={this.state.address.line1}/>
-        <Text>Line2</Text>
-        <TextInput
-          multiline
-          numberOfLines={4}
-          underlineColorAndroid="#bbb"
-          style={{
-            paddingLeft : 16
-          }}
-          onChangeText={line2 => {
-            this.setState({
-              address : { ...this.state.address, line2 }
-            });
-          }}
-          value={this.state.address.line2}/>
-        <Text>LandMark</Text>
-        <TextInput
-          underlineColorAndroid="#bbb"
-          style={{
-            paddingLeft : 16,
-            paddingBottom : 4
-          }}
-          onChangeText={landmark => {
-            this.setState({
-              address : { ...this.state.address, landmark }
-            });
-          }}
-          value={this.state.address.landmark}/>
-        <Text>City</Text>
-        <TextInput
-          underlineColorAndroid="#bbb"
-          style={{
-            paddingLeft : 16,
-            paddingBottom : 4
-          }}
-          onChangeText={city => {
-            this.setState({
-              address : { ...this.state.address, city }
-            });
-          }}
-          value={this.state.address.city}/>
-        <Text>State</Text>
-        <TextInput
-          underlineColorAndroid="#bbb"
-          style={{
-            paddingLeft : 16,
-            paddingBottom : 4
-          }}
-          onChangeText={state => {
-            this.setState({
-              address : { ...this.state.address, state }
-            });
-          }}
-          value={this.state.address.state}/>
-        <Text>PinCode</Text>
-        <TextInput
-          underlineColorAndroid="#bbb"
-          style={{
-            paddingLeft : 16,
-            paddingBottom : 4
-          }}
-          onChangeText={pincode => {
-            this.setState({
-              address : { ...this.state.address, pincode }
-            });
-          }}
-          value={this.state.address.pincode}/>
-      </Card>
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Address</Text>
+          <View style={{
+            paddingHorizontal : 8,
+            paddingVertical : 16
+          }}>
+            <Text>Line1</Text>
+            <TextInput 
+              multiline
+              numberOfLines={2}
+              underlineColorAndroid="#bbb"
+              style={{
+                paddingLeft : 16
+              }}
+              placeholder="Belmonte Heights"
+              onChangeText={line1 => {
+                this.setState({
+                  address : { ...this.state.address, line1 }
+                });
+              }}
+              value={this.state.address.line1}/>
+            <Text>Line2</Text>
+            <TextInput
+              multiline
+              numberOfLines={2}
+              underlineColorAndroid="#bbb"
+              style={{
+                paddingLeft : 16
+              }}
+              placeholder="18th B Main Road"
+              onChangeText={line2 => {
+                this.setState({
+                  address : { ...this.state.address, line2 }
+                });
+              }}
+              value={this.state.address.line2}/>
+            <Text>LandMark</Text>
+            <TextInput
+              underlineColorAndroid="#bbb"
+              style={{
+                paddingLeft : 16,
+                paddingBottom : 4
+              }}
+              placeholder="near Cult.fit Gym"
+              onChangeText={landmark => {
+                this.setState({
+                  address : { ...this.state.address, landmark }
+                });
+              }}
+              value={this.state.address.landmark}/>
+            <Text>City</Text>
+            <TextInput
+              underlineColorAndroid="#bbb"
+              style={{
+                paddingLeft : 16,
+                paddingBottom : 4
+              }}
+              placeholder="Patna"
+              onChangeText={city => {
+                this.setState({
+                  address : { ...this.state.address, city }
+                });
+              }}
+              value={this.state.address.city}/>
+            <Text>State</Text>
+            <TextInput
+              underlineColorAndroid="#bbb"
+              style={{
+                paddingLeft : 16,
+                paddingBottom : 4
+              }}
+              placeholder="Bihar"
+              onChangeText={state => {
+                this.setState({
+                  address : { ...this.state.address, state }
+                });
+              }}
+              value={this.state.address.state}/>
+            <Text>PinCode</Text>
+            <TextInput
+              underlineColorAndroid="#bbb"
+              style={{
+                paddingLeft : 16,
+                paddingBottom : 4
+              }}
+              placeholder="560034"
+              onChangeText={pincode => {
+                this.setState({
+                  address : { ...this.state.address, pincode }
+                });
+              }}
+              value={this.state.address.pincode}/>
+          </View>
+      </View>
     );
   }
 
@@ -339,8 +335,14 @@ class AddApartment extends Component {
 
   addImage = () => {
     return (
-      <View>
-        <View style={{ marginBottom : 8 }}>
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Image Gallery</Text>
+        <View style={{
+            paddingHorizontal : 8,
+            paddingVertical : 16
+          }}>
           <TouchableOpacity
             style={{
               borderWidth : 1,
@@ -349,25 +351,16 @@ class AddApartment extends Component {
               justifyContent : 'center',
               alignItems : 'center',
               marginVertical : 8,
-              height : 48
+              height : 36
             }}
             onPress={e => {
               this.setState({ showCamera : true });
             }}
           >
-            <Text style={{ fontSize : 16 }}>From Camera</Text>
+            <Text style={{ fontSize : 14 }}>ADD IMAGE FROM CAMERA</Text>
           </TouchableOpacity>
           <Camera type={'gallery'} getAwsImageUrl={this.getAwsImageUrl} /> 
         </View>
-
-        <Button
-          onPress={e=> {
-            this.setState({ showImageOption : true })
-          }}
-          style={{
-            backgroundColor : Color.themeColor,
-            color : Color.themeColor
-          }} title={'Add Image'} />
       </View>
     );
   }
@@ -409,7 +402,7 @@ class AddApartment extends Component {
             }}>
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
-                    <View style={{ marginTop : 40, position: 'relative'}}>
+                    <View style={{ position: 'relative'}}>
 
                         <View style={styles.container}>
                           <Carousel images={this.state.imageList.map(item => { 
@@ -423,18 +416,25 @@ class AddApartment extends Component {
                         {
                           this.addImage()
                         }
-
-                      <Text>Name</Text>
-                      <TextInput
-                        underlineColorAndroid="#bbb"
-                        style={{
-                          paddingLeft : 16,
-                          paddingBottom : 4
-                        }}
-                        onChangeText={apartmentName => {
-                          this.setState({ apartmentName });
-                        }}
-                        value={this.state.apartmentName}/>
+                      
+                        <View style={{ ...viewObj }}>
+                          <Text 
+                            style={{
+                              ...textObj
+                            }}>House Name</Text>
+                          <TextInput
+                            underlineColorAndroid="#bbb"
+                            placeholder="e.g. Belmonte Heights"
+                            style={{
+                              paddingLeft : 16,
+                              paddingBottom : 2,
+                              height : 40
+                            }}
+                            onChangeText={apartmentName => {
+                              this.setState({ apartmentName });
+                            }}
+                            value={this.state.apartmentName}/>
+                        </View>
 
                         {
                           this.amenitiesList()
@@ -452,9 +452,21 @@ class AddApartment extends Component {
                           this.addAddress()
                         }                      
 
-                        <Button title={'ADD'} onPress={e => {
-                          this.addApartment();
-                        }}/>
+                        <TouchableOpacity
+                            style={{
+                              borderRadius : 4,
+                              justifyContent : 'center',
+                              alignItems : 'center',
+                              marginVertical : 8,
+                              height : 36,
+                              backgroundColor : Color.themeColor
+                            }}
+                            onPress={e => {
+                              this.addApartment();
+                            }}
+                          >
+                            <Text style={{ fontSize : 16, color : Color.white }}>ADD</Text>
+                          </TouchableOpacity>
 
                       </View>
                   </KeyboardAvoidingView>
@@ -500,3 +512,17 @@ const styles = StyleSheet.create({
     height,
   },
 });
+
+let viewObj = {
+  marginTop : 16, borderWidth: StyleSheet.hairlineWidth, borderRadius : 4
+}
+
+let textObj = {
+  position : 'absolute',
+  top : -8,
+  left : 8,
+  fontSize : 12,
+  backgroundColor : Color.white,
+  paddingHorizontal : 2,
+  backgroundColor : Color.backgroundThemeColor
+}
