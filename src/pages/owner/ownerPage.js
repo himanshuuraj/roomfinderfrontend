@@ -23,6 +23,7 @@ import {
 } from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
 import { getApartment } from "../../redux/action";
+import ErrorModal from "./../../components/ErrorModal";
 
 class OwnerPage extends Component {
 
@@ -37,7 +38,7 @@ class OwnerPage extends Component {
   }
 
   componentDidMount(){
-    this.props.getApartments();
+    // this.props.getApartments();
   }
 
   separator = () => {
@@ -61,6 +62,7 @@ class OwnerPage extends Component {
             justifyContent : 'center',
             alignItems : 'center'
         }}>
+          <ErrorModal />
                 <Text style={{
                         fontSize: 22,
                         marginBottom : 20

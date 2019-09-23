@@ -34,63 +34,6 @@ import { Actions } from 'react-native-router-flux';
 let { width } = Dimensions.get('window');
 const height = width * 0.8
 
-let tableContent = [
-  {
-    id : "size",
-    name : "Size",
-    value : "1000 sq ft."
-  },
-  {
-    id : "houseId",
-    name : "House ID",
-    value : "FGVB5825"
-  },
-  {
-    id : "type",
-    name : "Type",
-    value : "Appartment"
-  },
-  {
-    id : "foodpreference",
-    name : "Food Preference",
-    value : "None"
-  },
-  {
-    id : "address",
-    name : "House Address",
-    value : "view"
-  },
-  {
-    id : "rules",
-    name : "Rules",
-    value : "view"
-  },
-];
-
-const images = [
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/16/21/24/gorilla-2318998__340.jpg',
-    },
-  },
-  
-];
-
 class RoomDetails extends Component {
 
   constructor(props){

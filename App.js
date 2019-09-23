@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { View, Text } from "react-native"; 
 import { Scene, Router } from "react-native-router-flux";
 
 import { Provider } from "react-redux";
@@ -17,14 +17,16 @@ import AddApartment from "./src/pages/owner/addApartment";
 import AddRoom from "./src/pages/owner/addRoom";
 import AppartmentDetails from "./src/pages/owner/apartmentDetails";
 import RoomDetails from "./src/pages/owner/roomDetails";
+import ErrorModal from "./src/components/ErrorModal";
 
 export default class App extends React.Component {
 
   render(){
     return (
       <Provider store={store}>
+        <ErrorModal />
         <Router>
-        <Stack key="root"> 
+          <Stack key="root"> 
           <Scene
             hideNavBar={true}
             key="splashScreen"
@@ -103,5 +105,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-// https://github.com/oblador/react-native-vector-icons/blob/master/glyphmaps/Ionicons.json
