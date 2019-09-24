@@ -13,7 +13,16 @@ let reducer = {
     selectedApartment : {},
     allApartments : [],
     addType : "",
-    selectedRoom : {}
+    selectedRoom : {},
+
+    // errorModal
+    errorModalInfo : {
+        showModal : false,
+        title : "",
+        message : "",
+        buttonText : "",
+        onClose : ""
+    }
 };
 
 export default (state = reducer, action) => {
