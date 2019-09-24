@@ -10,6 +10,7 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
+  ScrollView,
   Image
 } from 'react-native';
 import {
@@ -63,12 +64,6 @@ class AddApartment extends Component {
       if(this.props.amenitiesList.length == 0){
         //this.props.getAmenities();
       }
-      this.props.setData({
-        carouselData : {
-          show : true,
-          imageList : this.state.imageList
-      }
-      });
   }
 
   separator = () => {
@@ -313,24 +308,6 @@ class AddApartment extends Component {
     );
   }
 
-  openModal = () => {
-    return (
-      <View style={{
-          position : 'absolute',
-          justifyContent : 'center',
-          alignItems : 'center',
-          backgroundColor : 'green'
-        }}>
-          <View style={{
-            width : 250,
-            height : 250
-          }}>
-
-          </View>
-      </View>
-    );
-  }
-
   rules = () => {}
 
   hideCamera = () => {
@@ -376,21 +353,31 @@ class AddApartment extends Component {
   }
 
   showGallery = () => {
-    <View style={{
-
+    return (<View style={{
+      marginTop : 16,
+      borderWidth : StyleSheet.hairlineWidth,
+      borderColor : Color.black,
+      borderRadius : 4
     }}>
+      <Text 
+        style={{
+          ...textObj
+        }}>Pick Image</Text>
+      <Text style={{ }}>
+        Tab to see the bigger image
+      </Text>
       <View style={{ flexDirection : 'row' }}>
-        <TouchableOpacity style={{
-          width : '100%',
-          height : '100%'
-        }}>
-          <Image source={{}} resizeMode='contain' style={{ flex : 1 }}/>
-        </TouchableOpacity>
+          <ScrollView horizontal pagingEnabled>
+            {this.state.imageList.map((image, index) => {
+              return (
+                <View key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
+                  <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                </View>
+              )
+            })}
+          </ScrollView>
       </View>
-      <View style={{ flexDirection : 'row' }}>
-        
-      </View>
-    </View>
+    </View>);
   }
 
   addApartment = () => {
@@ -432,8 +419,6 @@ class AddApartment extends Component {
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
                     <View style={{ position: 'relative'}}>
-
-                        
 
                         {
                           this.showGallery()
