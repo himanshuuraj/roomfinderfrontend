@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   TextInput,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 import {
   Container,
@@ -42,7 +43,12 @@ class AddApartment extends Component {
       state : "",
       pincode : ""
     },
-    imageList : [],
+    imageList : [
+      {uri : "https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg" },
+      {uri : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_oqELFy0XAi5XgMwDxIPk3pViaaRtRZCvfOmFwGiZDiyAo3TE" },
+      {uri : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStuKc50NByVlFpbl4q3dujR6vHpXIPxOZDYvCs5JLfVmnHm3HvQg" },
+      {uri : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ5qurrqRtbIHw7vBt7oDJU13zCu1K-ML3QXYvWnUrMpMFFF72" }
+    ],
     foodPreference : "",
     modalVisible: true,
     showCamera : false
@@ -55,8 +61,14 @@ class AddApartment extends Component {
 
   componentDidMount(){
       if(this.props.amenitiesList.length == 0){
-        this.props.getAmenities();
+        //this.props.getAmenities();
       }
+      this.props.setData({
+        carouselData : {
+          show : true,
+          imageList : this.state.imageList
+      }
+      });
   }
 
   separator = () => {
@@ -319,8 +331,6 @@ class AddApartment extends Component {
     );
   }
 
-  getImageUrl = () => {}
-
   rules = () => {}
 
   hideCamera = () => {
@@ -329,7 +339,7 @@ class AddApartment extends Component {
 
   getAwsImageUrl = (imageUrl) => {
     let imageList = this.state.imageList;
-    imageList.push({imageUrl});
+    imageList.push({ uri : imageUrl });
     this.setState({ imageList });
   }
 
@@ -365,6 +375,24 @@ class AddApartment extends Component {
     );
   }
 
+  showGallery = () => {
+    <View style={{
+
+    }}>
+      <View style={{ flexDirection : 'row' }}>
+        <TouchableOpacity style={{
+          width : '100%',
+          height : '100%'
+        }}>
+          <Image source={{}} resizeMode='contain' style={{ flex : 1 }}/>
+        </TouchableOpacity>
+      </View>
+      <View style={{ flexDirection : 'row' }}>
+        
+      </View>
+    </View>
+  }
+
   addApartment = () => {
     let { amentiesList, apartmentType, address, foodPreference } = this.state;
     if(amentiesList.length == 0){
@@ -393,6 +421,7 @@ class AddApartment extends Component {
   render() {
       return (
         <Container>
+            <Carousel />
             <Content style={{
               backgroundColor : Color.backgroundThemeColor,
               paddingLeft : "4%",
@@ -404,14 +433,11 @@ class AddApartment extends Component {
                   enabled>
                     <View style={{ position: 'relative'}}>
 
-                        <View style={styles.container}>
-                          <Carousel images={this.state.imageList.map(item => { 
-                            let obj = {
-                              uri : item.imageUrl
-                            };
-                            return obj;
-                          })} />
-                        </View>
+                        
+
+                        {
+                          this.showGallery()
+                        }
                         
                         {
                           this.addImage()
@@ -493,25 +519,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddApartment);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-    borderWidth : 1,
-    padding : 1, 
-    borderColor : 'black'
-  },
-  scrollContainer: {
-    height,
-  },
-  image: {
-    width,
-    height,
-  },
-});
 
 let viewObj = {
   marginTop : 16, borderWidth: StyleSheet.hairlineWidth, borderRadius : 4

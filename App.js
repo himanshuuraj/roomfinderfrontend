@@ -18,6 +18,7 @@ import AddRoom from "./src/pages/owner/addRoom";
 import AppartmentDetails from "./src/pages/owner/apartmentDetails";
 import RoomDetails from "./src/pages/owner/roomDetails";
 import ErrorModal from "./src/components/ErrorModal";
+import Carousel from "./src/components/carousel";
 
 export default class App extends React.Component {
 
@@ -30,7 +31,7 @@ export default class App extends React.Component {
           <Scene
             hideNavBar={true}
             key="splashScreen"
-            component={SplashScreen}
+            component={AddApartment}
             title="splashScreen"
           />
            <Scene

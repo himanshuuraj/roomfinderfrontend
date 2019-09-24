@@ -22,6 +22,12 @@ let reducer = {
         message : "",
         buttonText : "",
         onClose : ""
+    },
+
+    // carousel
+    carouselData : {
+        show : false,
+        imageList : []
     }
 };
 

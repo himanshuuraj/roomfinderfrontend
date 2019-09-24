@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Image, StyleSheet, Dimensions } from 'react-native';
-import { Constants } from 'expo';
+import { View, ScrollView, Image, StyleSheet, Dimensions, Text, StatusBar, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { setData } from "./../redux/action";
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { Button } from "native-base";
 
-let { width } = Dimensions.get('window');
-width = width - 36;
-const height = width * 0.8;
+let { width, height } = Dimensions.get('window');
+width = width;
+// height = width * 0.8;
 
-export default class Carousel extends Component {
+class Carousel extends Component {
     render() {
-      const { images } = this.props;
-      if (images && images.length) {
+      const { carouselData } = this.props;
+      if(!carouselData.show)
+        return null;
+      else if (carouselData && carouselData.imageList && carouselData.imageList.length > 0) {
         return (
           <View
             style={styles.scrollContainer}
@@ -17,12 +22,37 @@ export default class Carousel extends Component {
             <ScrollView
               horizontal
               pagingEnabled
-              showsHorizontalScrollIndicator={true}
             >
-              {images.map((image, index) => (
-                <Image key={index} style={{ width : width, height : height }} resizeMode="stretch" source={image} />
-              ))}
+              {carouselData.imageList.map((image, index) => {
+                return (
+                  <View key={index} style={{ width : width, height : height, paddingHorizontal : 16 }}>
+                    <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                  </View>
+                )
+              })}
             </ScrollView>
+            <TouchableOpacity style={{ 
+              position : 'absolute', 
+              top : 20, 
+              right : 10, 
+              padding : 10,
+              width : 200,
+              alignItems : "flex-end"
+            }}
+            onPress={e => {
+              this.props.setData({
+                carouselData : {
+                  show : false
+                }
+              });
+            }}
+            title={'X'}
+            >
+
+              <Text style={{ fontSize : 24, fontWeight : 'bold', color : 'white' }}>
+                X
+              </Text>
+            </TouchableOpacity>
           </View>
         );
       }
@@ -30,18 +60,31 @@ export default class Carousel extends Component {
     }
   }
 
+  function mapStateToProps(state, props) {
+    return {
+      carouselData : state.testReducer.carouselData || {}
+    }
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+      setData
+    }, dispatch);
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Carousel);
+
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: Constants.statusBarHeight
-    },
     scrollContainer: {
       height,
+      position : 'absolute',
+      zIndex : 1,
+      backgroundColor : "rgba(52, 52, 52, 0.8)",
+      marginTop : StatusBar.currentHeight
     },
     image: {
       width,
       height,
     },
   });
+
