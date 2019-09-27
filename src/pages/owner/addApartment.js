@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   Platform,
-  Button,
   StatusBar,
   TouchableOpacity,
   View,
@@ -16,7 +15,8 @@ import {
 import {
   Container,
   Content,
-  Card
+  Header,
+  Footer
 } from "native-base";
 import {
   Color, HomeType, FoodPreference
@@ -24,12 +24,12 @@ import {
 import { getAmenities, setData } from "../../redux/action";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 import Camera from "../../components/camera";
 import { saveApartment } from "../../redux/action";
 import Carousel from "./../../components/carousel";
+import Loading from "./../../components/loading";
+import PickArea from "./../../components/pickArea";
 let { width } = Dimensions.get('window');
-const height = width * 0.8
 
 class AddApartment extends Component {
 
@@ -44,19 +44,9 @@ class AddApartment extends Component {
       state : "",
       pincode : ""
     },
-    imageList : [
-      {uri : "https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg" },
-      {uri : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_oqELFy0XAi5XgMwDxIPk3pViaaRtRZCvfOmFwGiZDiyAo3TE" },
-      {uri : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStuKc50NByVlFpbl4q3dujR6vHpXIPxOZDYvCs5JLfVmnHm3HvQg" },
-      {uri : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ5qurrqRtbIHw7vBt7oDJU13zCu1K-ML3QXYvWnUrMpMFFF72" }
-    ],
+    imageList : [],
     foodPreference : "",
-    modalVisible: true,
     showCamera : false
-  }
-
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
   }
 
 
@@ -311,7 +301,7 @@ class AddApartment extends Component {
   rules = () => {}
 
   hideCamera = () => {
-    this.setState({ showCamera : false, showCamera : false });
+    this.setState({ showCamera : false });
   }
 
   getAwsImageUrl = (imageUrl) => {
@@ -363,16 +353,30 @@ class AddApartment extends Component {
         style={{
           ...textObj
         }}>Pick Image</Text>
-      <Text style={{ }}>
-        Tab to see the bigger image
-      </Text>
+      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
+        <Text style={{ }}>
+          Tab to see the bigger image
+        </Text>
+      </View>
       <View style={{ flexDirection : 'row' }}>
           <ScrollView horizontal pagingEnabled>
             {this.state.imageList.map((image, index) => {
               return (
-                <View key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
+                <TouchableOpacity 
+                  onPress={() => {
+                    let imageList = this.state.imageList;
+                    let image = imageList.splice(index, 1);
+                    imageList.unshift(...image);
+                    this.props.setData({
+                      carouselData : {
+                        show : true,
+                        imageList
+                      }
+                    });
+                  }}
+                  key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
                   <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
-                </View>
+                </TouchableOpacity>
               )
             })}
           </ScrollView>
@@ -409,24 +413,41 @@ class AddApartment extends Component {
       return (
         <Container>
             <Carousel />
+            <Loading />
+            <Header
+              style={{ marginTop: StatusBar.currentHeight, padding : 0, backgroundColor: Color.themeColor }}>
+              <View style={{
+                justifyContent : 'center',
+                alignItems : 'center',
+                height : '100%',
+                width : '100%'
+              }}>
+                <Text style={{
+                  fontSize : 18,
+                  color : Color.themeFontColor
+                }}>
+                  Add Apartment
+                </Text>
+              </View>
+            </Header>
             <Content style={{
               backgroundColor : Color.backgroundThemeColor,
               paddingLeft : "4%",
               width : "100%",
-              paddingRight : "4%",
-              marginTop: StatusBar.currentHeight
+              paddingRight : "4%"
             }}>
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
                     <View style={{ position: 'relative'}}>
-
                         {
-                          this.showGallery()
+                          this.state.imageList.length > 0 && this.showGallery()
                         }
                         
                         {
                           this.addImage()
                         }
+
+                        <PickArea />
                       
                         <View style={{ ...viewObj }}>
                           <Text 
@@ -463,25 +484,28 @@ class AddApartment extends Component {
                           this.addAddress()
                         }                      
 
-                        <TouchableOpacity
-                            style={{
-                              borderRadius : 4,
-                              justifyContent : 'center',
-                              alignItems : 'center',
-                              marginVertical : 8,
-                              height : 36,
-                              backgroundColor : Color.themeColor
-                            }}
-                            onPress={e => {
-                              this.addApartment();
-                            }}
-                          >
-                            <Text style={{ fontSize : 16, color : Color.white }}>ADD</Text>
-                          </TouchableOpacity>
-
                       </View>
                   </KeyboardAvoidingView>
               </Content>
+              {
+                !this.state.showCamera && (
+                  <Footer
+                    style={{ backgroundColor: Color.themeColor }}>
+                    <TouchableOpacity
+                      style={{
+                        alignItems : 'center',
+                        justifyContent : 'center',
+                        width : '100%'
+                      }}
+                      onPress={e => {
+                        this.addApartment();
+                      }}
+                    >
+                      <Text style={{ fontSize : 14, color : Color.themeFontColor }}>ADD</Text>
+                    </TouchableOpacity>
+                  </Footer>
+                )
+              }
               <Camera type="camera" showCamera={this.state.showCamera} hideCamera={this.hideCamera} getAwsImageUrl={this.getAwsImageUrl} />
         </Container>
       );

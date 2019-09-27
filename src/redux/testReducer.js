@@ -28,6 +28,11 @@ let reducer = {
     carouselData : {
         show : false,
         imageList : []
+    },
+
+    // loading
+    loading : {
+        show : false
     }
 };
 

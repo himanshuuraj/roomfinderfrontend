@@ -17,7 +17,7 @@ import { uploadOnAWSRequest } from "../global/request";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { screenHeight, screenWidth } from '../redux/constants';
-
+import { setData } from "./../redux/action";
 class CameraPage extends Component {
 
   state = {
@@ -66,13 +66,34 @@ class CameraPage extends Component {
       }else{
           alert(response.message);
       }
-      this.props.hideCamera();
   }
 
   snap = async () => {
+    // this.props.hideCamera();
+    this.props.setData({
+      loading : {
+        show : true
+      }
+    });
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
+      this.props.setData({
+        loading : {
+          show : false
+        }
+      });
       this.ajaxCall(photo);
+    }else{
+      this.props.setData({
+        loading : {
+          show : false
+        },
+        errorModalInfo : {
+          showModal : true,
+          title : "Oops!",
+          message : "Cannot load camera"
+        }
+      })
     }
   };
 
@@ -151,7 +172,7 @@ class CameraPage extends Component {
                     height: '100%',
                     justifyContent : 'center',
                     alignItems : 'center',
-                    backgroundColor : 'blue'
+                    backgroundColor : Color.themeColor
                 }} onPress={() => {
                     this.snap();
                 }}>
@@ -188,13 +209,12 @@ class CameraPage extends Component {
 
 function mapStateToProps(state, props) {
   return {
-      data : state.testReducer.test
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    
+    setData
   }, dispatch);
 }
 

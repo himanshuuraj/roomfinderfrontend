@@ -11,13 +11,8 @@ width = width;
 
 class Carousel extends Component {
 
-    componentDidMount(){
-      //this.refs.scrollView.scrollTo(2);
-    }
-
     render() {
       const { carouselData } = this.props;
-      let myScroll;
       if(!carouselData.show)
         return null;
       else if (carouselData && carouselData.imageList && carouselData.imageList.length > 0) {

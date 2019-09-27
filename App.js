@@ -18,7 +18,7 @@ import AddRoom from "./src/pages/owner/addRoom";
 import AppartmentDetails from "./src/pages/owner/apartmentDetails";
 import RoomDetails from "./src/pages/owner/roomDetails";
 import ErrorModal from "./src/components/ErrorModal";
-import Carousel from "./src/components/carousel";
+import Loading from "./src/components/loading";
 
 export default class App extends React.Component {
 
@@ -26,6 +26,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <ErrorModal />
+        {/* <Loading /> */}
         <Router>
           <Stack key="root"> 
           <Scene
