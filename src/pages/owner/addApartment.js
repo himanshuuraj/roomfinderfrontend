@@ -10,18 +10,22 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Image
+  Image,
+  TouchableHighlight,
+  FlatList
 } from 'react-native';
 import {
   Container,
   Content,
   Header,
-  Footer
+  Footer,
+  Button
 } from "native-base";
+import Modal from "react-native-modal";
 import {
   Color, HomeType, FoodPreference
 } from "../../global/util";
-import { getAmenities, setData } from "../../redux/action";
+import { getAmenities, setData, getAreas } from "../../redux/action";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Camera from "../../components/camera";
@@ -46,13 +50,18 @@ class AddApartment extends Component {
     },
     imageList : [],
     foodPreference : "",
-    showCamera : false
+    showCamera : false,
+    selectedArea : "",
+    showPickArea : false
   }
 
 
   componentDidMount(){
       if(this.props.amenitiesList.length == 0){
-        //this.props.getAmenities();
+        this.props.getAmenities();
+      }
+      if(this.props.areaList.length == 0){
+        this.props.getAreas();
       }
   }
 
@@ -199,7 +208,7 @@ class AddApartment extends Component {
 
   addAddress = () => {
     return (
-      <View style={{ ...viewObj }}>
+      <View style={{ ...viewObj, marginBottom : 16 }}>
           <Text style={{
             ...textObj
           }}>Address</Text>
@@ -409,6 +418,16 @@ class AddApartment extends Component {
     this.props.saveApartment(this.state);
   }
 
+  hideShowPickArea = () => {
+    this.setState({
+      showPickArea : false
+    });
+  }
+
+  selectedArea = (selectedArea) => {
+    this.setState({ selectedArea : selectedArea });
+  }
+
   render() {
       return (
         <Container>
@@ -447,7 +466,12 @@ class AddApartment extends Component {
                           this.addImage()
                         }
 
-                        <PickArea />
+                        <PickArea 
+                          show={this.state.showPickArea} 
+                          areaList={this.props.areaList} 
+                          hideShowPickArea = {this.hideShowPickArea}
+                          selectedArea = {this.selectedArea}
+                        />
                       
                         <View style={{ ...viewObj }}>
                           <Text 
@@ -460,7 +484,8 @@ class AddApartment extends Component {
                             style={{
                               paddingLeft : 16,
                               paddingBottom : 2,
-                              height : 40
+                              height : 40,
+                              marginVertical : 8
                             }}
                             onChangeText={apartmentName => {
                               this.setState({ apartmentName });
@@ -471,7 +496,7 @@ class AddApartment extends Component {
                         {
                           this.amenitiesList()
                         }
-                      
+                  
                         {
                           this.apartMentType()
                         }
@@ -480,9 +505,34 @@ class AddApartment extends Component {
                           this.foodPreference()
                         }
 
+                        <View style={{ ...viewObj, paddingHorizontal : 8, paddingVertical : 16 }}>
+                          <Text style={{
+                            ...textObj
+                          }}>Select Area</Text>
+                          <TouchableHighlight 
+                          style={{ 
+                            height : 36, 
+                            backgroundColor : Color.white, 
+                            borderRadius : 4, 
+                            paddingLeft : 8,
+                            justifyContent : 'center' 
+                          }}
+                          onPress={e => {
+                              this.setState({
+                                showPickArea : true
+                              })
+                           }}>
+                            <Text style={{
+                              color : this.state.selectedArea ? Color.black : "#bbb"
+                            }}> 
+                              { this.state.selectedArea ? this.state.selectedArea.area : "Select Area"} 
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+
                         {
                           this.addAddress()
-                        }                      
+                        }                 
 
                       </View>
                   </KeyboardAvoidingView>
@@ -515,7 +565,8 @@ class AddApartment extends Component {
 function mapStateToProps(state, props) {
   return {
       amenitiesList : state.testReducer.amenitiesList,
-      addType : state.testReducer.addType
+      addType : state.testReducer.addType,
+      areaList : state.testReducer.areaList || []
   }
 }
 
@@ -523,14 +574,17 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getAmenities,
     setData,
-    saveApartment
+    saveApartment,
+    getAreas
   }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddApartment);
 
 let viewObj = {
-  marginTop : 16, borderWidth: StyleSheet.hairlineWidth, borderRadius : 4
+  marginTop : 16, 
+  borderWidth: StyleSheet.hairlineWidth, 
+  borderRadius : 4
 }
 
 let textObj = {

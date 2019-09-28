@@ -111,9 +111,10 @@ function* setUserTypeSaga(action){
     }
 }
 
-function* getAreasList(action){
+function* getAreasListSaga(action){
     try{
-        let response = yield call(getApiCall, Api.apiToGetAreaList, userInfo );
+        console.log("hhhhhh");
+        let response = yield call(getApiCall, Api.apiToGetAreaList );
         console.log("RESPONSE", response);
         if(!response.success){
             alert(response.message);
@@ -254,7 +255,7 @@ const mySaga = [
     takeLatest( VERIFY_OTP, verifyOtpSaga),
     takeLatest( VERIFY_EMAIL, verifyEmailSaga),
     takeLatest( SET_USER_TYPE, setUserTypeSaga),
-    takeLatest( GET_AREAS, getAreasList),
+    takeLatest( GET_AREAS, getAreasListSaga),
     takeLatest( GET_AMENITIES, getAmenitiesSaga ),
     takeLatest( UPLOAD_PHOTO_ON_AWS, uploadPicOnAWSSaga ),
     takeLatest( SAVE_APARTMENT, saveApartmentSaga ),

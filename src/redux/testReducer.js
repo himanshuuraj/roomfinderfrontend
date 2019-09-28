@@ -33,7 +33,10 @@ let reducer = {
     // loading
     loading : {
         show : false
-    }
+    },
+
+    showPickArea : false
+
 };
 
 export default (state = reducer, action) => {
