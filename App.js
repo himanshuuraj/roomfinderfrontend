@@ -22,17 +22,18 @@ import Loading from "./src/components/loading";
 
 export default class App extends React.Component {
 
+  
+
   render(){
     return (
       <Provider store={store}>
         <ErrorModal />
-        {/* <Loading /> */}
         <Router>
           <Stack key="root"> 
           <Scene
             hideNavBar={true}
             key="splashScreen"
-            component={AddApartment}
+            component={SplashScreen}
             title="splashScreen"
           />
            <Scene

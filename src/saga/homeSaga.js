@@ -27,11 +27,13 @@ function* registerUserInfoSaga(action){
 
 function* sendOTPSaga(action){
     try {
-        let url = Api.apiToSendOTP + action.phoneNumber;
+        let state = yield select();
+        userInfo = state.testReducer.userInfo;
+        let url = Api.apiToSendOTP + userInfo.phoneNumber;
         let response = yield call(getApiCall, url );
         console.log("RESPONSE", response);
-        if(response.err){
-            alert(response.err);
+        if(!response.success){
+            alert(response.message);
             Actions.registerationPage();
         }
     } catch (e) {
@@ -72,12 +74,12 @@ function* verifyEmailSaga(action){
         };
         let response = yield call(postApiCall, Api.apiToVerifyEmail, obj );
         console.log("RESPONSE", response);
-        if(response.userId){
+        if(response.success){
             yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(response));
-            Actions.HomeDetails();
-        }else if(response.err){
-            alert(response.err);
-            //Actions.registerationPage();
+            Actions.homeDetails();
+        }else{
+            alert(response.message);
+            Actions.registerationPage();
             return;
         }
     }catch(err){

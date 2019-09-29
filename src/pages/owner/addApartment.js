@@ -324,7 +324,7 @@ class AddApartment extends Component {
       <View style={{ ...viewObj }}>
           <Text style={{
             ...textObj
-          }}>Image Gallery</Text>
+          }}>Pick Gallery</Text>
         <View style={{
             paddingHorizontal : 8,
             paddingVertical : 16
@@ -361,7 +361,7 @@ class AddApartment extends Component {
       <Text 
         style={{
           ...textObj
-        }}>Pick Image</Text>
+        }}>Image Gallery</Text>
       <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
         <Text style={{ }}>
           Tab to see the bigger image
@@ -382,6 +382,7 @@ class AddApartment extends Component {
                         imageList
                       }
                     });
+                    this.setState({ imageList });
                   }}
                   key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
                   <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
@@ -394,7 +395,7 @@ class AddApartment extends Component {
   }
 
   addApartment = () => {
-    let { amentiesList, apartmentType, address, foodPreference } = this.state;
+    let { amentiesList, apartmentType, address, foodPreference, selectedArea } = this.state;
     if(amentiesList.length == 0){
       alert("Please select an amenity");
       return;
@@ -415,7 +416,11 @@ class AddApartment extends Component {
       alert("Please select foodpreference");
       return;
     }
-    this.props.saveApartment(this.state);
+    if(!selectedArea){
+      alert("Please select an area");
+      return;
+    }
+    this.props.saveApartment({...this.state, cityArea : selectedArea});
   }
 
   hideShowPickArea = () => {

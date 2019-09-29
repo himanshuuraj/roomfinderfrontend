@@ -53,19 +53,22 @@ class CameraPage extends Component {
           name: v
       });
       console.log(data);
-      let response;
       try{
-        response = await uploadOnAWSRequest(data);
+        let response = await uploadOnAWSRequest(data);
+        if(response.success){
+          this.props.getAwsImageUrl(response.message);
+        }else{
+            alert(response.message);
+        }
       }catch(err){
         alert(JSON.stringify(err));
-        this.props.hideCamera();
-        return;
       }
-      if(response.success){
-        this.props.getAwsImageUrl(response.message);
-      }else{
-          alert(response.message);
-      }
+      this.props.setData({
+        loading : {
+          show : false
+        }
+      });
+      this.props.hideCamera();
   }
 
   snap = async () => {
@@ -77,11 +80,6 @@ class CameraPage extends Component {
     });
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
-      this.props.setData({
-        loading : {
-          show : false
-        }
-      });
       this.ajaxCall(photo);
     }else{
       this.props.setData({
@@ -93,7 +91,7 @@ class CameraPage extends Component {
           title : "Oops!",
           message : "Cannot load camera"
         }
-      })
+      });
     }
   };
 

@@ -19,7 +19,7 @@ import ImageLogoComponent from "../../components/imageLogoComponent";
 import EnterOTP from "../../components/enterOtp";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { verifyOTP } from "../../redux/action";
+import { verifyOTP, sendOTP } from "../../redux/action";
 
 class VerifyMobileNumber extends Component {
 
@@ -37,7 +37,7 @@ class VerifyMobileNumber extends Component {
   };
 
   componentDidMount(){
-    //setTimeout(() => this.props.moveToScreen("splashScreen"), 5000);
+    this.props.sendOTP();
   }
 
   render() {
@@ -134,7 +134,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    verifyOTP
+    verifyOTP,
+    sendOTP
   }, dispatch);
 }
 
