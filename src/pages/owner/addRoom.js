@@ -9,7 +9,9 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   TextInput,
-  Dimensions
+  Dimensions,
+  ScrollView,
+  Image
 } from 'react-native';
 import {
   Container,
@@ -26,6 +28,7 @@ import { Actions } from 'react-native-router-flux';
 import Camera from "../../components/camera";
 import { saveRoom } from "../../redux/action";
 import Carousel from "./../../components/carousel";
+import Loading from "./../../components/loading";
 let { width } = Dimensions.get('window');
 const height = width * 0.8
 class AddRoom extends Component {
@@ -34,7 +37,6 @@ class AddRoom extends Component {
     amentiesList : [],
     imageList : [],
     modalVisible: true,
-    showImageOption : false,
     showCamera : false
   }
 
@@ -142,7 +144,7 @@ class AddRoom extends Component {
 
   getAwsImageUrl = (imageUrl) => {
     let imageList = this.state.imageList;
-    imageList.push({imageUrl});
+    imageList.push({ uri : imageUrl });
     this.setState({ imageList });
   }
 
@@ -168,15 +170,6 @@ class AddRoom extends Component {
           </TouchableOpacity>
           <Camera type={'gallery'} getAwsImageUrl={this.getAwsImageUrl} /> 
         </View>
-
-        <Button
-          onPress={e=> {
-            this.setState({ showImageOption : true })
-          }}
-          style={{
-            backgroundColor : Color.themeColor,
-            color : Color.themeColor
-          }} title={'Add Image'} />
       </View>
     );
   }
@@ -236,6 +229,8 @@ class AddRoom extends Component {
   render() {
       return (
         <Container>
+          <Carousel />
+          <Loading />
             <Content style={{
               backgroundColor : Color.backgroundThemeColor,
               paddingLeft : "4%",

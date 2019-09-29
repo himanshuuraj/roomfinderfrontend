@@ -215,7 +215,7 @@ class HomeDetails extends Component {
             }
             
             {
-              this.showGallery()
+              this.props.imageList && this.props.imageList.length > 0 && this.showGallery()
             }
 
             {
