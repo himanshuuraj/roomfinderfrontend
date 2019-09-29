@@ -29,7 +29,7 @@ function* sendOTPSaga(action){
     try {
         let state = yield select();
         userInfo = state.testReducer.userInfo;
-        let url = Api.apiToSendOTP + userInfo.phoneNumber;
+        let url = Api.apiToSendOTP + (userInfo.phoneNumber || action.phoneNumber);
         let response = yield call(getApiCall, url );
         console.log("RESPONSE", response);
         if(!response.success){
@@ -44,8 +44,8 @@ function* sendOTPSaga(action){
 function* verifyOtpSaga(action){
     try{
         let obj = {
-            phoneNumber : action.phoneNumber || 7022623975,
-            otp : action.otp || 602225
+            phoneNumber : action.phoneNumber,
+            otp : action.otp
         };
         let response = yield call(postApiCall, Api.apiToVerifyOTP, obj );
         console.log("RESPONSE", response);
@@ -55,7 +55,7 @@ function* verifyOtpSaga(action){
         }
         if(response.userId){
             yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(response));
-            Actions.HomeDetails();
+            Actions.homeDetails();
         }
         let userInfo = response.message;
         yield put(setData({ 'userInfo' : userInfo }));

@@ -30,6 +30,11 @@ class CameraPage extends Component {
   camera = null;
 
   _pickImage = async () => {
+      this.props.setData({
+        loading : {
+          show : true
+        }
+      });
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
@@ -43,7 +48,7 @@ class CameraPage extends Component {
       }
     };
 
-  ajaxCall = async (obj) => {
+  ajaxCall = async (obj, source = 'camera') => {
       var data = new FormData();
       let v = obj.uri.split('/');
       v = v[v.length - 1];
@@ -68,7 +73,8 @@ class CameraPage extends Component {
           show : false
         }
       });
-      this.props.hideCamera();
+      if(source == 'camera')
+        this.props.hideCamera();
   }
 
   snap = async () => {
@@ -80,7 +86,7 @@ class CameraPage extends Component {
     });
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
-      this.ajaxCall(photo);
+      this.ajaxCall(photo, 'camera');
     }else{
       this.props.setData({
         loading : {

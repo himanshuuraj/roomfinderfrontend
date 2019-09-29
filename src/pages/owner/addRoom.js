@@ -181,6 +181,49 @@ class AddRoom extends Component {
     );
   }
 
+  showGallery = () => {
+    return (<View style={{
+      marginTop : 16,
+      borderWidth : StyleSheet.hairlineWidth,
+      borderColor : Color.black,
+      borderRadius : 4
+    }}>
+      <Text 
+        style={{
+          ...textObj
+        }}>Image Gallery</Text>
+      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
+        <Text style={{ }}>
+          Tab to see the bigger image
+        </Text>
+      </View>
+      <View style={{ flexDirection : 'row' }}>
+          <ScrollView horizontal pagingEnabled>
+            {this.state.imageList.map((image, index) => {
+              return (
+                <TouchableOpacity 
+                  onPress={() => {
+                    let imageList = this.state.imageList;
+                    let image = imageList.splice(index, 1);
+                    imageList.unshift(...image);
+                    this.props.setData({
+                      carouselData : {
+                        show : true,
+                        imageList
+                      }
+                    });
+                    this.setState({ imageList });
+                  }}
+                  key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
+                  <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                </TouchableOpacity>
+              )
+            })}
+          </ScrollView>
+      </View>
+    </View>);
+  }
+
   addRoom = () => {
     let { amentiesList, images } = this.state;
     if(amentiesList.length == 0){
@@ -204,14 +247,18 @@ class AddRoom extends Component {
                   enabled>
                     <View style={{ marginTop : 40, position: 'relative'}}>
                         
-                        <View style={styles.container}>
+                        {
+                          this.state.imageList.length > 0 && this.showGallery()
+                        }
+
+                        {/* <View style={styles.container}>
                           <Carousel images={this.state.imageList.map(item => { 
                             let obj = {
                               uri : item.imageUrl
                             };
                             return obj;
                           })} />
-                        </View>
+                        </View> */}
                         
                         {
                           this.addImage()

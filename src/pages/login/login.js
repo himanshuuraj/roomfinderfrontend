@@ -22,7 +22,8 @@ class Login extends Component {
 
   state = {
     password : "",
-    screenType : 'login'
+    screenType : 'login',
+    loginType : 'phone'
   };
 
   constructor(props){

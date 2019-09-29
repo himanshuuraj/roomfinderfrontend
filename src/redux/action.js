@@ -37,9 +37,10 @@ export const registerUser = userData => {
     }
 }
 
-export const sendOTP = () => {
+export const sendOTP = (phoneNumber = "") => {
     return {
-        type : SEND_OTP
+        type : SEND_OTP,
+        phoneNumber
     }
 }
 
