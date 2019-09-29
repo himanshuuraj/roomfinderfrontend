@@ -6,7 +6,8 @@ import {
   StatusBar,
   ScrollView,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 import {
   Container,
@@ -14,7 +15,9 @@ import {
   Icon,
   Header,
   Card,
-  Footer
+  Footer,
+  FooterTab,
+  Button
 } from "native-base";
 import {
   getFont,
@@ -23,14 +26,12 @@ import {
   UserType
 } from "../../global/util";
 // import Location from "./../components/location";
-import HouseCardItem from "../../components/houseCardItems";
 import Carousel from "../../components/carousel";
-import { Constants } from 'expo';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setData } from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
-
+import { deleteApartment } from "./../../redux/action";
 let { width } = Dimensions.get('window');
 const height = width * 0.8
 
@@ -76,6 +77,59 @@ class HomeDetails extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      imageList : nextProps.imageList
+    });
+  }
+
+  showGallery = () => {
+    return (<View style={{
+      marginTop : 16,
+      borderWidth : StyleSheet.hairlineWidth,
+      borderColor : Color.black,
+      borderRadius : 4
+    }}>
+      <Text 
+        style={{
+          ...textObj
+        }}>Image Gallery</Text>
+      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
+        <Text style={{ }}>
+          Tab to see the bigger image
+        </Text>
+      </View>
+      {
+        this.props.imageList && this.props.imageList.length > 0 &&
+        (
+        <View style={{ flexDirection : 'row' }}>
+            <ScrollView horizontal pagingEnabled>
+              {this.props.imageList.map((image, index) => {
+                return (
+                  <TouchableOpacity 
+                    onPress={() => {
+                      // let imageList = this.state.imageList;
+                      // let image = imageList.splice(index, 1);
+                      // imageList.unshift(...image);
+                      this.props.setData({
+                        carouselData : {
+                          show : true,
+                          imageList : this.props.imageList
+                        }
+                      });
+                    }}
+                    key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
+                    <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                  </TouchableOpacity>
+                )
+              })}
+            </ScrollView>
+        </View>
+        )
+      }
+    </View>);
+  }
+
   render() {
     let selectedApartment = this.props.selectedApartment;
     if(!selectedApartment) return null;
@@ -85,6 +139,7 @@ class HomeDetails extends Component {
     tableContent[3].value = selectedApartment.foodPreference || "N/A";
     return (
       <Container>
+        <Carousel />
         <Header style={{
           backgroundColor : Color.themeColor,
           alignItems : "center",
@@ -158,14 +213,11 @@ class HomeDetails extends Component {
                     <Text style={{ fontSize : 16 }}>Add Room</Text>
                 </TouchableOpacity>
             }
-            <View style={styles.container}>
-              <Carousel images={selectedApartment.imageList.map(item => { 
-                            let obj = {
-                              uri : item.imageUrl
-                            };
-                            return obj;
-                          })} />
-            </View>
+            
+            {
+              this.showGallery()
+            }
+
             {
               selectedApartment.amentiesList && selectedApartment.amentiesList.length > 0 && (
                 <Card style={{ paddingHorizontal : 16, paddingVertical : 16, marginTop : 16 }}>
@@ -287,17 +339,21 @@ class HomeDetails extends Component {
                 }
               </ScrollView> */}
         </Content>
-        <Footer>
-          <View style={{ 
-            justifyContent : 'center',
-            alignItems: 'center',
-            backgroundColor: 'green',
-            width: '100%'
-            }}>
-                <Text style={{color : 'white', fontSize : 14, fontWeight: 'bold', textAlign: 'center'}}> 
-                  BOOK NOW 
-                </Text>
-          </View>
+        <Footer style={{
+          backgroundColor : Color.themeColor
+        }}>
+          <FooterTab>
+            <Button style={{ backgroundColor : Color.themeColor }}>
+              <Text style={{ color : Color.white }}>EDIT</Text>
+            </Button>
+            <Button 
+              onPress={e => {
+                this.props.deleteApartment();
+              }}
+              style={{ backgroundColor : Color.themeColor }}>
+              <Text style={{ color : Color.white }}>DELETE</Text>
+            </Button>
+          </FooterTab>
         </Footer>
       </Container>
     );
@@ -313,28 +369,26 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    setData
+    setData,
+    deleteApartment
   }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeDetails);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-    borderWidth : 1,
-    padding : 1, 
-    borderColor : 'black'
-  },
-  scrollContainer: {
-    height,
-  },
-  image: {
-    width,
-    height,
-  },
-});
 
+let viewObj = {
+  marginTop : 16, 
+  borderWidth: StyleSheet.hairlineWidth, 
+  borderRadius : 4
+}
+
+let textObj = {
+  position : 'absolute',
+  top : -8,
+  left : 8,
+  fontSize : 12,
+  backgroundColor : Color.white,
+  paddingHorizontal : 2,
+  backgroundColor : Color.backgroundThemeColor
+}

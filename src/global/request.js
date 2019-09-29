@@ -67,6 +67,24 @@ export let putApiCall = (url, bodyObj) => {
             });
 }
 
+export let deleteApiCall = (url) => {
+    return fetch(url, {
+        method: 'DELETE'
+     })
+     .then((response) => response.json(), err => {
+         console.log(err);
+         return err;
+     })
+     .then((responseJson) => {
+        console.log(responseJson);
+        return responseJson;
+     })
+     .catch((error) => {
+        console.error(error);
+        return error;
+     });
+}
+
 export let uploadOnAWSRequest = (bodyObj) => {
     let url = Api.apiToUploadIntoAWS;
     let promise = new Promise(function(resolve, reject) {

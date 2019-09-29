@@ -321,21 +321,19 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddRoom);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-    borderWidth : 1,
-    padding : 1, 
-    borderColor : 'black'
-  },
-  scrollContainer: {
-    height,
-  },
-  image: {
-    width,
-    height,
-  },
-});
+
+let viewObj = {
+  marginTop : 16, 
+  borderWidth: StyleSheet.hairlineWidth, 
+  borderRadius : 4
+}
+
+let textObj = {
+  position : 'absolute',
+  top : -8,
+  left : 8,
+  fontSize : 12,
+  backgroundColor : Color.white,
+  paddingHorizontal : 2,
+  backgroundColor : Color.backgroundThemeColor
+}

@@ -296,6 +296,7 @@ class AddApartment extends Component {
                 paddingBottom : 4
               }}
               placeholder="560034"
+              keyboardType='numeric'
               onChangeText={pincode => {
                 this.setState({
                   address : { ...this.state.address, pincode }

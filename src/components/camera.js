@@ -48,7 +48,7 @@ class CameraPage extends Component {
       }
     };
 
-  ajaxCall = async (obj, source = 'camera') => {
+  ajaxCall = async (obj, source = 'gallery') => {
       var data = new FormData();
       let v = obj.uri.split('/');
       v = v[v.length - 1];

@@ -13,8 +13,15 @@ import {
     GET_APARTMENTS,
     GET_APARTMENT_DATA,
     SAVE_ROOM,
-    GET_ROOM_DETAILS
+    GET_ROOM_DETAILS,
+    DELETE_APARTMENT
 } from "./constants";
+
+export const deleteApartment = () => {
+    return {
+        type : DELETE_APARTMENT
+    }
+}
 
 export const testAction = payload => {
     return {

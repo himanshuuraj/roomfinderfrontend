@@ -38,7 +38,7 @@ class OwnerPage extends Component {
   }
 
   componentDidMount(){
-    // this.props.getApartments();
+    this.props.getApartments();
   }
 
   separator = () => {

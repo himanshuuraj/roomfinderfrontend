@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS, SAVE_APARTMENT, GET_APARTMENTS, GET_APARTMENT_DATA, SAVE_ROOM, GET_ROOM_DETAILS } from "./../redux/constants";
-import { getApiCall, postApiCall, putApiCall, uploadOnAWSRequest } from "./../global/request";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS, SAVE_APARTMENT, GET_APARTMENTS, GET_APARTMENT_DATA, SAVE_ROOM, GET_ROOM_DETAILS, DELETE_APARTMENT } from "./../redux/constants";
+import { getApiCall, postApiCall, putApiCall, uploadOnAWSRequest, deleteApiCall } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -207,7 +207,7 @@ function* getApartmentDataSaga(action){
             return;
         }else{
             yield put(setData({ 'selectedApartment' : response.message }));
-            Actions.appartmentDetails();
+            Actions.appartmentDetails({ imageList : response.message.imageList });
         }
     }catch(e){
         alert(JSON.stringify(e));
@@ -251,6 +251,25 @@ function* getRoomDataSaga(action){
     }
 }
 
+function* deleteApartmentSaga(action){
+    try{
+        let state = yield select();
+        let apartmentId = state.testReducer.selectedApartment.apartmentId;
+        let userId = state.testReducer.userInfo.userId;
+        let url = Api.apiToDeleteApartment + userId + "/" + apartmentId;
+        let response = yield call(deleteApiCall, url );
+        console.log("RESPONSE", response);
+        if(!response.success){
+            alert(response.message);
+            return;
+        }else{
+            Actions.ownerPage();
+        }
+    }catch(e){
+        alert(JSON.stringify(e));
+    }
+}
+
 const mySaga = [
     takeLatest( REGISTER_USER_INFO, registerUserInfoSaga ),
     takeLatest( SEND_OTP, sendOTPSaga),
@@ -264,7 +283,8 @@ const mySaga = [
     takeLatest( GET_APARTMENTS, getApartmentsSaga ),
     takeLatest( GET_APARTMENT_DATA, getApartmentDataSaga ),
     takeLatest( SAVE_ROOM, saveRoomSaga ),
-    takeLatest( GET_ROOM_DETAILS, getRoomDataSaga )
+    takeLatest( GET_ROOM_DETAILS, getRoomDataSaga ),
+    takeLatest( DELETE_APARTMENT, deleteApartmentSaga )
 ];
 
 export default mySaga;
