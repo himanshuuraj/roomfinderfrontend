@@ -6,7 +6,8 @@ import {
   StatusBar,
   ScrollView,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 import {
   Container,
@@ -40,10 +41,58 @@ class RoomDetails extends Component {
     super(props);
   }
 
+  showGallery = () => {
+    return (<View style={{
+      marginTop : 16,
+      borderWidth : StyleSheet.hairlineWidth,
+      borderColor : Color.black,
+      borderRadius : 4
+    }}>
+      <Text 
+        style={{
+          ...textObj
+        }}>Image Gallery</Text>
+      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
+        <Text style={{ }}>
+          Tab to see the bigger image
+        </Text>
+      </View>
+      {
+        this.props.selectedRoom.imageList && this.props.selectedRoom.imageList.length > 0 &&
+        (
+        <View style={{ flexDirection : 'row' }}>
+            <ScrollView horizontal pagingEnabled>
+              {this.props.selectedRoom.imageList.map((image, index) => {
+                return (
+                  <TouchableOpacity 
+                    onPress={() => {
+                      // let imageList = this.state.imageList;
+                      // let image = imageList.splice(index, 1);
+                      // imageList.unshift(...image);
+                      this.props.setData({
+                        carouselData : {
+                          show : true,
+                          imageList : this.props.selectedRoom.imageList
+                        }
+                      });
+                    }}
+                    key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
+                    <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                  </TouchableOpacity>
+                )
+              })}
+            </ScrollView>
+        </View>
+        )
+      }
+    </View>);
+  }
+
   render() {
       let { selectedRoom } = this.props;
     return (
       <Container>
+        <Carousel />
         <Header style={{
           backgroundColor : Color.themeColor,
           alignItems : "center",
@@ -73,14 +122,10 @@ class RoomDetails extends Component {
           width : "100%",
           paddingHorizontal : 16
         }}>
-            <View style={styles.container}>
-                <Carousel images={selectedRoom.imageList.map(item => { 
-                            let obj = {
-                              uri : item.imageUrl
-                            };
-                            return obj;
-                          })} />
-            </View>
+            {
+              selectedRoom.imageList && selectedRoom.imageList.length > 0 && this.showGallery()
+            }
+
             {
               selectedRoom.amentiesList && selectedRoom.amentiesList.length > 0 && (
                 <Card style={{ paddingHorizontal : 16, paddingVertical : 16, marginTop : 16 }}>
@@ -152,22 +197,12 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomDetails);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-    borderWidth : 1,
-    padding : 1, 
-    borderColor : 'black'
-  },
-  scrollContainer: {
-    height,
-  },
-  image: {
-    width,
-    height,
-  },
-});
-
+let textObj = {
+  position : 'absolute',
+  top : -8,
+  left : 8,
+  fontSize : 12,
+  backgroundColor : Color.white,
+  paddingHorizontal : 2,
+  backgroundColor : Color.backgroundThemeColor
+}
