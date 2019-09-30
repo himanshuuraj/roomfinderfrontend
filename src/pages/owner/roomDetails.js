@@ -31,7 +31,7 @@ import Carousel from "../../components/carousel";
 import { Constants } from 'expo';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { setData } from "../../redux/action";
+import { setData, deleteRoom } from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
 
 let { width } = Dimensions.get('window');
@@ -202,7 +202,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    setData
+    setData,
+    deleteRoom
   }, dispatch);
 }
 

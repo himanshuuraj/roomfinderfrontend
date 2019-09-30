@@ -16,7 +16,8 @@ import {
     GET_ROOM_DETAILS,
     DELETE_APARTMENT,
     UPDATE_APARTMENT,
-    UPDATE_ROOM
+    UPDATE_ROOM,
+    DELETE_ROOM
 } from "./constants";
 
 export const updateRoom = room => {
@@ -140,5 +141,11 @@ export const getRoomDetails = roomId => {
     return {
         type : GET_ROOM_DETAILS,
         roomId
+    }
+}
+
+export const deleteRoom = () => {
+    return {
+        type : DELETE_ROOM
     }
 }

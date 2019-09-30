@@ -40,3 +40,5 @@ export const DELETE_APARTMENT = "DELETE_APARTMENT";
 export const UPDATE_APARTMENT = "UPDATE_APARTMENT";
 
 export const UPDATE_ROOM = "UPDATE_ROOM";
+
+export const DELETE_ROOM = "DELETE_ROOM";

@@ -88,7 +88,9 @@ class HomeDetails extends Component {
       marginTop : 16,
       borderWidth : StyleSheet.hairlineWidth,
       borderColor : Color.black,
-      borderRadius : 4
+      borderRadius : 4,
+      paddingBottom : 16,
+      paddingTop : 8
     }}>
       <Text 
         style={{
@@ -167,7 +169,8 @@ class HomeDetails extends Component {
         </Header>
         <Content style={{
           width : "100%",
-          paddingHorizontal : 16
+          paddingHorizontal : 16,
+          backgroundColor : Color.backgroundThemeColor
         }}>
             <Text style={{ marginTop : 16, fontWeight: 'bold', fontSize: 16 }}> Rooms Available </Text>
             <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
@@ -178,7 +181,6 @@ class HomeDetails extends Component {
                       onPress={e => {
                         this.props.setData({ selectedRoom : item });
                         Actions.roomDetails();
-                        //this.props.getRoomDetails();
                       }}
                       style={{ 
                         paddingHorizontal : 16, 
@@ -220,8 +222,10 @@ class HomeDetails extends Component {
 
             {
               selectedApartment.amentiesList && selectedApartment.amentiesList.length > 0 && (
-                <Card style={{ paddingHorizontal : 16, paddingVertical : 16, marginTop : 16 }}>
-                  <Text style={{ fontWeight: 'bold', fontSize: 16 }}> Amenities </Text>
+                <View style={{ ...viewObj }}>
+                  <Text style={{
+                    ...textObj
+                  }}>Amenities</Text>
                   <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
                     {
                       selectedApartment.amentiesList.map((item, index) => {
@@ -241,11 +245,12 @@ class HomeDetails extends Component {
                       })
                     }
                   </View>
-                </Card>
+                </View>
               )}
 
             <Card style={{
-              marginTop : getHeight (2)
+              marginTop : getHeight(2),
+              marginBottom : getHeight(1)
             }}>
                 <View style={{
                   width: '100%',
@@ -389,4 +394,11 @@ let textObj = {
   backgroundColor : Color.white,
   paddingHorizontal : 2,
   backgroundColor : Color.backgroundThemeColor
+}
+
+let viewObj = {
+  marginTop : 16, 
+  borderWidth: StyleSheet.hairlineWidth, 
+  borderRadius : 4, 
+  padding : 16
 }

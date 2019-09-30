@@ -29,3 +29,5 @@ export const apiToDeleteApartment = HOST + "/deleteApartment/";
 export const apiToUpdateApartment = HOST + "/updateApartment/";
 
 export const apiToUpdateRoom = HOST + "/updateRoom/";
+
+export const apiToDeleteRoom = HOST + "/deleteRoom/";
