@@ -245,15 +245,6 @@ class AddRoom extends Component {
                         {
                           this.state.imageList.length > 0 && this.showGallery()
                         }
-
-                        {/* <View style={styles.container}>
-                          <Carousel images={this.state.imageList.map(item => { 
-                            let obj = {
-                              uri : item.imageUrl
-                            };
-                            return obj;
-                          })} />
-                        </View> */}
                         
                         {
                           this.addImage()

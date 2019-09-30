@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage
 } from 'react-native';
 import {
   Container,
@@ -16,7 +17,8 @@ import LoginFormComponent from '../../components/loginFormComponent';
 import RegisterationComponent from "../../components/registerationComponent";
 import ImageLogoComponent from "../../components/imageLogoComponent";
 import {
-  registerUser
+  registerUser,
+  setData
 } from "../../redux/action";
 
 class Registeration extends Component {
@@ -29,9 +31,10 @@ class Registeration extends Component {
     super(props);
   }
 
-  componentDidMount(){
-    //setTimeout(() => this.props.moveToScreen("forgotPassword"), 5000);
-  }
+  // async componentDidMount(){
+  //   let userInfo = await AsyncStorage.getItem("userInfo");
+  //   this.props.setData({ userInfo: userInfo });
+  // }
 
   updateData = (obj) => {
     this.setState(obj);
@@ -113,7 +116,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    registerUser
+    registerUser,
+    setData
   }, dispatch);
 }
 

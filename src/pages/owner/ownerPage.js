@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import {
-  Platform,
-  Button,
   StatusBar,
   TouchableOpacity,
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  AsyncStorage
 } from 'react-native';
 import {
-  Container,
-  Content
+  Container
 } from "native-base";
 import {
   Color, getHeight
@@ -37,8 +35,12 @@ class OwnerPage extends Component {
     }
   }
 
-  componentDidMount(){
-    this.props.getApartments();
+  async componentDidMount(){
+    let userInfo = await AsyncStorage.getItem("userInfo");
+    if(userInfo){
+      this.props.setData({ userInfo: JSON.parse(userInfo) });
+      this.props.getApartments();
+    }
   }
 
   separator = () => {

@@ -12,7 +12,6 @@ class SplashScreen extends Component {
 
   componentDidMount(){
     setTimeout(async () => {
-      //await AsyncStorage.removeItem("userInfo");
       let userInfo = await AsyncStorage.getItem("userInfo");
       if(userInfo){
         userInfo = JSON.parse(userInfo);

@@ -3,6 +3,7 @@ import {
     View,
     Image,
     TouchableOpacity,
+    AsyncStorage
 } from 'react-native';
 import { Container,
     Content, 
@@ -11,10 +12,16 @@ import { Container,
 import { Color, getHeight, getFont } from "../../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { setUserType } from "../../redux/action";
+import { setUserType, setData } from "../../redux/action";
 import { UserType } from "../../global/util";
 
 class Options extends Component {
+
+  async componentDidMount(){
+    let userInfo = await AsyncStorage.getItem("userInfo");
+    if(userInfo)
+      this.props.setData({ userInfo: JSON.parse(userInfo) });
+  }
 
   render() {
 
@@ -101,7 +108,8 @@ class Options extends Component {
   
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-      setUserType
+      setUserType,
+      setData
     }, dispatch);
   }
   

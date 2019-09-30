@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import {
   Container,
@@ -19,7 +20,7 @@ import ImageLogoComponent from "../../components/imageLogoComponent";
 import EnterOTP from "../../components/enterOtp";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
-import { verifyOTP, sendOTP } from "../../redux/action";
+import { verifyOTP, sendOTP, setData } from "../../redux/action";
 
 class VerifyMobileNumber extends Component {
 
@@ -36,8 +37,11 @@ class VerifyMobileNumber extends Component {
     this.setState({ otp });
   };
 
-  componentDidMount(){
+  async componentDidMount(){
     this.props.sendOTP();
+    let userInfo = await AsyncStorage.getItem("userInfo");
+    if(userInfo)
+      this.props.setData({ userInfo: JSON.parse(userInfo) });
   }
 
   render() {
@@ -135,7 +139,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     verifyOTP,
-    sendOTP
+    sendOTP,
+    setData
   }, dispatch);
 }
 
