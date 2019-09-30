@@ -13,7 +13,6 @@ import {
   Container,
   Content,
   Icon,
-  Header,
   Card,
   Footer,
   FooterTab,
@@ -32,8 +31,10 @@ import { connect } from 'react-redux';
 import { setData } from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
 import { deleteApartment } from "./../../redux/action";
+import Header from "./../../components/header";
 let { width } = Dimensions.get('window');
-const height = width * 0.8
+const height = width * 0.8;
+
 
 let tableContent = [
   {
@@ -132,6 +133,10 @@ class HomeDetails extends Component {
     </View>);
   }
 
+  onBackPress = () => {
+    Actions.ownerPage();
+  }
+
   render() {
     let selectedApartment = this.props.selectedApartment;
     if(!selectedApartment) return null;
@@ -142,31 +147,7 @@ class HomeDetails extends Component {
     return (
       <Container>
         <Carousel />
-        <Header style={{
-          backgroundColor : Color.themeColor,
-          alignItems : "center",
-          justifyContent : "flex-start",
-          paddingLeft : "5%",
-          marginTop: StatusBar.currentHeight
-        }}>
-          <TouchableOpacity style={{
-              display : "flex",
-              flexDirection : "row",
-              justifyContent : "center",
-              alignItems : "center"
-          }}>
-            <Icon name="ios-arrow-back" style={{
-              color : "white",
-              marginRight : 20
-            }}/>
-            <Text style={{
-              fontSize : getFont(18),
-              color : Color.white
-            }}>
-              { selectedApartment.apartmentName }
-            </Text>
-          </TouchableOpacity>
-        </Header>
+        <Header headerText={ selectedApartment.apartmentName.toUpperCase() } onBackPress={this.onBackPress}/>
         <Content style={{
           width : "100%",
           paddingHorizontal : 16,
@@ -222,11 +203,11 @@ class HomeDetails extends Component {
 
             {
               selectedApartment.amentiesList && selectedApartment.amentiesList.length > 0 && (
-                <View style={{ ...viewObj }}>
+                <View style={{ ...viewObj, paddingTop : 5 }}>
                   <Text style={{
                     ...textObj
                   }}>Amenities</Text>
-                  <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
+                  <View style={{ flexDirection : 'row', flexWrap : 'wrap'}}>
                     {
                       selectedApartment.amentiesList.map((item, index) => {
                           return (

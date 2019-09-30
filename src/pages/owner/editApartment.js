@@ -16,7 +16,6 @@ import {
 import {
   Container,
   Content,
-  Header,
   Footer
 } from "native-base";
 import {
@@ -30,6 +29,8 @@ import { saveApartment } from "../../redux/action";
 import Carousel from "../../components/carousel";
 import Loading from "../../components/loading";
 import PickArea from "../../components/pickArea";
+import Header from "./../../components/header";
+import { Actions } from 'react-native-router-flux';
 let { width } = Dimensions.get('window');
 
 class EditApartment extends Component {
@@ -462,27 +463,17 @@ class EditApartment extends Component {
     this.setState({ selectedArea : selectedArea });
   }
 
+  onBackPress = () => {
+    Actions.pop();
+    //Actions.appartmentDetails();
+  }
+
   render() {
       return (
         <Container>
             <Carousel />
             <Loading />
-            <Header
-              style={{ marginTop: StatusBar.currentHeight, padding : 0, backgroundColor: Color.themeColor }}>
-              <View style={{
-                justifyContent : 'center',
-                alignItems : 'center',
-                height : '100%',
-                width : '100%'
-              }}>
-                <Text style={{
-                  fontSize : 18,
-                  color : Color.themeFontColor
-                }}>
-                  EDIT APARTMENT
-                </Text>
-              </View>
-            </Header>
+            <Header headerText={ 'EDIT APARTMENT' } onBackPress={this.onBackPress}/>
             <Content style={{
               backgroundColor : Color.backgroundThemeColor,
               paddingLeft : "4%",

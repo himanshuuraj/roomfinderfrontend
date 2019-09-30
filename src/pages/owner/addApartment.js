@@ -451,7 +451,7 @@ class AddApartment extends Component {
                   fontSize : 18,
                   color : Color.themeFontColor
                 }}>
-                  Add Apartment
+                  ADD APARTMENT
                 </Text>
               </View>
             </Header>
