@@ -14,8 +14,24 @@ import {
     GET_APARTMENT_DATA,
     SAVE_ROOM,
     GET_ROOM_DETAILS,
-    DELETE_APARTMENT
+    DELETE_APARTMENT,
+    UPDATE_APARTMENT,
+    UPDATE_ROOM
 } from "./constants";
+
+export const updateRoom = room => {
+    return {
+        type : UPDATE_ROOM,
+        room
+    }
+}
+
+export const updateApartment = apartment => {
+    return {
+        type : UPDATE_APARTMENT,
+        apartment
+    }
+}
 
 export const deleteApartment = () => {
     return {

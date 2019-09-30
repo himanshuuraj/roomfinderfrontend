@@ -36,3 +36,7 @@ export const SAVE_ROOM = "SAVE_ROOM";
 export const GET_ROOM_DETAILS = "GET_ROOM_DETAILS";
 
 export const DELETE_APARTMENT = "DELETE_APARTMENT";
+
+export const UPDATE_APARTMENT = "UPDATE_APARTMENT";
+
+export const UPDATE_ROOM = "UPDATE_ROOM";

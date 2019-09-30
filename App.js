@@ -18,11 +18,10 @@ import AddRoom from "./src/pages/owner/addRoom";
 import AppartmentDetails from "./src/pages/owner/apartmentDetails";
 import RoomDetails from "./src/pages/owner/roomDetails";
 import ErrorModal from "./src/components/ErrorModal";
-import Loading from "./src/components/loading";
+import EditApartment from "./src/pages/owner/editApartment";
+import EditRoom from "./src/pages/owner/editRoom";
 
 export default class App extends React.Component {
-
-  
 
   render(){
     return (
@@ -35,6 +34,18 @@ export default class App extends React.Component {
             key="splashScreen"
             component={SplashScreen}
             title="splashScreen"
+          />
+          <Scene
+            hideNavBar={true}
+            key="editRoom"
+            component={EditRoom}
+            title="editroom"
+          />
+          <Scene
+            hideNavBar={true}
+            key="editApartment"
+            component={EditApartment}
+            title="editApartment"
           />
            <Scene
             hideNavBar={true}

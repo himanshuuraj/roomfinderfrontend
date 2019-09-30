@@ -25,3 +25,7 @@ export const apiToGetApartmentData = HOST + "/getApartment/";
 export const apiToSaveRoom = HOST + "/insertRoom/";
 
 export const apiToDeleteApartment = HOST + "/deleteApartment/";
+
+export const apiToUpdateApartment = HOST + "/updateApartment/";
+
+export const apiToUpdateRoom = HOST + "/updateRoom";

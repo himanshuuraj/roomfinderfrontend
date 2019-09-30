@@ -343,7 +343,12 @@ class HomeDetails extends Component {
           backgroundColor : Color.themeColor
         }}>
           <FooterTab>
-            <Button style={{ backgroundColor : Color.themeColor }}>
+            <Button 
+              onPress={e => {
+                Actions.editApartment({ hello : "Hello"});
+                this.props.setData({ userInfo : {...this.props.userInfo} });
+              }}
+              style={{ backgroundColor : Color.themeColor }}>
               <Text style={{ color : Color.white }}>EDIT</Text>
             </Button>
             <Button 
@@ -375,13 +380,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeDetails);
-
-
-let viewObj = {
-  marginTop : 16, 
-  borderWidth: StyleSheet.hairlineWidth, 
-  borderRadius : 4
-}
 
 let textObj = {
   position : 'absolute',

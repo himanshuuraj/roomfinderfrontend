@@ -15,7 +15,9 @@ import {
   Icon,
   Header,
   Card,
-  Footer
+  Footer,
+  FooterTab,
+  Button
 } from "native-base";
 import {
   getFont,
@@ -165,17 +167,26 @@ class RoomDetails extends Component {
           </View>
             
         </Content>
-        <Footer>
-          <View style={{ 
-            justifyContent : 'center',
-            alignItems: 'center',
-            backgroundColor: 'green',
-            width: '100%'
-            }}>
-                <Text style={{color : 'white', fontSize : 14, fontWeight: 'bold', textAlign: 'center'}}> 
-                  BOOK NOW 
-                </Text>
-          </View>
+        <Footer style={{
+          backgroundColor : Color.themeColor
+        }}>
+          <FooterTab>
+            <Button 
+              onPress={e => {
+                Actions.editRoom({ hello : "Hello"});
+                this.props.setData({ userInfo : {...this.props.userInfo} });
+              }}
+              style={{ backgroundColor : Color.themeColor }}>
+              <Text style={{ color : Color.white }}>EDIT</Text>
+            </Button>
+            <Button 
+              onPress={e => {
+                this.props.deleteRoom();
+              }}
+              style={{ backgroundColor : Color.themeColor }}>
+              <Text style={{ color : Color.white }}>DELETE</Text>
+            </Button>
+          </FooterTab>
         </Footer>
       </Container>
     );
