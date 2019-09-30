@@ -17,11 +17,9 @@ import {
 import {
   Container,
   Content,
-  Header,
-  Footer,
-  Button
+  Footer
 } from "native-base";
-import Modal from "react-native-modal";
+import Header from "./../../components/header";
 import {
   Color, HomeType, FoodPreference
 } from "../../global/util";
@@ -33,6 +31,7 @@ import { saveApartment } from "../../redux/action";
 import Carousel from "./../../components/carousel";
 import Loading from "./../../components/loading";
 import PickArea from "./../../components/pickArea";
+import { Actions } from 'react-native-router-flux';
 let { width } = Dimensions.get('window');
 
 class AddApartment extends Component {
@@ -434,27 +433,16 @@ class AddApartment extends Component {
     this.setState({ selectedArea : selectedArea });
   }
 
+  onBackPress = () => {
+    Actions.ownerPage();
+  }
+
   render() {
       return (
         <Container>
             <Carousel />
             <Loading />
-            <Header
-              style={{ marginTop: StatusBar.currentHeight, padding : 0, backgroundColor: Color.themeColor }}>
-              <View style={{
-                justifyContent : 'center',
-                alignItems : 'center',
-                height : '100%',
-                width : '100%'
-              }}>
-                <Text style={{
-                  fontSize : 18,
-                  color : Color.themeFontColor
-                }}>
-                  ADD APARTMENT
-                </Text>
-              </View>
-            </Header>
+            <Header headerText={ 'ADD APARTMENT' } onBackPress={this.onBackPress}/>
             <Content style={{
               backgroundColor : Color.backgroundThemeColor,
               paddingLeft : "4%",
@@ -491,7 +479,7 @@ class AddApartment extends Component {
                               paddingLeft : 16,
                               paddingBottom : 2,
                               height : 40,
-                              marginVertical : 8
+                              marginTop : 8
                             }}
                             onChangeText={apartmentName => {
                               this.setState({ apartmentName });

@@ -16,12 +16,13 @@ import {
 import {
   Container,
   Content,
-  Card
+  Card,
+  Footer
 } from "native-base";
 import {
-  Color, HomeType, FoodPreference
+  Color
 } from "../../global/util";
-import { getAmenities, setData } from "../../redux/action";
+import { getAmenities, setData, updateRoom } from "../../redux/action";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -29,9 +30,10 @@ import Camera from "../../components/camera";
 import { saveRoom } from "../../redux/action";
 import Carousel from "../../components/carousel";
 import Loading from "../../components/loading";
+import Header from "./../../components/header";
 let { width } = Dimensions.get('window');
 const height = width * 0.8
-class AddRoom extends Component {
+class EditRoom extends Component {
 
   state = {
     amentiesList : [],
@@ -65,21 +67,18 @@ class AddRoom extends Component {
 
   amenitiesList = () => {
     return (
-      <Card style={{
-        paddingHorizontal : 4,
-        paddingVertical : 8
-      }}>
-      <Text style={{
-        marginBottom : 4,
-        fontWeight : 'bold',
-        fontSize : 14
-      }}>Select Amenities</Text>
-        <View style={{ 
-          flexDirection : 'row',
-          flexWrap : 'wrap',
-          justifyContent : 'space-between'
-        }}>
-        {
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Select Amenities</Text>
+          <View style={{ 
+            flexDirection : 'row',
+            flexWrap : 'wrap',
+            justifyContent : 'space-between',
+            paddingHorizontal : 8,
+            paddingVertical : 16
+          }}>
+          {
             this.props.amenitiesList.map((item, index) => (
                 <TouchableOpacity key={index} 
                     onPress={ e => {
@@ -93,7 +92,7 @@ class AddRoom extends Component {
                       }else{
                         amentiesList.push(item);
                       }
-                      this.setState(amentiesList);
+                      this.setState({ amentiesList: amentiesList });
                     }}
                     style={{ 
                         borderRadius : 4,
@@ -104,32 +103,14 @@ class AddRoom extends Component {
                         marginRight : 4,
                         marginTop : 4,
                         backgroundColor : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.themeColor : Color.white
-                    }}>
-                        <Text style={{
-                          color : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.white : "#696969",
-                        }}>{item.amenityName}</Text>
+                  }}>
+                  <Text style={{
+                    color : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.white : "#696969",
+                  }}>{item.amenityName}</Text>
                 </TouchableOpacity>
             ))
         }
         </View>
-      </Card>
-    );
-  }
-
-  openModal = () => {
-    return (
-      <View style={{
-          position : 'absolute',
-          justifyContent : 'center',
-          alignItems : 'center',
-          backgroundColor : 'green'
-        }}>
-          <View style={{
-            width : 250,
-            height : 250
-          }}>
-
-          </View>
       </View>
     );
   }
@@ -150,8 +131,14 @@ class AddRoom extends Component {
 
   addImage = () => {
     return (
-      <View>
-        <View style={{ marginBottom : 8 }}>
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Pick Gallery</Text>
+        <View style={{
+            paddingHorizontal : 8,
+            paddingVertical : 16
+          }}>
           <TouchableOpacity
             style={{
               borderWidth : 1,
@@ -160,13 +147,13 @@ class AddRoom extends Component {
               justifyContent : 'center',
               alignItems : 'center',
               marginVertical : 8,
-              height : 48
+              height : 36
             }}
             onPress={e => {
               this.setState({ showCamera : true });
             }}
           >
-            <Text style={{ fontSize : 16 }}>From Camera</Text>
+            <Text style={{ fontSize : 14 }}>ADD IMAGE FROM CAMERA</Text>
           </TouchableOpacity>
           <Camera type={'gallery'} getAwsImageUrl={this.getAwsImageUrl} /> 
         </View>
@@ -217,13 +204,25 @@ class AddRoom extends Component {
     </View>);
   }
 
-  addRoom = () => {
-    let { amentiesList, images } = this.state;
+  updateRoom = () => {
+    let { amentiesList, roomName, roomRent } = this.state;
+    if(!roomName){
+      alert("Please enter a room name");
+      return;
+    }
+    if(!roomRent){
+      alert("Please enter the room rent");
+      return;
+    }
     if(amentiesList.length == 0){
       alert("Please select an amenity");
       return;
     }
-    this.props.saveRoom(this.state);
+    this.props.updateRoom(this.state);
+  }
+
+  onBackPress = () => {
+    Actions.ownerPage();
   }
 
   render() {
@@ -231,12 +230,12 @@ class AddRoom extends Component {
         <Container>
           <Carousel />
           <Loading />
+          <Header headerText={ 'EDIT ROOM' } onBackPress={this.onBackPress}/>
             <Content style={{
               backgroundColor : Color.backgroundThemeColor,
               paddingLeft : "4%",
               width : "100%",
-              paddingRight : "4%",
-              marginTop: StatusBar.currentHeight
+              paddingRight : "4%"
             }}>
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
@@ -245,55 +244,74 @@ class AddRoom extends Component {
                         {
                           this.state.imageList.length > 0 && this.showGallery()
                         }
-
-                        {/* <View style={styles.container}>
-                          <Carousel images={this.state.imageList.map(item => { 
-                            let obj = {
-                              uri : item.imageUrl
-                            };
-                            return obj;
-                          })} />
-                        </View> */}
                         
                         {
                           this.addImage()
                         }
 
-                      <Text>Name</Text>
-                      <TextInput
-                        underlineColorAndroid="#bbb"
-                        style={{
-                          paddingLeft : 16,
-                          paddingBottom : 4
-                        }}
-                        onChangeText={roomName => {
-                          this.setState({ roomName });
-                        }}
-                        value={this.state.apartmentName}/>
+                        <View style={{ ...viewObj }}>
+                          <Text 
+                            style={{
+                              ...textObj
+                            }}>Room Name</Text>
+                          <TextInput
+                            underlineColorAndroid="#bbb"
+                            placeholder="e.g. Room1"
+                            style={{
+                              paddingLeft : 16,
+                              paddingBottom : 2,
+                              height : 40,
+                              marginTop : 12
+                            }}
+                            onChangeText={roomName => {
+                              this.setState({ roomName });
+                            }} 
+                            value={this.state.roomName}/>
+                        </View>
 
-                      <Text>RoomRent</Text>
-                      <TextInput
-                        underlineColorAndroid="#bbb"
-                        style={{
-                          paddingLeft : 16,
-                          paddingBottom : 4
-                        }}
-                        onChangeText={roomRent => {
-                          this.setState({ roomRent });
-                        }}
-                        value={this.state.roomRent}/>
+                        <View style={{ ...viewObj }}>
+                          <Text 
+                            style={{
+                              ...textObj
+                            }}>RoomRent (per month)</Text>
+                          <TextInput
+                            underlineColorAndroid="#bbb"
+                            placeholder="e.g. 6000"
+                            keyboardType="numeric"
+                            style={{
+                              paddingLeft : 16,
+                              paddingBottom : 2,
+                              height : 40,
+                              marginTop : 12
+                            }}
+                            onChangeText={roomRent => {
+                              this.setState({ roomRent });
+                            }}
+                            value={this.state.roomRent}/>
+                        </View>
 
                         {
                           this.amenitiesList()
-                        }                   
-
-                        <Button title={'ADD'} onPress={e => {
-                          this.addRoom();
-                        }}/>
+                        }   
 
                       </View>
                   </KeyboardAvoidingView>
               </Content>
+              <Footer
+                    style={{ backgroundColor: Color.themeColor }}>
+                    <TouchableOpacity
+                      style={{
+                        alignItems : 'center',
+                        justifyContent : 'center',
+                        width : '100%'
+                      }}
+                      onPress={e => {
+                        this.updateRoom();
+                      }}
+                    >
+                      <Text style={{ fontSize : 14, color : Color.themeFontColor }}>UPDATE</Text>
+                    </TouchableOpacity>
+                  </Footer>
               <Camera type="camera" showCamera={this.state.showCamera} hideCamera={this.hideCamera} getAwsImageUrl={this.getAwsImageUrl} />
         </Container>
       );
@@ -310,11 +328,12 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getAmenities,
     setData,
-    saveRoom
+    saveRoom,
+    updateRoom
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddRoom);
+export default connect(mapStateToProps, mapDispatchToProps)(EditRoom);
 
 
 let viewObj = {

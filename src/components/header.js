@@ -39,7 +39,7 @@ class HeaderPage extends Component {
                     fontSize : 18,
                     color : Color.white
                   }}>
-                    { this.props.headerText }
+                    { this.props.headerText.toUpperCase() }
                   </Text>
                 </TouchableOpacity>
               </Header>

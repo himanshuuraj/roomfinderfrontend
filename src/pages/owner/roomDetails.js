@@ -13,7 +13,6 @@ import {
   Container,
   Content,
   Icon,
-  Header,
   Card,
   Footer,
   FooterTab,
@@ -22,20 +21,16 @@ import {
 import {
   getFont,
   Color,
-  getHeight,
-  UserType
 } from "../../global/util";
 // import Location from "./../components/location";
-import HouseCardItem from "../../components/houseCardItems";
 import Carousel from "../../components/carousel";
-import { Constants } from 'expo';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setData, deleteRoom } from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
+import Header from "./../../components/header";
 
 let { width } = Dimensions.get('window');
-const height = width * 0.8
 
 class RoomDetails extends Component {
 
@@ -90,39 +85,20 @@ class RoomDetails extends Component {
     </View>);
   }
 
+  onBackPress = () => {
+    Actions.pop();
+  }
+
   render() {
-      let { selectedRoom } = this.props;
+    let { selectedRoom } = this.props;
     return (
       <Container>
         <Carousel />
-        <Header style={{
-          backgroundColor : Color.themeColor,
-          alignItems : "center",
-          justifyContent : "flex-start",
-          paddingLeft : "5%",
-          marginTop: StatusBar.currentHeight
-        }}>
-          <TouchableOpacity style={{
-              display : "flex",
-              flexDirection : "row",
-              justifyContent : "center",
-              alignItems : "center"
-          }}>
-            <Icon name="ios-arrow-back" style={{
-              color : "white",
-              marginRight : 20
-            }}/>
-            <Text style={{
-              fontSize : getFont(18),
-              color : Color.white
-            }}>
-              { selectedRoom.roomName }
-            </Text>
-          </TouchableOpacity>
-        </Header>
+        <Header headerText={ selectedRoom.roomName } onBackPress={this.onBackPress}/>
         <Content style={{
           width : "100%",
-          paddingHorizontal : 16
+          padding : 16,
+          backgroundColor : Color.backgroundThemeColor
         }}>
             {
               selectedRoom.imageList && selectedRoom.imageList.length > 0 && this.showGallery()
@@ -130,8 +106,10 @@ class RoomDetails extends Component {
 
             {
               selectedRoom.amentiesList && selectedRoom.amentiesList.length > 0 && (
-                <Card style={{ paddingHorizontal : 16, paddingVertical : 16, marginTop : 16 }}>
-                  <Text style={{ fontWeight: 'bold', fontSize: 16 }}> Amenities </Text>
+                <View style={{ ...viewObj, paddingTop : 5 }}>
+                  <Text style={{
+                    ...textObj
+                  }}>Amenities</Text>
                   <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
                     {
                       selectedRoom.amentiesList.map((item, index) => {
@@ -151,20 +129,15 @@ class RoomDetails extends Component {
                       })
                     }
                   </View>
-                </Card>
+                </View>
               )}
 
-          <View 
-            style={{ 
-              paddingHorizontal : 16, 
-              paddingVertical : 8,
-              marginRight : 8, 
-              marginTop : 10,
-              borderWidth : 1,
-              borderColor : '#ccc'
-            }}>
-              <Text>Room Rent - { selectedRoom.roomRent }</Text>
-          </View>
+              <View style={{ ...viewObj, justifyContent: 'center' }}>
+                  <Text style={{
+                    ...textObj
+                  }}>Room Rent</Text>
+                  <Text>{'Rs. ' + selectedRoom.roomRent + " per month"}</Text>
+              </View>
             
         </Content>
         <Footer style={{
@@ -217,4 +190,11 @@ let textObj = {
   backgroundColor : Color.white,
   paddingHorizontal : 2,
   backgroundColor : Color.backgroundThemeColor
+}
+
+let viewObj = {
+  marginTop : 16, 
+  borderWidth: StyleSheet.hairlineWidth, 
+  borderRadius : 4, 
+  padding : 16
 }
