@@ -1,4 +1,4 @@
-export const HOST = "http://192.168.0.80:8082";
+export const HOST = "http://192.168.0.179:8082";
 
 export const apiToRegister = HOST + "/insertUserInfo";
 
@@ -28,4 +28,4 @@ export const apiToDeleteApartment = HOST + "/deleteApartment/";
 
 export const apiToUpdateApartment = HOST + "/updateApartment/";
 
-export const apiToUpdateRoom = HOST + "/updateRoom";
+export const apiToUpdateRoom = HOST + "/updateRoom/";

@@ -1,5 +1,5 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS, SAVE_APARTMENT, GET_APARTMENTS, GET_APARTMENT_DATA, SAVE_ROOM, GET_ROOM_DETAILS, DELETE_APARTMENT, UPDATE_DATA, UPDATE_APARTMENT } from "./../redux/constants";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS, SAVE_APARTMENT, GET_APARTMENTS, GET_APARTMENT_DATA, SAVE_ROOM, GET_ROOM_DETAILS, DELETE_APARTMENT, UPDATE_DATA, UPDATE_APARTMENT, UPDATE_ROOM } from "./../redux/constants";
 import { getApiCall, postApiCall, putApiCall, uploadOnAWSRequest, deleteApiCall } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
@@ -288,6 +288,24 @@ function* updateApartmentSaga(action){
     }
 }
 
+function* updateRoomSaga(action){
+    try{
+        let state = yield select();
+        let roomId = state.testReducer.selectedRoom.roomId;
+        let url = Api.apiToUpdateRoom + roomId;
+        let response = yield call(putApiCall, url, action.room );
+        console.log("RESPONSE", response);
+        if(!response.success){
+            alert(response.message);
+            return;
+        }else{
+            Actions.ownerPage();
+        }
+    }catch(err){
+
+    }
+}
+
 const mySaga = [
     takeLatest( REGISTER_USER_INFO, registerUserInfoSaga ),
     takeLatest( SEND_OTP, sendOTPSaga),
@@ -303,7 +321,8 @@ const mySaga = [
     takeLatest( SAVE_ROOM, saveRoomSaga ),
     takeLatest( GET_ROOM_DETAILS, getRoomDataSaga ),
     takeLatest( DELETE_APARTMENT, deleteApartmentSaga ),
-    takeLatest( UPDATE_APARTMENT, updateApartmentSaga )
+    takeLatest( UPDATE_APARTMENT, updateApartmentSaga ),
+    takeLatest( UPDATE_ROOM, updateRoomSaga )
 ];
 
 export default mySaga;

@@ -11,17 +11,14 @@ import {
   Dimensions,
   ScrollView,
   Image,
-  TouchableHighlight,
-  FlatList
+  TouchableHighlight
 } from 'react-native';
 import {
   Container,
   Content,
   Header,
-  Footer,
-  Button
+  Footer
 } from "native-base";
-import Modal from "react-native-modal";
 import {
   Color, HomeType, FoodPreference
 } from "../../global/util";
@@ -369,12 +366,12 @@ class EditApartment extends Component {
         style={{
           ...textObj
         }}>Image Gallery</Text>
-      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
+      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingVertical : 8}}>
         <Text style={{ }}>
           Tab to see the bigger image
         </Text>
       </View>
-      <View style={{ flexDirection : 'row' }}>
+      <View style={{ flexDirection : 'row', marginVertical : 16 }}>
           <ScrollView horizontal pagingEnabled>
             {this.state.imageList.map((image, index) => {
               return (
@@ -393,6 +390,31 @@ class EditApartment extends Component {
                   }}
                   key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
                   <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                  <View style={{
+                    marginVertical : 8,
+                    width : '100%',
+                    justifyContent : 'center',
+                    alignItems : 'center'
+                  }}>
+                    <TouchableHighlight 
+                      style={{
+                          paddingHorizontal : 16,
+                          paddingVertical : 8,
+                          backgroundColor : Color.themeColor
+                      }}
+                      onPress={e => {
+                        let imageList = this.state.imageList;
+                        imageList.splice(index, 1);
+                        this.setState({ imageList });
+                      }}>
+                      <Text style={{
+                        color : Color.white,
+                        fontSize : 16
+                      }}>
+                        Delete this image
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
                 </TouchableOpacity>
               )
             })}
@@ -457,7 +479,7 @@ class EditApartment extends Component {
                   fontSize : 18,
                   color : Color.themeFontColor
                 }}>
-                  Edit Apartment
+                  EDIT APARTMENT
                 </Text>
               </View>
             </Header>
