@@ -11,7 +11,8 @@ import {
   TextInput,
   Dimensions,
   ScrollView,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
 import {
   Container,
@@ -54,6 +55,10 @@ class EditRoom extends Component {
       if(this.props.amenitiesList.length == 0){
         this.props.getAmenities();
       }
+      let nextProps = this.props;
+      this.setState({
+        ...nextProps.selectedRoom
+      });
   }
 
   separator = () => {
@@ -196,6 +201,32 @@ class EditRoom extends Component {
                   }}
                   key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
                   <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                  <View style={{
+                    marginVertical : 8,
+                    width : '100%',
+                    justifyContent : 'center',
+                    alignItems : 'center'
+                  }}>
+                    <TouchableHighlight 
+                      style={{
+                          paddingHorizontal : 16,
+                          paddingVertical : 8,
+                          backgroundColor : Color.themeColor,
+                          borderRadius : 4
+                      }}
+                      onPress={e => {
+                        let imageList = this.state.imageList;
+                        imageList.splice(index, 1);
+                        this.setState({ imageList });
+                      }}>
+                      <Text style={{
+                        color : Color.white,
+                        fontSize : 16
+                      }}>
+                        Delete this image
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
                 </TouchableOpacity>
               )
             })}
@@ -222,7 +253,7 @@ class EditRoom extends Component {
   }
 
   onBackPress = () => {
-    Actions.ownerPage();
+    Actions.pop();
   }
 
   render() {
@@ -239,7 +270,7 @@ class EditRoom extends Component {
             }}>
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
-                    <View style={{ marginTop : 40, position: 'relative'}}>
+                    <View style={{ marginTop : 10, position: 'relative'}}>
                         
                         {
                           this.state.imageList.length > 0 && this.showGallery()
@@ -320,7 +351,8 @@ class EditRoom extends Component {
 
 function mapStateToProps(state, props) {
   return {
-      amenitiesList : state.testReducer.amenitiesList
+      amenitiesList : state.testReducer.amenitiesList,
+      selectedRoom : state.testReducer.selectedRoom
   }
 }
 

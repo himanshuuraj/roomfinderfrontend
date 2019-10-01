@@ -53,13 +53,6 @@ class EditApartment extends Component {
     showPickArea : false
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps){
-    this.setState({
-      ...nextProps.selectedApartment,
-      selectedArea : nextProps.selectedApartment.cityArea
-    })
-  }
-
   componentDidMount(){
       if(this.props.amenitiesList.length == 0){
         this.props.getAmenities();
@@ -67,6 +60,11 @@ class EditApartment extends Component {
       if(this.props.areaList.length == 0){
         this.props.getAreas();
       }
+      let nextProps = this.props;
+      this.setState({
+        ...nextProps.selectedApartment,
+        selectedArea : nextProps.selectedApartment.cityArea
+      })
   }
 
   separator = () => {
@@ -401,7 +399,8 @@ class EditApartment extends Component {
                       style={{
                           paddingHorizontal : 16,
                           paddingVertical : 8,
-                          backgroundColor : Color.themeColor
+                          backgroundColor : Color.themeColor,
+                          borderRadius : 4
                       }}
                       onPress={e => {
                         let imageList = this.state.imageList;
@@ -510,7 +509,7 @@ class EditApartment extends Component {
                               paddingLeft : 16,
                               paddingBottom : 2,
                               height : 40,
-                              marginVertical : 8
+                              marginTop : 4
                             }}
                             onChangeText={apartmentName => {
                               this.setState({ apartmentName });
@@ -590,7 +589,6 @@ class EditApartment extends Component {
 function mapStateToProps(state, props) {
   return {
       amenitiesList : state.testReducer.amenitiesList,
-      addType : state.testReducer.addType,
       areaList : state.testReducer.areaList || [],
       selectedApartment : state.testReducer.selectedApartment || {}
   }

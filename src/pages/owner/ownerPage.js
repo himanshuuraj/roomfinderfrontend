@@ -83,7 +83,7 @@ class OwnerPage extends Component {
                               height : getHeight(5),
                               justifyContent : 'center',
                               alignItems : 'center',
-                              borderRadius : 8,
+                              borderRadius : 4,
                               marginBottom : 8,
                               borderWidth : StyleSheet.hairlineWidth,
                               borderColor : Color.black
@@ -101,7 +101,7 @@ class OwnerPage extends Component {
                     style={{
                         width : 200,
                         height : getHeight(5),
-                        borderRadius : 8,
+                        borderRadius : 4,
                         justifyContent : 'center',
                         alignItems : 'center',
                         backgroundColor : Color.themeColor

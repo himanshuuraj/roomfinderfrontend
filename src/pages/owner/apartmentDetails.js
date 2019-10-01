@@ -331,8 +331,8 @@ class HomeDetails extends Component {
           <FooterTab>
             <Button 
               onPress={e => {
-                Actions.editApartment({ hello : "Hello"});
-                this.props.setData({ userInfo : {...this.props.userInfo} });
+                Actions.editApartment();
+                this.props.setData({ userInfo : {...this.props.userInfo}, hello : Math.floor((Math.random() * 100) + 1) });
               }}
               style={{ backgroundColor : Color.themeColor }}>
               <Text style={{ color : Color.white }}>EDIT</Text>
