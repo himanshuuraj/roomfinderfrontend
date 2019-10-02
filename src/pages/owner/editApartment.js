@@ -31,6 +31,7 @@ import Loading from "../../components/loading";
 import PickArea from "../../components/pickArea";
 import Header from "./../../components/header";
 import { Actions } from 'react-native-router-flux';
+import { cloneDeep } from 'lodash';
 let { width } = Dimensions.get('window');
 
 class EditApartment extends Component {
@@ -53,18 +54,19 @@ class EditApartment extends Component {
     showPickArea : false
   }
 
-  componentDidMount(){
+  async componentDidMount(){
       if(this.props.amenitiesList.length == 0){
         this.props.getAmenities();
       }
       if(this.props.areaList.length == 0){
         this.props.getAreas();
       }
-      let nextProps = this.props;
-      this.setState({
+      let nextProps = cloneDeep(this.props);
+      await this.setState({
         ...nextProps.selectedApartment,
         selectedArea : nextProps.selectedApartment.cityArea
-      })
+      });
+      console.log(this.state);
   }
 
   separator = () => {
@@ -176,11 +178,8 @@ class EditApartment extends Component {
                 <TouchableOpacity key={index} 
                     onPress={ e => {
                       let amentiesList = this.state.amentiesList;
-                      let indexOfMatch;
-                      if(amentiesList.find((item1, index1) => {
-                        indexOfMatch = index1;
-                        return item1.amentyId == item.amentyId
-                      })){
+                      let indexOfMatch = amentiesList.findIndex(item1 => item1.amentyId == item.amentyId);
+                      if(indexOfMatch != -1){
                         amentiesList.splice(indexOfMatch, 1);
                       }else{
                         amentiesList.push(item);

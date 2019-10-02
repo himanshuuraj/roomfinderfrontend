@@ -33,7 +33,6 @@ import { Actions } from 'react-native-router-flux';
 import { deleteApartment } from "./../../redux/action";
 import Header from "./../../components/header";
 let { width } = Dimensions.get('window');
-const height = width * 0.8;
 
 
 let tableContent = [
@@ -69,7 +68,7 @@ let tableContent = [
   },
 ];
 
-class HomeDetails extends Component {
+class ApartmentDetails extends Component {
 
   constructor(props){
     super(props);
@@ -78,10 +77,8 @@ class HomeDetails extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps){
-    this.setState({
-      imageList : nextProps.imageList
-    });
+  componentDidMount(){
+    console.log(this.props, Actions.currentScene, "Actions");
   }
 
   showGallery = () => {
@@ -135,6 +132,10 @@ class HomeDetails extends Component {
 
   onBackPress = () => {
     Actions.ownerPage();
+  }
+
+  componentWillReceiveProps(nextProps){
+      
   }
 
   render() {
@@ -332,7 +333,7 @@ class HomeDetails extends Component {
             <Button 
               onPress={e => {
                 Actions.editApartment();
-                this.props.setData({ userInfo : {...this.props.userInfo}, hello : Math.floor((Math.random() * 100) + 1) });
+                this.props.setData({ userInfo : {...this.props.userInfo} });
               }}
               style={{ backgroundColor : Color.themeColor }}>
               <Text style={{ color : Color.white }}>EDIT</Text>
@@ -365,7 +366,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ApartmentDetails);
 
 let textObj = {
   position : 'absolute',

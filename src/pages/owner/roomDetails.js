@@ -146,7 +146,7 @@ class RoomDetails extends Component {
           <FooterTab>
             <Button 
               onPress={e => {
-                Actions.editRoom({ hello : "Hello"});
+                Actions.editRoom();
                 this.props.setData({ userInfo : {...this.props.userInfo} });
               }}
               style={{ backgroundColor : Color.themeColor }}>

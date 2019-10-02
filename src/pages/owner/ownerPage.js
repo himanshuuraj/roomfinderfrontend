@@ -38,8 +38,8 @@ class OwnerPage extends Component {
   async componentDidMount(){
     let userInfo = await AsyncStorage.getItem("userInfo");
     if(userInfo){
-      this.props.setData({ userInfo: JSON.parse(userInfo) });
       this.props.getApartments();
+      this.props.setData({ userInfo: JSON.parse(userInfo) });
     }
   }
 

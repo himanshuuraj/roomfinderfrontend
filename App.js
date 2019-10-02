@@ -28,8 +28,12 @@ export default class App extends React.Component {
     screenType : ''
   }
 
+  refreshOnBack = () => { 
+    // Actions.pop(); Actions.refresh({key: Math.random()}); 
+  }
+
   async componentDidMount(){
-      let screenType = 'registerationPage';
+      let screenType = 'loginPage';
       let userInfo = await AsyncStorage.getItem("userInfo");
       if(userInfo){
         userInfo = JSON.parse(userInfo);
@@ -102,6 +106,7 @@ export default class App extends React.Component {
             key="editApartment"
             component={EditApartment}
             title="editApartment"
+            // onBack={this.refreshOnBack}
           />
            <Scene
             hideNavBar={true}
@@ -132,6 +137,7 @@ export default class App extends React.Component {
             key="loginPage"
             component={LoginPage}
             title="LoginPage"
+            initial={this.state.screenType == 'loginPage'}
           />
           <Scene
             hideNavBar={true}

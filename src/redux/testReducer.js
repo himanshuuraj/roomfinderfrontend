@@ -44,7 +44,7 @@ export default (state = reducer, action) => {
         case TEST_SAGA:
             return Object.assign({}, state, { test: action.payload });
         case UPDATE_DATA:
-            return { ...state, ...action.data };
+            return Object.assign({}, state, { ...action.data });
         default:
             return state;
     }
