@@ -154,7 +154,7 @@ class ApartmentDetails extends Component {
           paddingHorizontal : 16,
           backgroundColor : Color.backgroundThemeColor
         }}>
-            <Text style={{ marginTop : 16, fontWeight: 'bold', fontSize: 16 }}> Rooms Available </Text>
+            <Text style={{ marginTop : 16, fontWeight: 'bold', fontSize: 16 }}> Your Rooms </Text>
             <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
               {
                 selectedApartment.roomlist && selectedApartment.roomlist.map((item, index) => {
@@ -194,7 +194,7 @@ class ApartmentDetails extends Component {
                       Actions.addRoom();
                     }}
                   >
-                    <Text style={{ fontSize : 16 }}>Add Room</Text>
+                    <Text style={{ fontSize : 16 }}>ADD ROOM</Text>
                 </TouchableOpacity>
             }
             

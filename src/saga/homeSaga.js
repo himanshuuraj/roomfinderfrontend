@@ -299,7 +299,12 @@ function* updateRoomSaga(action){
             alert(response.message);
             return;
         }else{
-            Actions.ownerPage();
+            Actions.pop();
+            let selectedApartment = state.testReducer.selectedApartment;
+            let roomlist = selectedApartment.roomlist;
+            let roomIndex = roomlist.findIndex(item => item.roomId == response.message.roomId);
+            roomlist[roomIndex] = response.message;
+            yield put(setData({ selectedRoom : response.message, selectedApartment : selectedApartment }));
         }
     }catch(err){
 

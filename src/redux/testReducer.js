@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import { 
     TEST_SAGA,
     UPDATE_DATA
@@ -44,7 +45,8 @@ export default (state = reducer, action) => {
         case TEST_SAGA:
             return Object.assign({}, state, { test: action.payload });
         case UPDATE_DATA:
-            return Object.assign({}, state, { ...action.data });
+            let obj = cloneDeep(state);
+            return Object.assign({}, obj, { ...action.data });
         default:
             return state;
     }

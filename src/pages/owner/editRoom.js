@@ -33,7 +33,7 @@ import Carousel from "../../components/carousel";
 import Loading from "../../components/loading";
 import Header from "./../../components/header";
 let { width } = Dimensions.get('window');
-const height = width * 0.8
+import { cloneDeep } from 'lodash';
 class EditRoom extends Component {
 
   state = {
@@ -55,7 +55,7 @@ class EditRoom extends Component {
       if(this.props.amenitiesList.length == 0){
         this.props.getAmenities();
       }
-      let nextProps = this.props;
+      let nextProps = cloneDeep(this.props);
       this.setState({
         ...nextProps.selectedRoom
       });

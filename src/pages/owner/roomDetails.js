@@ -38,6 +38,10 @@ class RoomDetails extends Component {
     super(props);
   }
 
+  componentWillReceiveProps(nextProps){
+    //this.
+  }
+
   showGallery = () => {
     return (<View style={{
       marginTop : 16,

@@ -62,11 +62,10 @@ class EditApartment extends Component {
         this.props.getAreas();
       }
       let nextProps = cloneDeep(this.props);
-      await this.setState({
+      this.setState({
         ...nextProps.selectedApartment,
         selectedArea : nextProps.selectedApartment.cityArea
       });
-      console.log(this.state);
   }
 
   separator = () => {
