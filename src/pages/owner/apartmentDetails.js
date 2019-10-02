@@ -134,8 +134,12 @@ class ApartmentDetails extends Component {
     Actions.ownerPage();
   }
 
-  componentWillReceiveProps(nextProps){
-      
+  separator = () => {
+    return <View style={{
+        height : '60%',
+        borderLeftColor: Color.white,
+        borderLeftWidth: 1,
+    }} />;
   }
 
   render() {
@@ -154,35 +158,40 @@ class ApartmentDetails extends Component {
           paddingHorizontal : 16,
           backgroundColor : Color.backgroundThemeColor
         }}>
-            <Text style={{ marginTop : 16, fontWeight: 'bold', fontSize: 16 }}> Your Rooms </Text>
-            <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
-              {
-                selectedApartment.roomlist && selectedApartment.roomlist.map((item, index) => {
-                    return (
-                      <TouchableOpacity key={index} 
-                      onPress={e => {
-                        this.props.setData({ selectedRoom : item });
-                        Actions.roomDetails();
-                      }}
-                      style={{ 
-                        paddingHorizontal : 16, 
-                        paddingVertical : 8,
-                        marginRight : 8, 
-                        marginTop : 10,
-                        borderWidth : 1,
-                        borderColor : '#ccc'
-                      }}>
-                        <Text style={{ color : 'black' }}> {item.roomName} </Text>
-                      </TouchableOpacity>
-                    )
-                })
-              }
-            </View>
+            <View style={{ ...viewObj, paddingTop : 5, marginBottom : 8 }}>
+                  <Text style={{
+                    ...textObj
+                  }}>Your Rooms</Text>
+                <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
+                  {
+                    selectedApartment.roomlist && selectedApartment.roomlist.map((item, index) => {
+                        return (
+                          <TouchableOpacity key={index} 
+                            onPress={e => {
+                              this.props.setData({ selectedRoom : item });
+                              Actions.roomDetails();
+                            }}
+                            style={{ 
+                              paddingHorizontal : 16, 
+                              paddingVertical : 8,
+                              marginRight : 8, 
+                              marginTop : 10,
+                              borderWidth : StyleSheet.hairlineWidth,
+                              borderColor : Color.black,
+                              borderRadius : 4
+                            }}>
+                            <Text style={{ color : 'black' }}> {item.roomName} </Text>
+                          </TouchableOpacity>
+                        )
+                    })
+                  }
+                </View>
+              </View>
             {
                   <TouchableOpacity
                     style={{
                       borderWidth : 1,
-                      borderColor : Color.black,
+                      borderColor : Color.themeColor,
                       borderRadius : 4,
                       justifyContent : 'center',
                       alignItems : 'center',
@@ -194,7 +203,9 @@ class ApartmentDetails extends Component {
                       Actions.addRoom();
                     }}
                   >
-                    <Text style={{ fontSize : 16 }}>ADD ROOM</Text>
+                    <Text style={{ fontSize : 16, color : Color.themeColor }}>
+                      ADD ROOM
+                    </Text>
                 </TouchableOpacity>
             }
             
@@ -326,10 +337,11 @@ class ApartmentDetails extends Component {
                 }
               </ScrollView> */}
         </Content>
-        <Footer style={{
-          backgroundColor : Color.themeColor
-        }}>
-          <FooterTab>
+        <Footer>
+          <FooterTab style={{
+            backgroundColor : Color.themeColor,
+            alignItems : 'center'
+          }}>
             <Button 
               onPress={e => {
                 Actions.editApartment();
@@ -338,6 +350,9 @@ class ApartmentDetails extends Component {
               style={{ backgroundColor : Color.themeColor }}>
               <Text style={{ color : Color.white }}>EDIT</Text>
             </Button>
+            {
+              this.separator()
+            }
             <Button 
               onPress={e => {
                 this.props.deleteApartment();
