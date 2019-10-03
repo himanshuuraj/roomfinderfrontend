@@ -19,6 +19,7 @@ import RoomDetails from "./src/pages/owner/roomDetails";
 import ErrorModal from "./src/components/ErrorModal";
 import EditApartment from "./src/pages/owner/editApartment";
 import EditRoom from "./src/pages/owner/editRoom";
+import Loading from "./src/components/loading";
 
 import { UserType } from "./src/global/util";
 
@@ -57,9 +58,9 @@ export default class App extends React.Component {
   render(){
     return (
       <Provider store={store}>
-        <ErrorModal />
+        <View style={{ flex : 1}}>
         <Router>
-          <Stack key="root"> 
+          <Stack key="root">
           {/* <Scene
             hideNavBar
             key="splashScreen"
@@ -153,6 +154,8 @@ export default class App extends React.Component {
           />
           </Stack>
         </Router>
+        <Loading />
+        </View>
       </Provider>
     );
   }

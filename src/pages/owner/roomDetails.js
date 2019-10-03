@@ -38,8 +38,12 @@ class RoomDetails extends Component {
     super(props);
   }
 
-  componentWillReceiveProps(nextProps){
-    //this.
+  separator = () => {
+    return <View style={{
+        height : '60%',
+        borderLeftColor: Color.white,
+        borderLeftWidth: 1,
+    }} />;
   }
 
   showGallery = () => {
@@ -47,13 +51,14 @@ class RoomDetails extends Component {
       marginTop : 16,
       borderWidth : StyleSheet.hairlineWidth,
       borderColor : Color.black,
-      borderRadius : 4
+      borderRadius : 4,
+      paddingBottom : 16
     }}>
       <Text 
         style={{
           ...textObj
         }}>Image Gallery</Text>
-      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
+      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10, marginBottom : 10 }}>
         <Text style={{ }}>
           Tab to see the bigger image
         </Text>
@@ -144,10 +149,11 @@ class RoomDetails extends Component {
               </View>
             
         </Content>
-        <Footer style={{
-          backgroundColor : Color.themeColor
-        }}>
-          <FooterTab>
+        <Footer>
+          <FooterTab style={{
+            backgroundColor : Color.themeColor,
+            alignItems : 'center'
+          }}>
             <Button 
               onPress={e => {
                 Actions.editRoom();
@@ -156,6 +162,9 @@ class RoomDetails extends Component {
               style={{ backgroundColor : Color.themeColor }}>
               <Text style={{ color : Color.white }}>EDIT</Text>
             </Button>
+            {
+              this.separator()
+            }
             <Button 
               onPress={e => {
                 this.props.deleteRoom();
@@ -168,6 +177,7 @@ class RoomDetails extends Component {
       </Container>
     );
   }
+
 }
 
 function mapStateToProps(state, props) {

@@ -33,7 +33,7 @@ let reducer = {
 
     // loading
     loading : {
-        show : false
+        show : true
     },
 
     showPickArea : false

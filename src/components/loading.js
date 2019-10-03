@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions, StatusBar, ActivityIndicator, Text } from 'react-native';
+import { View, Dimensions, StatusBar, ActivityIndicator, Text, StyleSheet } from 'react-native';
 import { setData } from "./../redux/action";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
@@ -17,18 +17,30 @@ class Loading extends Component {
         return (
             <View style={{
                 position : 'absolute',
+                top : 0,
+                left : 0,
                 height,
                 width,
-                zIndex : 1,
+                zIndex : 999,
                 justifyContent : 'center',
                 alignItems : 'center',
                 backgroundColor : "rgba(52, 52, 52, 0.6)",
                 marginTop : StatusBar.currentHeight
             }}>
-                <ActivityIndicator size="large" color={Color.black} />
-                <Text style={{ marginTop : 10, fontSize : 16, color : Color.black }}>
-                    Loading ....
-                </Text>
+                <View style={{
+                    justifyContent : 'center',
+                    alignItems : 'center',
+                    borderWidth : 1,
+                    width : 200,
+                    height : 120,
+                    borderColor : Color.themeColor,
+                    borderRadius : 4
+                }}>
+                    <ActivityIndicator size="large" color={Color.themeColor} />
+                    <Text style={{ marginTop : 10, fontSize : 18, color : Color.themeColor }}>
+                        Please wait ....
+                    </Text>
+                </View>
             </View>
         );
     }

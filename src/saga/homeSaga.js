@@ -10,8 +10,9 @@ import { UserType } from '../global/util';
 function* registerUserInfoSaga(action){
     try {
         let obj = action.userData;
+        yield put(setData({ loading : { show : true }}));
         let response = yield call(postApiCall, Api.apiToRegister, obj );
-        console.log("RESPONSE", response);
+        yield put(setData({ loading : { show : false }}));
         if(!response.success){
             alert(response.message);
             return;

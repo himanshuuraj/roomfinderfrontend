@@ -154,38 +154,48 @@ class ApartmentDetails extends Component {
         <Carousel />
         <Header headerText={ selectedApartment.apartmentName.toUpperCase() } onBackPress={this.onBackPress}/>
         <Content style={{
-          width : "100%",
+          width : "100%", 
           paddingHorizontal : 16,
           backgroundColor : Color.backgroundThemeColor
         }}>
-            <View style={{ ...viewObj, paddingTop : 5, marginBottom : 8 }}>
+            <View style={{ ...viewObj, 
+                    paddingTop : 5, 
+                    marginBottom : 8,
+                    justifyContent : 'center',
+                    alignItems : 'center' }}>
                   <Text style={{
                     ...textObj
                   }}>Your Rooms</Text>
-                <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
                   {
-                    selectedApartment.roomlist && selectedApartment.roomlist.map((item, index) => {
-                        return (
-                          <TouchableOpacity key={index} 
-                            onPress={e => {
-                              this.props.setData({ selectedRoom : item });
-                              Actions.roomDetails();
-                            }}
-                            style={{ 
-                              paddingHorizontal : 16, 
-                              paddingVertical : 8,
-                              marginRight : 8, 
-                              marginTop : 10,
-                              borderWidth : StyleSheet.hairlineWidth,
-                              borderColor : Color.black,
-                              borderRadius : 4
-                            }}>
-                            <Text style={{ color : 'black' }}> {item.roomName} </Text>
-                          </TouchableOpacity>
-                        )
-                    })
+                     (selectedApartment.roomlist && selectedApartment.roomlist.length > 0) ? (
+                      <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
+                        {
+                          selectedApartment.roomlist.map((item, index) => {
+                              return (
+                                <TouchableOpacity key={index} 
+                                  onPress={e => {
+                                    this.props.setData({ selectedRoom : item });
+                                    Actions.roomDetails();
+                                  }}
+                                  style={{ 
+                                    paddingHorizontal : 16, 
+                                    paddingVertical : 8,
+                                    marginRight : 8, 
+                                    marginTop : 10,
+                                    borderWidth : StyleSheet.hairlineWidth,
+                                    borderColor : Color.black,
+                                    borderRadius : 4
+                                  }}>
+                                  <Text style={{ color : 'black' }}> {item.roomName} </Text>
+                                </TouchableOpacity>
+                              )
+                          })
+                        }
+                      </View>
+                     ) : (
+                       <Text style={{ marginTop : 8, marginBottom : 4, fontSize : 16 }}>No rooms added</Text>
+                     )
                   }
-                </View>
               </View>
             {
                   <TouchableOpacity
@@ -229,8 +239,8 @@ class ApartmentDetails extends Component {
                               paddingVertical : 8,
                               marginRight : 8, 
                               marginTop : 10,
-                              borderWidth : 1,
-                              borderColor : '#ccc'
+                              borderWidth : StyleSheet.hairlineWidth,
+                              borderRadius : 4
                             }}>
                               <Text style={{ color : 'black' }}> {item.amenityName} </Text>
                             </View>
