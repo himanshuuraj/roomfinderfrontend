@@ -14,7 +14,11 @@ function* registerUserInfoSaga(action){
         let response = yield call(postApiCall, Api.apiToRegister, obj );
         yield put(setData({ loading : { show : false }}));
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }
         let userInfo = response.message;
@@ -22,7 +26,11 @@ function* registerUserInfoSaga(action){
         yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
         Actions.verifyMobileNumber();
     } catch (e) {
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -34,11 +42,19 @@ function* sendOTPSaga(action){
         let response = yield call(getApiCall, url );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             Actions.registerationPage();
         }
     } catch (e) {
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -51,7 +67,11 @@ function* verifyOtpSaga(action){
         let response = yield call(postApiCall, Api.apiToVerifyOTP, obj );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }
         if(response.userId){
@@ -63,7 +83,11 @@ function* verifyOtpSaga(action){
         yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
         Actions.optionsPage();
     }catch(err){
-        alert(JSON.stringify(err));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -79,12 +103,20 @@ function* verifyEmailSaga(action){
             yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(response));
             Actions.homeDetails();
         }else{
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             Actions.registerationPage();
             return;
         }
     }catch(err){
-        alert(JSON.stringify(err));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -97,7 +129,11 @@ function* setUserTypeSaga(action){
         let response = yield call(putApiCall, url, userInfo );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             let userInfo = response.message;
@@ -120,7 +156,11 @@ function* getAreasListSaga(action){
         let response = yield call(getApiCall, Api.apiToGetAreaList );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             yield put(setData({ 'areaList' : response.message }));
@@ -135,7 +175,11 @@ function* getAmenitiesSaga(action){
         let response = yield call(getApiCall, Api.apiToGetAmenities );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             yield put(setData({ 'amenitiesList' : response.message }));
@@ -151,13 +195,25 @@ function* uploadPicOnAWSSaga(action){
         let response = yield call(uploadOnAWSRequest, Api.apiToUploadIntoAWS, obj );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
         }
     } catch (e) {
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -169,14 +225,22 @@ function* saveApartmentSaga(action){
         let response = yield call(postApiCall, url, action.apartment );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             yield put(setData({ 'selectedApartment' : response.message }));
             Actions.ownerPage();
         }
     }catch(e){
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -188,13 +252,21 @@ function* getApartmentsSaga(action){
         let response = yield call(getApiCall, url );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             yield put(setData({ 'allApartments' : response.message }));
         }
     }catch(e){
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -204,14 +276,22 @@ function* getApartmentDataSaga(action){
         let response = yield call(getApiCall, url );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             yield put(setData({ 'selectedApartment' : response.message }));
             Actions.appartmentDetails({ imageList : response.message.imageList });
         }
     }catch(e){
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -224,14 +304,22 @@ function* saveRoomSaga(action){
         let response = yield call(postApiCall, url, action.room );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             yield put(getApartment(apartmentId));
             // Actions.appartmentDetails();
         }
     }catch(e){
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -241,14 +329,22 @@ function* getRoomDataSaga(action){
         let response = yield call(getApiCall, url );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             Actions.appartmentDetails();
             yield put(setData({ 'selectedApartment' : response.message }));
         }
     }catch(e){
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -261,13 +357,21 @@ function* deleteApartmentSaga(action){
         let response = yield call(deleteApiCall, url );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             Actions.ownerPage();
         }
     }catch(e){
-        alert(JSON.stringify(e));
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
     }
 }
 
@@ -279,7 +383,11 @@ function* updateApartmentSaga(action){
         let response = yield call(putApiCall, url, action.apartment );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             Actions.ownerPage();
@@ -297,7 +405,11 @@ function* updateRoomSaga(action){
         let response = yield call(putApiCall, url, action.room );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             Actions.pop();
@@ -321,7 +433,11 @@ function* deleteRoomSaga(action){
         let response = yield call(deleteApiCall, url );
         console.log("RESPONSE", response);
         if(!response.success){
-            alert(response.message);
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
             return;
         }else{
             Actions.appartmentDetails();

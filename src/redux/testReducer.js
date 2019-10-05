@@ -18,7 +18,7 @@ let reducer = {
 
     // errorModal
     errorModalInfo : {
-        showModal : true,
+        showModal : false,
         title : "",
         message : "",
         buttonText : "",

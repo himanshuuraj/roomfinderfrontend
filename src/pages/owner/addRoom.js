@@ -191,15 +191,30 @@ class AddRoom extends Component {
   addRoom = () => {
     let { amentiesList, roomName, roomRent } = this.state;
     if(!roomName){
-      alert("Please enter a room name");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter a room name"
+        }
+      });
       return;
     }
     if(!roomRent){
-      alert("Please enter the room rent");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter the room rent"
+        }
+      });
       return;
     }
     if(amentiesList.length == 0){
-      alert("Please select an amenity");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please select an amenity"
+        }
+      });
       return;
     }
     this.props.saveRoom(this.state);

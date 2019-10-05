@@ -14,7 +14,7 @@ import {
 import LoginFormComponent from '../../components/loginFormComponent';
 import RegisterationComponent from "../../components/registerationComponent";
 import ImageLogoComponent from "../../components/imageLogoComponent";
-import { sendOTP, verifyOTP, verifyEmail } from "../../redux/action";
+import { sendOTP, verifyOTP, verifyEmail, setData } from "../../redux/action";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 
@@ -38,47 +38,97 @@ class Login extends Component {
     let { phoneNumber, otp, selectPrivacyPolicy, loginType, email, password } = this.state;
     if(loginType === 'phone'){
       if(!phoneNumber){
-        alert("Please enter valid phone number");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter valid phone number"
+          }
+        });
         return;
       }
       if(phoneNumber.length != 10){
-        alert("Please enter valid 10 digit number");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter valid 10 digit number"
+          }
+        });
         return;
       }
       if(!otp){
-        alert("Please enter otp");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter otp"
+          }
+        });
         return;
       }
       if(otp.length != 6){
-        alert("Please enter valid otp");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter valid otp"
+          }
+        });
         return;
       }
       if(!selectPrivacyPolicy){
-        alert("Please select the privacy policy");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please select the privacy policy"
+          }
+        });
         return;
       }
       this.props.verifyOTP(phoneNumber, otp);
     }else if(loginType == 'email'){
       if(!email){
-        alert("Please enter email");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter email"
+          }
+        });
         return;
       } 
       var atposition = email.indexOf("@");  
       var dotposition = email.lastIndexOf(".");  
-      if (atposition < 1 || dotposition < atposition+2 || dotposition+2 >= email.length){  
-        alert("Please enter a valid e-mail address");  
+      if (atposition < 1 || dotposition < atposition+2 || dotposition+2 >= email.length){
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter a valid e-mail address"
+          }
+        });
         return false;  
       }  
       if(!password){
-        alert("Please enter password");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter password"
+          }
+        });
         return;
       }
       if(password.length < 6){
-        alert("Password length should be atleast 6 digit length");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Password length should be atleast 6 digit length"
+          }
+        });
         return;
       }
       if(!selectPrivacyPolicy){
-        alert("Please select the privacy policy");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please select the privacy policy"
+          }
+        });
         return;
       }
       this.props.verifyEmail(email, password);
@@ -88,11 +138,21 @@ class Login extends Component {
   sendOTP = () => {
     let { phoneNumber } = this.state;
     if (!phoneNumber) {
-      alert("Please enter a phone number");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter a phone number"
+        }
+      });
       return;
     }
     if (phoneNumber.length != 10) {
-      alert("Please enter a valid phone number");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter a valid phone number"
+        }
+      });
       return;
     }
     this.props.sendOTP(phoneNumber);

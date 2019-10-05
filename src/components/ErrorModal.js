@@ -1,12 +1,12 @@
 import React, {Component}  from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, Dimensions, TouchableOpacity, StatusBar } from "react-native";
 import { Color } from "./../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setData } from "./../redux/action";
 
-const screenWidth = Math.round(Dimensions.get('window').width);  
-const screenHeight = Math.round(Dimensions.get('window').height);  
+const width = Math.round(Dimensions.get('window').width);  
+const height = Math.round(Dimensions.get('window').height);  
 
 
 class ErrorModal extends Component{
@@ -31,7 +31,7 @@ class ErrorModal extends Component{
                 width,
                 marginTop : StatusBar.currentHeight
             }}>
-                <View style={{ width: screenWidth - 48, borderRadius: 8, backgroundColor : 'white', justifyContent : 'center', alignItems : 'center', padding: 16 }}>
+                <View style={{ width: width - 48, borderRadius: 8, backgroundColor : 'white', justifyContent : 'center', alignItems : 'center', padding: 16 }}>
                     <Text style={{ fontSize : 18, fontWeight : 'bold' }}>
                         { errorModalInfo.title }
                     </Text>
@@ -64,6 +64,7 @@ class ErrorModal extends Component{
 
 function mapStateToProps(state, props) {
     return {
+        errorModalInfo : state.testReducer.errorModalInfo
     }
   }
   

@@ -13,8 +13,11 @@ import { Container, Content, Badge, Button, Icon } from "native-base";
 import { getFont, Color, getHeight, Font } from "./../global/util";
 import { CheckBox } from "react-native-elements";
 import EnterOTP from "./enterOtp";
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { setData } from "./../redux/action";
 
-export default class LoginFormComponent extends Component {
+class LoginFormComponent extends Component {
   state = {
     selectPrivacyPolicy: false,
     loginType: "phone"
@@ -36,11 +39,21 @@ export default class LoginFormComponent extends Component {
     if (this.state.loginType === "phone") {
       let { phone } = this.state;
       if (!phone) {
-        alert("Please enter a phone number");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter a phone number"
+          }
+        });
         return;
       }
       if (phone.length != 10) {
-        alert("Please enter a valid phone number");
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : "Please enter a valid phone number"
+          }
+        });
         return;
       }
     }
@@ -596,3 +609,15 @@ export default class LoginFormComponent extends Component {
     );
   }
 }
+
+function mapStateToProps(state, props) {
+  return { }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    setData
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginFormComponent);

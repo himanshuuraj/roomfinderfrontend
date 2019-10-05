@@ -424,27 +424,57 @@ class EditApartment extends Component {
   editApartment = () => {
     let { amentiesList, apartmentType, address, foodPreference, selectedArea } = this.state;
     if(amentiesList.length == 0){
-      alert("Please select an amenity");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please select an amenity"
+        }
+      });
       return;
     }
     if(!apartmentType){
-      alert("Please select an apartmentType");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please select an apartmentType"
+        }
+      });
       return;
     }
     if(!address.line1){
-      alert("Please write address");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please write address"
+        }
+      });
       return;
     }
     if(!address.pincode){
-      alert("Please write pincode");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please write pincode"
+        }
+      });
       return;
     }
     if(!foodPreference){
-      alert("Please select foodpreference");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please select foodpreference"
+        }
+      });
       return;
     }
     if(!selectedArea){
-      alert("Please select an area");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please select an area"
+        }
+      });
       return;
     }
     this.props.updateApartment({...this.state, cityArea : selectedArea});

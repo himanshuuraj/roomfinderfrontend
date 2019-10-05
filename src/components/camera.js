@@ -63,10 +63,20 @@ class CameraPage extends Component {
         if(response.success){
           this.props.getAwsImageUrl(response.message);
         }else{
-            alert(response.message);
+            this.props.setData({
+              errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            });
         }
       }catch(err){
-        alert(JSON.stringify(err));
+        this.props.setData({
+          errorModalInfo : {
+            showModal : true,
+            message : SON.stringify(err)
+          }
+        });
       }
       this.props.setData({
         loading : {
@@ -78,7 +88,6 @@ class CameraPage extends Component {
   }
 
   snap = async () => {
-    // this.props.hideCamera();
     this.props.setData({
       loading : {
         show : true

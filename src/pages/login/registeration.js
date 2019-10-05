@@ -43,45 +43,95 @@ class Registeration extends Component {
   onSubmit = () => {
     let { firstName, lastName, gender, email, password, selectPrivacyPolicy, phoneNumber } = this.state;
     if(!firstName){
-      alert("Please enter first name");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter first name"
+        }
+      });
       return;
     }
     if(!lastName){
-      alert("Please enter last name");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter last name"
+        }
+      });
       return;
     }
     if(!gender){
-      alert("Please enter gender");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter gender"
+        }
+      });
       return;
     }
     if(!phoneNumber){
-      alert("Please enter the phonenumber");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter the phonenumber"
+        }
+      });
       return;
     }
     if(phoneNumber.length != 10){
-      alert("Please enter 10 digit phone number");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter 10 digit phone number"
+        }
+      });
       return;
     }
     if(!email){
-      alert("Please enter email");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter email"
+        }
+      });
       return;
     } 
     var atposition = email.indexOf("@");  
     var dotposition = email.lastIndexOf(".");  
-    if (atposition < 1 || dotposition < atposition+2 || dotposition+2 >= email.length){  
-      alert("Please enter a valid e-mail address");  
+    if (atposition < 1 || dotposition < atposition+2 || dotposition+2 >= email.length){
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter a valid e-mail address"
+        }
+      });
       return false;  
     }  
     if(!password){
-      alert("Please enter password");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please enter password"
+        }
+      });
       return;
     }
     if(password.length < 6){
-      alert("Password length should be atleast 6 digit length");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Password length should be atleast 6 digit length"
+        }
+      });
       return;
     }
     if(!selectPrivacyPolicy){
-      alert("Please select the privacy policy");
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please select the privacy policy"
+        }
+      });
       return;
     }
     this.props.registerUser(this.state);
