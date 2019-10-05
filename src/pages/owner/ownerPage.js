@@ -64,7 +64,6 @@ class OwnerPage extends Component {
             justifyContent : 'center',
             alignItems : 'center'
         }}>
-          <ErrorModal />
                 <Text style={{
                         fontSize: 22,
                         marginBottom : 20

@@ -20,17 +20,15 @@ import ErrorModal from "./src/components/ErrorModal";
 import EditApartment from "./src/pages/owner/editApartment";
 import EditRoom from "./src/pages/owner/editRoom";
 import Loading from "./src/components/loading";
+import ConfirmModal from "./src/components/confirmModal";
 
 import { UserType } from "./src/global/util";
+import { Font } from "expo";
 
 export default class App extends React.Component {
 
   state = {
     screenType : ''
-  }
-
-  refreshOnBack = () => { 
-    // Actions.pop(); Actions.refresh({key: Math.random()}); 
   }
 
   async componentDidMount(){
@@ -53,6 +51,10 @@ export default class App extends React.Component {
         }
       }
       this.setState({ screenType });
+      await Font.loadAsync({
+        Roboto: require("native-base/Fonts/Roboto.ttf"),
+        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+      });
   }
 
   render(){
@@ -107,7 +109,6 @@ export default class App extends React.Component {
             key="editApartment"
             component={EditApartment}
             title="editApartment"
-            // onBack={this.refreshOnBack}
           />
            <Scene
             hideNavBar={true}
@@ -155,6 +156,8 @@ export default class App extends React.Component {
           </Stack>
         </Router>
         <Loading />
+        <ErrorModal />
+        <ConfirmModal />
         </View>
       </Provider>
     );

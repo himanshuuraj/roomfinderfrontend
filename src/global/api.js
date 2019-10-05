@@ -1,4 +1,4 @@
-export const HOST = "http://192.168.0.80:8082";
+export const HOST = "http://192.168.0.101:8082";
 
 export const apiToRegister = HOST + "/insertUserInfo";
 

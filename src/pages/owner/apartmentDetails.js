@@ -365,7 +365,13 @@ class ApartmentDetails extends Component {
             }
             <Button 
               onPress={e => {
-                this.props.deleteApartment();
+                this.props.setData({
+                  confirmModalInfo : {
+                    showModal : true,
+                    title : "Please Confirm",
+                    primaryAction : this.props.deleteApartment
+                  }
+                });
               }}
               style={{ backgroundColor : Color.themeColor }}>
               <Text style={{ color : Color.white }}>DELETE</Text>

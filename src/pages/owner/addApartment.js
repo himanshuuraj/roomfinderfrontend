@@ -188,7 +188,7 @@ class AddApartment extends Component {
                         borderRadius : 4,
                         paddingHorizontal : 8, 
                         paddingVertical : 4 ,
-                        borderColor : 'black',
+                        borderColor : this.state.amentiesList.find(item1 => item1.amentyId == item.amentyId) ? Color.themeColor : Color.black,
                         borderWidth : 1,
                         marginRight : 4,
                         marginTop : 4,

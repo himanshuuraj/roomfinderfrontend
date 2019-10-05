@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Dimensions, StatusBar, TouchableHighlight, Text, FlatList, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Dimensions, Text, FlatList, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { setData } from "./../redux/action";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { Color } from '../global/util';
-import { List, ListItem, Button } from 'native-base';
 import Modal from "react-native-modal";
  
 let { width, height } = Dimensions.get('window');
@@ -66,6 +65,7 @@ class PickArea extends Component {
                                 }
                               </TouchableOpacity>
                             )}
+                            keyExtractor={(item, index) => index.toString()}
                         />
                     <TouchableOpacity
                       style={{

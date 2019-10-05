@@ -18,11 +18,22 @@ let reducer = {
 
     // errorModal
     errorModalInfo : {
-        showModal : false,
+        showModal : true,
         title : "",
         message : "",
         buttonText : "",
         onClose : ""
+    },
+
+    // confirmModal
+    confirmModalInfo : {
+        showModal : false,
+        title : "",
+        message : "",
+        primaryText : "",
+        primaryAction : "",
+        secondaryText : "",
+        secondaryAction : ""
     },
 
     // carousel
@@ -33,7 +44,7 @@ let reducer = {
 
     // loading
     loading : {
-        show : true
+        show : false
     },
 
     showPickArea : false

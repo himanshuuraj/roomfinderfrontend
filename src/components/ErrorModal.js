@@ -21,10 +21,15 @@ class ErrorModal extends Component{
         return (
             <View style={{ 
                 position : 'absolute', 
-                backgroundColor : 'rgb(0,0,0, 1)',
+                backgroundColor : "rgba(52, 52, 52, 0.6)",
                 justifyContent : 'center',
                 alignItems : 'center',
-                zIndex : 999
+                zIndex : 999,
+                top : 0,
+                left : 0,
+                height,
+                width,
+                marginTop : StatusBar.currentHeight
             }}>
                 <View style={{ width: screenWidth - 48, borderRadius: 8, backgroundColor : 'white', justifyContent : 'center', alignItems : 'center', padding: 16 }}>
                     <Text style={{ fontSize : 18, fontWeight : 'bold' }}>
