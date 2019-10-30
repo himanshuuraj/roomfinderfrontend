@@ -74,7 +74,9 @@ class PickArea extends Component {
                         jutifyContent : 'center',
                         alignItems : 'center',
                         height : 36,
-                        marginTop : 16
+                        marginTop : 16,
+                        borderRadius : 4,
+                        paddingTop : 8
                       }} 
                       onPress={() => {
                         this.props.hideShowPickArea();
