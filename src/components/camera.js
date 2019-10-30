@@ -116,12 +116,10 @@ class CameraPage extends Component {
   }
 
   render() {
-    const { hasCameraPermission, showCamera } = this.state;
+    const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
-      return <View />;
-    }else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    } else if(this.props.showCamera && this.props.type == "camera"){
+      return null;
+    }else if(this.props.showCamera && this.props.type == "camera"){
       return (
         <View style={{ position : 'absolute', height : screenHeight, width : screenWidth, top: StatusBar.currentHeight, left : 0 }}>
             <View style={{flex : 1}}>
@@ -214,9 +212,8 @@ class CameraPage extends Component {
             <Text style={{ fontSize : 14 }}>ADD IMAGE FROM GALLERY</Text>
           </TouchableOpacity>
       );
-    }else{
-      return null;
     }
+    return null;
   }
 }
 
