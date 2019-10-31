@@ -41,10 +41,8 @@ export default class HouseCardItems extends Component {
     return (
       <Card style={{ width: this.props.page != 'search' ? 200 : '100%', marginRight : 8}}>
         <View style={{ height : '70%',height : this.props.page != 'search' ? getHeight(12) : getHeight(20)}}>
-          <Image source={{uri : imgSrc}} resizeMode="cover" style={{
-            flex:1,
-            width : '100%',
-            height: '100%'
+          <Image source={{uri : item.imageList ? item.imageList[0].uri : imgSrc }} resizeMode="contain" style={{
+            flex : 1
           }}/>
         </View>
         <View style={{padding : 5}}>
