@@ -77,7 +77,7 @@ class Options extends Component {
                   width : "50%"
                 }}
                 onPress={e => {
-                  this.props.setUserType("renter")
+                  this.props.setUserType(UserType.RENTAL)
                 }}
                 >
                   <Image source={require("./../../images/renter.jpg")}

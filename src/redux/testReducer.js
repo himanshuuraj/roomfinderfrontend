@@ -47,6 +47,9 @@ let reducer = {
         show : false
     },
 
+    // rental
+    apartmentList : [],
+
     showPickArea : false
 
 };

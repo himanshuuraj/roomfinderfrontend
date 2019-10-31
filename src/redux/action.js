@@ -17,8 +17,16 @@ import {
     DELETE_APARTMENT,
     UPDATE_APARTMENT,
     UPDATE_ROOM,
-    DELETE_ROOM
+    DELETE_ROOM,
+    GET_SEARCHED_APARTMENTS
 } from "./constants";
+
+export const getSearchedHouses = searchText => {
+    return {
+        type : GET_SEARCHED_APARTMENTS,
+        searchText
+    }
+}
 
 export const updateRoom = room => {
     return {

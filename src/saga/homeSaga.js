@@ -1,5 +1,7 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects';
-import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, UPLOAD_PHOTO_ON_AWS, SAVE_APARTMENT, GET_APARTMENTS, GET_APARTMENT_DATA, SAVE_ROOM, GET_ROOM_DETAILS, DELETE_APARTMENT, UPDATE_DATA, UPDATE_APARTMENT, UPDATE_ROOM, DELETE_ROOM } from "./../redux/constants";
+import { REGISTER_USER_INFO, SEND_OTP, VERIFY_OTP, VERIFY_EMAIL, SET_USER_TYPE, GET_AREAS, GET_AMENITIES, 
+    UPLOAD_PHOTO_ON_AWS, SAVE_APARTMENT, GET_APARTMENTS, GET_APARTMENT_DATA, SAVE_ROOM, GET_ROOM_DETAILS, DELETE_APARTMENT, UPDATE_DATA, 
+    UPDATE_APARTMENT, UPDATE_ROOM, DELETE_ROOM, GET_SEARCHED_APARTMENTS } from "./../redux/constants";
 import { getApiCall, postApiCall, putApiCall, uploadOnAWSRequest, deleteApiCall } from "./../global/request";
 import * as Api from "./../global/api";
 import {AsyncStorage} from 'react-native';
@@ -142,7 +144,7 @@ function* setUserTypeSaga(action){
                 if(userInfo.userType == UserType.OWNER)
                     Actions.ownerPage();
                 else
-                    Actions.HomeDetails();
+                    Actions.homeDetails();
             }
         }
     }catch(err){
@@ -447,6 +449,31 @@ function* deleteRoomSaga(action){
     }
 }
 
+function* getSearchedApartmentsSaga(action){
+    try{
+        let state = yield select();
+        userInfo = state.testReducer.userInfo;
+        let url = Api.apiToGetSearchedApartments + action.searchText;
+        let response = yield call(getApiCall, url );
+        if(!response.success){
+            yield put(setData({ errorModalInfo : {
+                showModal : true,
+                message : response.message
+              }
+            }));
+            return;
+        }else{
+            yield put(setData({ 'apartmentList' : response.message }));
+        }
+    }catch(e){
+        yield put(setData({ errorModalInfo : {
+            showModal : true,
+            message : JSON.stringify(e)
+          }
+        }));
+    }
+}
+
 const mySaga = [
     takeLatest( REGISTER_USER_INFO, registerUserInfoSaga ),
     takeLatest( SEND_OTP, sendOTPSaga),
@@ -464,7 +491,8 @@ const mySaga = [
     takeLatest( DELETE_APARTMENT, deleteApartmentSaga ),
     takeLatest( UPDATE_APARTMENT, updateApartmentSaga ),
     takeLatest( UPDATE_ROOM, updateRoomSaga ),
-    takeLatest( DELETE_ROOM, deleteRoomSaga )
+    takeLatest( DELETE_ROOM, deleteRoomSaga ),
+    takeLatest( GET_SEARCHED_APARTMENTS, getSearchedApartmentsSaga )
 ];
 
 export default mySaga;

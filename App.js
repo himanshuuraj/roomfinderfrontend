@@ -63,12 +63,12 @@ export default class App extends React.Component {
         <View style={{ flex : 1}}>
         <Router>
           <Stack key="root">
-          {/* <Scene
+          <Scene
             hideNavBar
             key="splashScreen"
-            component={SplashScreen}
+            component={SearchPage}
             title="splashScreen"
-          /> */}
+          />
           <Scene
             type="reset"
             hideNavBar={true}

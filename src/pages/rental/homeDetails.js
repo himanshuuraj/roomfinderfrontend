@@ -306,7 +306,7 @@ class HomeDetails extends Component {
               <Text style={{ marginTop : 10, marginBottom : 5}}>Similiar Listing</Text>
               <ScrollView horizontal style={{marginBottom : getHeight(2)}}>
                 {
-                  [...Array(10)].map((item, index) => ( <HouseCardItem key={index} />))
+                  this.props.apartmentList.map((item, index) => ( <HouseCardItem item={item} key={index} />))
                 }
               </ScrollView>
         </Content>
@@ -330,7 +330,8 @@ class HomeDetails extends Component {
 function mapStateToProps(state, props) {
   return {
     selectedApartment : state.testReducer.selectedApartment,
-    userInfo : state.testReducer.userInfo
+    userInfo : state.testReducer.userInfo,
+    apartmentList : state.testReducer.apartmentList || []
   }
 }
 
