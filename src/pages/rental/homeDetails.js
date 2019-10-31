@@ -24,6 +24,7 @@ import {
 } from "../../global/util";
 // import Location from "./../components/location";
 import HouseCardItem from "../../components/houseCardItems";
+import * as Permissions from 'expo-permissions';
 import Carousel from "../../components/carousel";
 import { Constants } from 'expo';
 import {bindActionCreators} from 'redux';
@@ -100,10 +101,11 @@ class HomeDetails extends Component {
     }
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     let userInfo = this.props.userInfo;
     this.props.setData({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
     this.setState({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
+    await Permissions.askAsync(Permissions.CAMERA);
   }
 
   render() {
