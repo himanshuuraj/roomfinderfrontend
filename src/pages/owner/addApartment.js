@@ -21,7 +21,7 @@ import {
 } from "native-base";
 import Header from "./../../components/header";
 import {
-  Color, HomeType, FoodPreference
+  Color, HomeType, FoodPreference, AvailableFor
 } from "../../global/util";
 import { getAmenities, setData, getAreas } from "../../redux/action";
 import { bindActionCreators } from 'redux';
@@ -147,6 +147,47 @@ class AddApartment extends Component {
                       <Text style={{
                         color : this.state.apartmentType == HomeType[item] ? Color.white : "#696969",
                       }}>{ HomeType[item].toUpperCase() }</Text>
+              </TouchableOpacity>
+            ))
+          }
+          </View>
+      </View>
+    )
+  }
+
+  availableType = () => {
+    return (
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Available for</Text>
+          <View style={{ 
+            flexDirection : 'row',
+            flexWrap : 'wrap',
+            paddingHorizontal : 8,
+            paddingVertical : 16
+          }}>
+          {
+            Object.keys(HomeType).map((item, index) => (
+              <TouchableOpacity key={index} 
+                  onPress={ e => {
+                    this.setState({
+                      availableFor: AvailableFor[item]
+                    })
+                  }}
+                  style={{ 
+                      borderRadius : 4,
+                      paddingHorizontal : 8, 
+                      paddingVertical : 4 ,
+                      borderColor : 'black',
+                      borderWidth : 1,
+                      marginRight : 4,
+                      marginTop : 4,
+                      backgroundColor : this.state.apartmentType == HomeType[item] ? Color.themeColor : Color.white
+                  }}>
+                      <Text style={{
+                        color : this.state.apartmentType == HomeType[item] ? Color.white : "#696969",
+                      }}>{ AvailableFor[item].toUpperCase() }</Text>
               </TouchableOpacity>
             ))
           }
@@ -395,7 +436,7 @@ class AddApartment extends Component {
   }
 
   addApartment = () => {
-    let { amentiesList, apartmentType, address, foodPreference, selectedArea } = this.state;
+    let { amentiesList, apartmentType, address, foodPreference, selectedArea, availableFor } = this.state;
     if(amentiesList.length == 0){
       this.props.setData({
         errorModalInfo : {
@@ -446,6 +487,15 @@ class AddApartment extends Component {
         errorModalInfo : {
           showModal : true,
           message : "Please select an area"
+        }
+      });
+      return;
+    }
+    if(!availableFor){
+      this.props.setData({
+        errorModalInfo : {
+          showModal : true,
+          message : "Please select the available for option"
         }
       });
       return;
@@ -523,6 +573,10 @@ class AddApartment extends Component {
                   
                         {
                           this.apartMentType()
+                        }
+
+                        {
+                          this.availableType()
                         }
                         
                         {

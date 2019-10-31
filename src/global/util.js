@@ -60,3 +60,9 @@ export const FoodPreference = {
     VEG : 'vegeterian',
     NONVEG : 'non-vegeterian'
 }
+
+export const AvailableFor = {
+    BOYS : 'boys',
+    GIRLS : 'girls',
+    BOTH : 'both'
+}

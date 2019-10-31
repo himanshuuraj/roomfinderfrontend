@@ -126,7 +126,7 @@ class SearchPage extends Component {
               paddingRight : "5%"
             }}>
                   {
-                      this.props.apartmentList.map((item, index) => <HouseCardItem key={index} page={'search'}/>)
+                      this.props.apartmentList.map((item, index) => <HouseCardItem key={index} item={item} page={'search'}/>)
                   }
             </Content>
           ) : null
