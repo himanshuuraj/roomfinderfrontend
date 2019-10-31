@@ -50,6 +50,7 @@ export default class App extends React.Component {
           screenType = 'homeDetails';
         }
       }
+      screenType = "splashScreen";
       this.setState({ screenType });
       await Font.loadAsync({
         Roboto: require("native-base/Fonts/Roboto.ttf"),

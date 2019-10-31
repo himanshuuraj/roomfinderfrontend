@@ -50,7 +50,6 @@ class SearchPage extends Component {
               <Input
                 onChangeText={searchText => {
                   this.setState({ searchText : searchText, showDropDown : true });
-                  this.props.getSearchedHouses(searchText);
                   if(!searchText)
                     Keyboard.dismiss();
                 }}
@@ -60,6 +59,7 @@ class SearchPage extends Component {
               <Icon name="md-home" />
             </Item>
         </Header>
+        <Content>
         {
           this.state.searchText ? (
             <View style={{
@@ -91,6 +91,7 @@ class SearchPage extends Component {
                               showDropDown : false
                             });
                             Keyboard.dismiss();
+                            this.props.getSearchedHouses(item.id);
                           }}>
                             <Text style={{ fontSize : 16 }}> { item.area } </Text>
                         </TouchableOpacity>
@@ -118,7 +119,7 @@ class SearchPage extends Component {
           ) : null
         }
         {
-          !this.state.searchText ? (
+          (this.state.searchText && !this.state.showDropDown) ? (
             <Content style={{
               paddingLeft : "5%",
               width : "100%",
@@ -130,8 +131,9 @@ class SearchPage extends Component {
             </Content>
           ) : null
         }
+        </Content>
         { 
-          !this.state.searchText ? (
+          (this.state.searchText && !this.state.showDropDown) ? (
             <Footer>
               <View style={{ 
                 justifyContent : 'center',

@@ -83,7 +83,12 @@ function* verifyOtpSaga(action){
         let userInfo = response.message;
         yield put(setData({ 'userInfo' : userInfo }));
         yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
-        Actions.optionsPage();
+        if(userInfo.userType == UserType.OWNER)
+            Actions.homeDetails();
+        else if(userInfo.userType == UserType.RENTAL)
+            Actions.searchPage();
+        else
+            Actions.optionsPage();
     }catch(err){
         yield put(setData({ errorModalInfo : {
             showModal : true,
@@ -455,6 +460,7 @@ function* getSearchedApartmentsSaga(action){
         userInfo = state.testReducer.userInfo;
         let url = Api.apiToGetSearchedApartments + action.searchText;
         let response = yield call(getApiCall, url );
+        console.log(response, "Response");
         if(!response.success){
             yield put(setData({ errorModalInfo : {
                 showModal : true,

@@ -21,7 +21,7 @@ import {
 } from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
 import { getApartment } from "../../redux/action";
-import ErrorModal from "./../../components/ErrorModal";
+import * as Permissions from 'expo-permissions';
 
 class OwnerPage extends Component {
 
@@ -41,6 +41,7 @@ class OwnerPage extends Component {
       this.props.getApartments();
       this.props.setData({ userInfo: JSON.parse(userInfo) });
     }
+    Permissions.askAsync(Permissions.CAMERA);
   }
 
   separator = () => {
