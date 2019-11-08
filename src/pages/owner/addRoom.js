@@ -305,7 +305,7 @@ class AddRoom extends Component {
                           <Text 
                             style={{
                               ...textObj
-                            }}>RoomRent (per month)</Text>
+                            }}>Rent/room (per month)</Text>
                           <TextInput
                             underlineColorAndroid="#bbb"
                             placeholder="e.g. 6000"
@@ -318,6 +318,26 @@ class AddRoom extends Component {
                             }}
                             onChangeText={roomRent => {
                               this.setState({ roomRent });
+                            }}/>
+                        </View>
+
+                        <View style={{ ...viewObj }}>
+                          <Text 
+                            style={{
+                              ...textObj
+                            }}>Room/bed (per month)</Text>
+                          <TextInput
+                            underlineColorAndroid="#bbb"
+                            placeholder="e.g. 6000"
+                            keyboardType="numeric"
+                            style={{
+                              paddingLeft : 16,
+                              paddingBottom : 2,
+                              height : 40,
+                              marginTop : 12
+                            }}
+                            onChangeText={roomRentPerBed => {
+                              this.setState({ roomRentPerBed });
                             }}/>
                         </View>
 

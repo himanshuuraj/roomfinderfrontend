@@ -42,9 +42,9 @@ let tableContent = [
     value : "1000 sq ft."
   },
   {
-    id : "houseId",
-    name : "House ID",
-    value : "FGVB5825"
+    id : "area",
+    name : "Area",
+    value : ""
   },
   {
     id : "type",
@@ -146,7 +146,7 @@ class ApartmentDetails extends Component {
     let selectedApartment = this.props.selectedApartment;
     if(!selectedApartment) return null;
     tableContent[0].value = selectedApartment.availableFor || "N/A";
-    tableContent[1].value = selectedApartment.houseId || "N/A";
+    tableContent[1].value = selectedApartment.cityArea.area || "N/A";
     tableContent[2].value = selectedApartment.apartmentType || "N/A";
     tableContent[3].value = selectedApartment.foodPreference || "N/A";
     return (

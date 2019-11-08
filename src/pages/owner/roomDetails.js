@@ -144,8 +144,15 @@ class RoomDetails extends Component {
               <View style={{ ...viewObj, justifyContent: 'center' }}>
                   <Text style={{
                     ...textObj
-                  }}>Room Rent</Text>
+                  }}>Rent/room (per month)</Text>
                   <Text>{'Rs. ' + selectedRoom.roomRent + " per month"}</Text>
+              </View>
+
+              <View style={{ ...viewObj, justifyContent: 'center' }}>
+                  <Text style={{
+                    ...textObj
+                  }}>Room/bed (per month)</Text>
+                  <Text>{'Rs. ' + selectedRoom.roomRentPerBed + " per month"}</Text>
               </View>
             
         </Content>
