@@ -19,7 +19,7 @@ import {
   Footer
 } from "native-base";
 import {
-  Color, HomeType, FoodPreference
+  Color, HomeType, FoodPreference, AvailableFor
 } from "../../global/util";
 import { getAmenities, setData, getAreas, updateApartment } from "../../redux/action";
 import { bindActionCreators } from 'redux';
@@ -51,6 +51,7 @@ class EditApartment extends Component {
     foodPreference : "",
     showCamera : false,
     selectedArea : "",
+    availableFor : "",
     showPickArea : false
   }
 
@@ -495,6 +496,47 @@ class EditApartment extends Component {
     //Actions.appartmentDetails();
   }
 
+  availableType = () => {
+    return (
+      <View style={{ ...viewObj }}>
+          <Text style={{
+            ...textObj
+          }}>Available for</Text>
+          <View style={{ 
+            flexDirection : 'row',
+            flexWrap : 'wrap',
+            paddingHorizontal : 8,
+            paddingVertical : 16
+          }}>
+          {
+            Object.keys(AvailableFor).map((item, index) => (
+              <TouchableOpacity key={index} 
+                  onPress={ e => {
+                    this.setState({
+                      availableFor: AvailableFor[item]
+                    })
+                  }}
+                  style={{ 
+                      borderRadius : 4,
+                      paddingHorizontal : 8, 
+                      paddingVertical : 4 ,
+                      borderColor : 'black',
+                      borderWidth : 1,
+                      marginRight : 4,
+                      marginTop : 4,
+                      backgroundColor : this.state.availableFor == AvailableFor[item] ? Color.themeColor : Color.white
+                  }}>
+                      <Text style={{
+                        color : this.state.availableFor == AvailableFor[item] ? Color.white : "#696969",
+                      }}>{ AvailableFor[item].toUpperCase() }</Text>
+              </TouchableOpacity>
+            ))
+          }
+          </View>
+      </View>
+    )
+  }
+
   render() {
       return (
         <Container>
@@ -555,6 +597,10 @@ class EditApartment extends Component {
                         
                         {
                           this.foodPreference()
+                        }
+
+                        {
+                          this.availableType()
                         }
 
                         <View style={{ ...viewObj, paddingHorizontal : 8, paddingVertical : 16 }}>

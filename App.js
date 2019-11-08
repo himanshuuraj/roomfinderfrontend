@@ -50,7 +50,7 @@ export default class App extends React.Component {
           screenType = 'homeDetails';
         }
       }
-      screenType = "splashScreen";
+      //screenType = "splashScreen";
       this.setState({ screenType });
       await Font.loadAsync({
         Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -64,12 +64,12 @@ export default class App extends React.Component {
         <View style={{ flex : 1}}>
         <Router>
           <Stack key="root">
-          <Scene
+          {/* <Scene
             hideNavBar
             key="splashScreen"
             component={SearchPage}
             title="splashScreen"
-          />
+          /> */}
           <Scene
             type="reset"
             hideNavBar={true}

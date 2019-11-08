@@ -51,6 +51,7 @@ class AddApartment extends Component {
     foodPreference : "",
     showCamera : false,
     selectedArea : "",
+    availableFor : "",
     showPickArea : false
   }
 
@@ -168,7 +169,7 @@ class AddApartment extends Component {
             paddingVertical : 16
           }}>
           {
-            Object.keys(HomeType).map((item, index) => (
+            Object.keys(AvailableFor).map((item, index) => (
               <TouchableOpacity key={index} 
                   onPress={ e => {
                     this.setState({
@@ -183,10 +184,10 @@ class AddApartment extends Component {
                       borderWidth : 1,
                       marginRight : 4,
                       marginTop : 4,
-                      backgroundColor : this.state.apartmentType == HomeType[item] ? Color.themeColor : Color.white
+                      backgroundColor : this.state.availableFor == AvailableFor[item] ? Color.themeColor : Color.white
                   }}>
                       <Text style={{
-                        color : this.state.apartmentType == HomeType[item] ? Color.white : "#696969",
+                        color : this.state.availableFor == AvailableFor[item] ? Color.white : "#696969",
                       }}>{ AvailableFor[item].toUpperCase() }</Text>
               </TouchableOpacity>
             ))

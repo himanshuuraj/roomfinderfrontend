@@ -37,8 +37,8 @@ let { width } = Dimensions.get('window');
 
 let tableContent = [
   {
-    id : "size",
-    name : "Size",
+    id : "availableFor",
+    name : "Available For",
     value : "1000 sq ft."
   },
   {
@@ -145,7 +145,7 @@ class ApartmentDetails extends Component {
   render() {
     let selectedApartment = this.props.selectedApartment;
     if(!selectedApartment) return null;
-    tableContent[0].value = selectedApartment.size || "N/A";
+    tableContent[0].value = selectedApartment.availableFor || "N/A";
     tableContent[1].value = selectedApartment.houseId || "N/A";
     tableContent[2].value = selectedApartment.apartmentType || "N/A";
     tableContent[3].value = selectedApartment.foodPreference || "N/A";

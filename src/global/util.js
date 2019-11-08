@@ -46,7 +46,7 @@ export const Font = {
 }
 
 export const HomeType = {
-    HOUSE : "house", 
+    HOUSE : "p.g.", 
     FLAT : 'flat',
     LODGE : 'lodge'
 }
@@ -65,4 +65,9 @@ export const AvailableFor = {
     BOYS : 'boys',
     GIRLS : 'girls',
     BOTH : 'both'
+}
+
+export const RentType = {
+    ROOM : 'room',
+    BED : 'bed'
 }

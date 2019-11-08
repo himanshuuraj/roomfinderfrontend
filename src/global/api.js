@@ -1,4 +1,4 @@
-export const HOST = "http://192.168.0.80:8082";
+export const HOST = "http://192.168.1.175:8082";
 
 // export const HOST = "https://roomfinderbackend.herokuapp.com";
 
