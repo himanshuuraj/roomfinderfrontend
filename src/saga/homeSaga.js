@@ -365,8 +365,11 @@ function* deleteApartmentSaga(action){
         console.log("RESPONSE", response);
         if(!response.success){
             yield put(setData({ errorModalInfo : {
-                showModal : true,
+                showModal : false,
                 message : response.message
+              },
+              confirmModalInfo : {
+                showModal : false
               }
             }));
             return;
