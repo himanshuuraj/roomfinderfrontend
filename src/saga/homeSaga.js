@@ -76,15 +76,11 @@ function* verifyOtpSaga(action){
             }));
             return;
         }
-        if(response.userId){
-            yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(response));
-            Actions.homeDetails();
-        }
         let userInfo = response.message;
         yield put(setData({ 'userInfo' : userInfo }));
         yield call(AsyncStorage.setItem, 'userInfo', JSON.stringify(userInfo));
         if(userInfo.userType == UserType.OWNER)
-            Actions.homeDetails();
+            Actions.ownerPage();
         else if(userInfo.userType == UserType.RENTAL)
             Actions.searchPage();
         else
@@ -149,7 +145,7 @@ function* setUserTypeSaga(action){
                 if(userInfo.userType == UserType.OWNER)
                     Actions.ownerPage();
                 else
-                    Actions.homeDetails();
+                    Actions.searchPage();
             }
         }
     }catch(err){

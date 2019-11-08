@@ -101,7 +101,7 @@ class SearchPage extends Component {
             </View>
           ) : null
         }
-        {
+        {/* {
           !this.state.searchText ? (
             <View style={{
               flexDirection : 'row',
@@ -117,7 +117,7 @@ class SearchPage extends Component {
             </View>
           </View>
           ) : null
-        }
+        } */}
         {
           (this.state.searchText && !this.state.showDropDown) ? (
             <Content style={{

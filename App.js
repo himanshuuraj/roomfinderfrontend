@@ -47,7 +47,7 @@ export default class App extends React.Component {
           screenType = 'ownerPage';
         }
         else{
-          screenType = 'homeDetails';
+          screenType = 'searchPage';
         }
       }
       //screenType = "splashScreen";
@@ -147,6 +147,7 @@ export default class App extends React.Component {
             key="searchPage"
             component={SearchPage}
             title="SearchPage"
+            initial={this.state.screenType == 'searchPage'}
           />
           <Scene
             hideNavBar={true}
