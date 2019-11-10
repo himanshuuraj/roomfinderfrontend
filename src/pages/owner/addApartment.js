@@ -532,7 +532,7 @@ class AddApartment extends Component {
             }}>
                   <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
                   enabled>
-                    <View style={{ position: 'relative'}}>
+                    <View>
                         {
                           this.state.imageList.length > 0 && this.showGallery()
                         }
@@ -618,8 +618,7 @@ class AddApartment extends Component {
               </Content>
               {
                 !this.state.showCamera && (
-                  <Footer
-                    style={{ backgroundColor: Color.themeColor }}>
+                  <Footer>
                     <TouchableOpacity
                       style={{
                         alignItems : 'center',

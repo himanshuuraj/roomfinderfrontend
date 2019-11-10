@@ -18,10 +18,7 @@ class FooterPage extends Component {
 
     render() {
         return (
-            <Footer style={{
-                alignItems : "center",
-                marginTop: StatusBar.currentHeight
-              }}>
+            <Footer>
                 <GradientView w={width} h={'100%'}>
                     { this.props.children }
                 </GradientView>
