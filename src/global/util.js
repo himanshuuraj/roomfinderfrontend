@@ -32,7 +32,7 @@ export const getWidth = percent => {
 export const Color = {
     gradientColor1 : "#00cc66",
     gradientColor2 : "#99ff33",
-    themeColor : "#6536FF",
+    themeColor : "#4C64FF",
     themeFontColor : "#fff",
     white : "#fff",
     gray : "gray",
