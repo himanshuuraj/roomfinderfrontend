@@ -166,7 +166,7 @@ class HomeDetails extends Component {
                     alignItems : 'center' }}>
                   <Text style={{
                     ...textObj
-                  }}>Your Rooms</Text>
+                  }}>Rooms</Text>
                   {
                      (selectedApartment.roomlist && selectedApartment.roomlist.length > 0) ? (
                       <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
@@ -176,7 +176,7 @@ class HomeDetails extends Component {
                                 <TouchableOpacity key={index} 
                                   onPress={e => {
                                     this.props.setData({ selectedRoom : item });
-                                    Actions.roomDetails();
+                                    Actions.roomDetailsRental();
                                   }}
                                   style={{ 
                                     paddingHorizontal : 16, 
@@ -194,31 +194,10 @@ class HomeDetails extends Component {
                         }
                       </View>
                      ) : (
-                       <Text style={{ marginTop : 8, marginBottom : 4, fontSize : 16 }}>No rooms added</Text>
+                       <Text style={{ marginTop : 8, marginBottom : 4, fontSize : 16 }}>No rooms in this apartment</Text>
                      )
                   }
               </View>
-            {
-                  <TouchableOpacity
-                    style={{
-                      borderWidth : 1,
-                      borderColor : Color.themeColor,
-                      borderRadius : 4,
-                      justifyContent : 'center',
-                      alignItems : 'center',
-                      marginVertical : 8,
-                      height : 48
-                    }}
-                    onPress={e => {
-                      this.props.setData({ addType : "room" });
-                      Actions.addRoom();
-                    }}
-                  >
-                    <Text style={{ fontSize : 16, color : Color.themeColor }}>
-                      ADD ROOM
-                    </Text>
-                </TouchableOpacity>
-            }
             
             {
               selectedApartment.imageList && selectedApartment.imageList.length > 0 && this.showGallery()

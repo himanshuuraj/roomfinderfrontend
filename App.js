@@ -16,6 +16,7 @@ import AddApartment from "./src/pages/owner/addApartment";
 import AddRoom from "./src/pages/owner/addRoom";
 import AppartmentDetails from "./src/pages/owner/apartmentDetails";
 import RoomDetails from "./src/pages/owner/roomDetails";
+import RoomDetailsRental from "./src/pages/rental/roomDetails";
 import ErrorModal from "./src/components/ErrorModal";
 import EditApartment from "./src/pages/owner/editApartment";
 import EditRoom from "./src/pages/owner/editRoom";
@@ -154,6 +155,12 @@ export default class App extends React.Component {
             key="homeDetails"
             component={HomeDetails}
             title="HomeDetails"
+          />
+          <Scene
+            hideNavBar={true}
+            key="roomDetailsRental"
+            component={RoomDetailsRental}
+            title="RoomDetails"
           />
           </Stack>
         </Router>
