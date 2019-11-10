@@ -49,6 +49,7 @@ class ConfirmModal extends Component{
                         )
                     }
                     <View style={{ flexDirection : 'row'}}>
+                        
                         <TouchableOpacity
                             style={{
                                 flex : 1,
@@ -57,7 +58,6 @@ class ConfirmModal extends Component{
                                 marginBottom : 5,
                                 height : 36,
                                 width : '100%',
-                                backgroundColor : Color.themeColor,
                                 borderRadius : 4,
                                 marginRight : 8
                             }}
@@ -65,11 +65,12 @@ class ConfirmModal extends Component{
                                 confirmModalInfo.primaryAction();
                             }}
                         >
+                        <GradientView h={'100%'}>
                             <Text style={{ fontSize : 14, color : Color.themeFontColor, fontWeight : 'bold', textAlign : 'center' }}>
                                 { confirmModalInfo.primaryText }
                             </Text>
+                        </GradientView>
                         </TouchableOpacity>
-                        <GradientView h={48} w={width - 72}>
                         <TouchableOpacity
                             style={{
                                 flex : 1,
@@ -79,8 +80,9 @@ class ConfirmModal extends Component{
                                 height : 36,
                                 width : '100%',
                                 backgroundColor : Color.white,
-                                borderRadius : 4,
-                                borderWidth : 1
+                                borderWidth : 1,
+                                justifyContent : 'center',
+                                alignItems : 'center'
                             }}
                             onPress={e => {
                                 confirmModalInfo.secondaryAction();
@@ -90,7 +92,6 @@ class ConfirmModal extends Component{
                                 { confirmModalInfo.secondaryText }
                             </Text>
                         </TouchableOpacity>
-                        </GradientView>
                     </View>
                 </View>
             </View>
