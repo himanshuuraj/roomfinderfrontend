@@ -16,10 +16,9 @@ import {
 } from 'react-native';
 import {
   Container,
-  Content,
-  Card,
-  Footer
+  Content
 } from "native-base";
+import Footer from "./../../components/footer";
 import {
   Color
 } from "../../global/util";

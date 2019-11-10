@@ -12,12 +12,9 @@ import {
 import {
   Container,
   Content,
-  Icon,
-  Card,
-  Footer,
-  FooterTab,
   Button
 } from "native-base";
+import Footer from "./../../components/footer";
 import {
   getFont,
   Color,
@@ -40,7 +37,7 @@ class RoomDetails extends Component {
 
   separator = () => {
     return <View style={{
-        height : '60%',
+        height : '100%',
         borderLeftColor: Color.white,
         borderLeftWidth: 1,
     }} />;
@@ -157,29 +154,30 @@ class RoomDetails extends Component {
             
         </Content>
         <Footer>
-          <FooterTab style={{
-            backgroundColor : Color.themeColor,
+          <View style={{
+            flexDirection : 'row',
+            display : 'flex',
             alignItems : 'center'
           }}>
-            <Button 
+            <TouchableOpacity 
+              style={{ flex : 1, justifyContent : 'center', alignItems : 'center' }}
               onPress={e => {
                 Actions.editRoom();
                 this.props.setData({ userInfo : {...this.props.userInfo} });
-              }}
-              style={{ backgroundColor : Color.themeColor }}>
+              }}>
               <Text style={{ color : Color.white }}>EDIT</Text>
-            </Button>
+            </TouchableOpacity>
             {
               this.separator()
             }
-            <Button 
+            <TouchableOpacity 
+              style={{ flex : 1, justifyContent : 'center', alignItems : 'center' }}
               onPress={e => {
                 this.props.deleteRoom();
-              }}
-              style={{ backgroundColor : Color.themeColor }}>
+              }}>
               <Text style={{ color : Color.white }}>DELETE</Text>
-            </Button>
-          </FooterTab>
+            </TouchableOpacity>
+          </View>
         </Footer>
       </Container>
     );

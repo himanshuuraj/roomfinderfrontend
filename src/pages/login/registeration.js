@@ -20,7 +20,7 @@ import {
   registerUser,
   setData
 } from "../../redux/action";
-
+import GradientView from "./../../components/gradientView";
 class Registeration extends Component {
 
   state = {
@@ -140,8 +140,8 @@ class Registeration extends Component {
   render() {
     return (
       <Container>
+      <GradientView flex={1} v>
       <Content style={{
-        backgroundColor : Color.themeColor,
         paddingLeft : "4%",
         width : "100%",
         paddingRight : "4%"
@@ -153,6 +153,7 @@ class Registeration extends Component {
           <RegisterationComponent screenType="registeration"/>
         </KeyboardAvoidingView>
       </Content>
+      </GradientView>
       </Container>
     );
   }

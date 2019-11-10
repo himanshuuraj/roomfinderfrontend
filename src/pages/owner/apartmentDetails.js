@@ -14,10 +14,10 @@ import {
   Content,
   Icon,
   Card,
-  Footer,
   FooterTab,
   Button
 } from "native-base";
+import Footer from "./../../components/footer";
 import {
   getFont,
   Color,
@@ -136,7 +136,7 @@ class ApartmentDetails extends Component {
 
   separator = () => {
     return <View style={{
-        height : '60%',
+        height : '100%',
         borderLeftColor: Color.white,
         borderLeftWidth: 1,
     }} />;
@@ -348,22 +348,24 @@ class ApartmentDetails extends Component {
               </ScrollView> */}
         </Content>
         <Footer>
-          <FooterTab style={{
-            backgroundColor : Color.themeColor,
+          <View style={{
+            flexDirection : 'row',
+            display : 'flex',
             alignItems : 'center'
           }}>
-            <Button 
+            <TouchableOpacity 
+              style={{ flex : 1, justifyContent : 'center', alignItems : 'center' }}
               onPress={e => {
                 Actions.editApartment();
                 this.props.setData({ userInfo : {...this.props.userInfo} });
-              }}
-              style={{ backgroundColor : Color.themeColor }}>
+              }}>
               <Text style={{ color : Color.white }}>EDIT</Text>
-            </Button>
+            </TouchableOpacity>
             {
               this.separator()
             }
-            <Button 
+            <TouchableOpacity 
+              style={{ flex : 1, justifyContent : 'center', alignItems : 'center' }}
               onPress={e => {
                 this.props.setData({
                   confirmModalInfo : {
@@ -372,11 +374,10 @@ class ApartmentDetails extends Component {
                     primaryAction : this.props.deleteApartment
                   }
                 });
-              }}
-              style={{ backgroundColor : Color.themeColor }}>
+              }}>
               <Text style={{ color : Color.white }}>DELETE</Text>
-            </Button>
-          </FooterTab>
+            </TouchableOpacity>
+          </View>
         </Footer>
       </Container>
     );

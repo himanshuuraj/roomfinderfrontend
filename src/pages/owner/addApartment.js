@@ -16,9 +16,9 @@ import {
 } from 'react-native';
 import {
   Container,
-  Content,
-  Footer
+  Content
 } from "native-base";
+import Footer from "./../../components/footer";
 import Header from "./../../components/header";
 import {
   Color, HomeType, FoodPreference, AvailableFor

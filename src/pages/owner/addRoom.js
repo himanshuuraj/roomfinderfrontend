@@ -14,9 +14,9 @@ import {
 import {
   Container,
   Content,
-  Card,
-  Footer
+  Card
 } from "native-base";
+import Footer from "./../../components/footer";
 import {
   Color, HomeType, FoodPreference
 } from "../../global/util";
@@ -30,7 +30,7 @@ import Carousel from "./../../components/carousel";
 import Loading from "./../../components/loading";
 import Header from "./../../components/header";
 let { width } = Dimensions.get('window');
-const height = width * 0.8
+const height = width * 0.8;
 class AddRoom extends Component {
 
   state = {
@@ -348,7 +348,7 @@ class AddRoom extends Component {
                       </View>
                   </KeyboardAvoidingView>
               </Content>
-              <Footer
+                <Footer
                     style={{ backgroundColor: Color.themeColor }}>
                     <TouchableOpacity
                       style={{

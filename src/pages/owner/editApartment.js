@@ -15,12 +15,12 @@ import {
 } from 'react-native';
 import {
   Container,
-  Content,
-  Footer
+  Content
 } from "native-base";
 import {
   Color, HomeType, FoodPreference, AvailableFor
 } from "../../global/util";
+import Footer from "./../../components/footer";
 import { getAmenities, setData, getAreas, updateApartment } from "../../redux/action";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
