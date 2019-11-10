@@ -24,7 +24,7 @@ import {
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import HouseCardItem from "../../components/houseCardItems";
-import { getAreas, getSearchedHouses } from "../../redux/action";
+import { getAreas, getSearchedHouses, setData } from "../../redux/action";
 
 class SearchPage extends Component {
 
@@ -126,13 +126,13 @@ class SearchPage extends Component {
               paddingRight : "5%"
             }}>
                   {
-                      this.props.apartmentList.map((item, index) => <HouseCardItem key={index} item={item} page={'search'}/>)
+                      this.props.apartmentList.map((item, index) => <HouseCardItem setData={this.props.setData} key={index} item={item} page={'search'}/>)
                   }
             </Content>
           ) : null
         }
         </Content>
-        { 
+        {/* { 
           (this.state.searchText && !this.state.showDropDown) ? (
             <Footer>
               <View style={{ 
@@ -147,7 +147,7 @@ class SearchPage extends Component {
               </View>
             </Footer>
           ) : null
-        }
+        } */}
         </Container>
     );
   }
@@ -163,7 +163,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getAreas,
-    getSearchedHouses
+    getSearchedHouses, 
+    setData
   }, dispatch);
 }
 

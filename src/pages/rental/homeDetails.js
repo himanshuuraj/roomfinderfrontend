@@ -6,15 +6,17 @@ import {
   StatusBar,
   ScrollView,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 import {
   Container,
   Content,
   Icon,
-  Header,
   Card,
-  Footer
+  Footer,
+  FooterTab,
+  Button
 } from "native-base";
 import {
   getFont,
@@ -23,27 +25,26 @@ import {
   UserType
 } from "../../global/util";
 // import Location from "./../components/location";
-import HouseCardItem from "../../components/houseCardItems";
 import Carousel from "../../components/carousel";
-import { Constants } from 'expo';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setData } from "../../redux/action";
 import { Actions } from 'react-native-router-flux';
-
+import { deleteApartment } from "./../../redux/action";
+import Header from "./../../components/header";
 let { width } = Dimensions.get('window');
-const height = width * 0.8
+
 
 let tableContent = [
   {
-    id : "size",
-    name : "Size",
+    id : "availableFor",
+    name : "Available For",
     value : "1000 sq ft."
   },
   {
-    id : "houseId",
-    name : "House ID",
-    value : "FGVB5825"
+    id : "area",
+    name : "Area",
+    value : ""
   },
   {
     id : "type",
@@ -67,30 +68,6 @@ let tableContent = [
   },
 ];
 
-const images = [
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg',
-    },
-  },
-  {
-    source: {
-      uri: 'https://cdn.pixabay.com/photo/2017/05/16/21/24/gorilla-2318998__340.jpg',
-    },
-  },
-  
-];
-
 class HomeDetails extends Component {
 
   constructor(props){
@@ -101,74 +78,131 @@ class HomeDetails extends Component {
   }
 
   componentDidMount(){
-    let userInfo = this.props.userInfo;
-    this.props.setData({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
-    this.setState({ isOwner : userInfo.userType == UserType.OWNER ? true : false});
+    console.log(this.props, Actions.currentScene, "Actions");
+  }
+
+  showGallery = () => {
+    let selectedApartment = this.props.selectedApartment;
+    return (<View style={{
+      marginTop : 16,
+      borderWidth : StyleSheet.hairlineWidth,
+      borderColor : Color.black,
+      borderRadius : 4,
+      paddingBottom : 16,
+      paddingTop : 8
+    }}>
+      <Text 
+        style={{
+          ...textObj
+        }}>Image Gallery</Text>
+      <View style={{ justifyContent  : 'center', alignItems : 'center', paddingTop : 10}}>
+        <Text style={{ }}>
+          Tab to see the bigger image
+        </Text>
+      </View>
+      {
+        selectedApartment.imageList && selectedApartment.imageList.length > 0 &&
+        (
+        <View style={{ flexDirection : 'row' }}>
+            <ScrollView horizontal pagingEnabled>
+              {selectedApartment.imageList.map((image, index) => {
+                return (
+                  <TouchableOpacity 
+                    onPress={() => {
+                      // let imageList = this.state.imageList;
+                      // let image = imageList.splice(index, 1);
+                      // imageList.unshift(...image);
+                      this.props.setData({
+                        carouselData : {
+                          show : true,
+                          imageList : selectedApartment.imageList
+                        }
+                      });
+                    }}
+                    key={index} style={{ width : width - 36, height : 250, paddingHorizontal : 16 }}>
+                    <Image resizeMode="contain" source={image} style={{ flex : 1 }} />
+                  </TouchableOpacity>
+                )
+              })}
+            </ScrollView>
+        </View>
+        )
+      }
+    </View>);
+  }
+
+  onBackPress = () => {
+    Actions.pop();
+  }
+
+  separator = () => {
+    return <View style={{
+        height : '60%',
+        borderLeftColor: Color.white,
+        borderLeftWidth: 1,
+    }} />;
   }
 
   render() {
     let selectedApartment = this.props.selectedApartment;
-    tableContent[0].value = selectedApartment.size || "N/A";
-    tableContent[1].value = selectedApartment.houseId || "N/A";
+    if(!selectedApartment) return null;
+    tableContent[0].value = selectedApartment.availableFor || "N/A";
+    tableContent[1].value = selectedApartment.cityArea.area || "N/A";
     tableContent[2].value = selectedApartment.apartmentType || "N/A";
     tableContent[3].value = selectedApartment.foodPreference || "N/A";
     return (
       <Container>
-        <Header style={{
-          backgroundColor : Color.themeColor,
-          alignItems : "center",
-          justifyContent : "flex-start",
-          paddingLeft : "5%",
-          marginTop: StatusBar.currentHeight
-        }}>
-          <TouchableOpacity style={{
-              display : "flex",
-              flexDirection : "row",
-              justifyContent : "center",
-              alignItems : "center"
-          }}>
-            <Icon name="ios-arrow-back" style={{
-              color : "white",
-              marginRight : 20
-            }}/>
-            <Text style={{
-              fontSize : getFont(18),
-              color : Color.white
-            }}>
-              { selectedApartment.apartmentName }
-            </Text>
-          </TouchableOpacity>
-        </Header>
+        <Carousel />
+        <Header headerText={ selectedApartment.apartmentName.toUpperCase() } onBackPress={this.onBackPress}/>
         <Content style={{
-          width : "100%",
-          paddingHorizontal : 16
+          width : "100%", 
+          paddingHorizontal : 16,
+          backgroundColor : Color.backgroundThemeColor
         }}>
-            <Text style={{ marginTop : 16, fontWeight: 'bold', fontSize: 16 }}> Rooms Available </Text>
-            <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
-              {
-                selectedApartment.roomlist && selectedApartment.roomlist.map((item, index) => {
-                    return (
-                      <View key={index} 
-                      style={{ 
-                        paddingHorizontal : 16, 
-                        paddingVertical : 8,
-                        marginRight : 8, 
-                        marginTop : 10,
-                        borderWidth : 1,
-                        borderColor : '#ccc'
-                      }}>
-                        <Text style={{ color : 'black' }}> {item.name} </Text>
+            <View style={{ ...viewObj, 
+                    paddingTop : 5, 
+                    marginBottom : 8,
+                    justifyContent : 'center',
+                    alignItems : 'center' }}>
+                  <Text style={{
+                    ...textObj
+                  }}>Your Rooms</Text>
+                  {
+                     (selectedApartment.roomlist && selectedApartment.roomlist.length > 0) ? (
+                      <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
+                        {
+                          selectedApartment.roomlist.map((item, index) => {
+                              return (
+                                <TouchableOpacity key={index} 
+                                  onPress={e => {
+                                    this.props.setData({ selectedRoom : item });
+                                    Actions.roomDetails();
+                                  }}
+                                  style={{ 
+                                    paddingHorizontal : 16, 
+                                    paddingVertical : 8,
+                                    marginRight : 8, 
+                                    marginTop : 10,
+                                    borderWidth : StyleSheet.hairlineWidth,
+                                    borderColor : Color.black,
+                                    borderRadius : 4
+                                  }}>
+                                  <Text style={{ color : 'black' }}> {item.roomName} </Text>
+                                </TouchableOpacity>
+                              )
+                          })
+                        }
                       </View>
-                    )
-                })
-              }
-            </View>
+                     ) : (
+                       <Text style={{ marginTop : 8, marginBottom : 4, fontSize : 16 }}>No rooms added</Text>
+                     )
+                  }
+              </View>
             {
-              this.state.isOwner && (
                   <TouchableOpacity
                     style={{
                       borderWidth : 1,
-                      borderColor : Color.black,
+                      borderColor : Color.themeColor,
                       borderRadius : 4,
                       justifyContent : 'center',
                       alignItems : 'center',
@@ -180,18 +214,23 @@ class HomeDetails extends Component {
                       Actions.addRoom();
                     }}
                   >
-                    <Text style={{ fontSize : 16 }}>Add Room</Text>
+                    <Text style={{ fontSize : 16, color : Color.themeColor }}>
+                      ADD ROOM
+                    </Text>
                 </TouchableOpacity>
-              )
             }
-            <View style={styles.container}>
-              <Carousel images={images} />
-            </View>
+            
+            {
+              selectedApartment.imageList && selectedApartment.imageList.length > 0 && this.showGallery()
+            }
+
             {
               selectedApartment.amentiesList && selectedApartment.amentiesList.length > 0 && (
-                <Card style={{ paddingHorizontal : 16, paddingVertical : 16, marginTop : 16 }}>
-                  <Text style={{ fontWeight: 'bold', fontSize: 16 }}> Amenities </Text>
-                  <View style={{ flexDirection : 'row', marginTop : 5, flexWrap : 'wrap'}}>
+                <View style={{ ...viewObj, paddingTop : 5 }}>
+                  <Text style={{
+                    ...textObj
+                  }}>Amenities</Text>
+                  <View style={{ flexDirection : 'row', flexWrap : 'wrap'}}>
                     {
                       selectedApartment.amentiesList.map((item, index) => {
                           return (
@@ -201,8 +240,8 @@ class HomeDetails extends Component {
                               paddingVertical : 8,
                               marginRight : 8, 
                               marginTop : 10,
-                              borderWidth : 1,
-                              borderColor : '#ccc'
+                              borderWidth : StyleSheet.hairlineWidth,
+                              borderRadius : 4
                             }}>
                               <Text style={{ color : 'black' }}> {item.amenityName} </Text>
                             </View>
@@ -210,11 +249,12 @@ class HomeDetails extends Component {
                       })
                     }
                   </View>
-                </Card>
+                </View>
               )}
 
             <Card style={{
-              marginTop : getHeight (2)
+              marginTop : getHeight(2),
+              marginBottom : getHeight(1)
             }}>
                 <View style={{
                   width: '100%',
@@ -301,24 +341,25 @@ class HomeDetails extends Component {
                 <Location/>
               </Card>
             </View> */}
-              <Text style={{ marginTop : 10, marginBottom : 5}}>Similiar Listing</Text>
+              {/* <Text style={{ marginTop : 10, marginBottom : 5}}>Similiar Listing</Text>
               <ScrollView horizontal style={{marginBottom : getHeight(2)}}>
                 {
-                  this.props.apartmentList.map((item, index) => ( <HouseCardItem item={item} key={index} />))
+                  [...Array(10)].map((item, index) => ( <HouseCardItem key={index} />))
                 }
-              </ScrollView>
+              </ScrollView> */}
         </Content>
         <Footer>
-          <View style={{ 
-            justifyContent : 'center',
-            alignItems: 'center',
-            backgroundColor: 'green',
-            width: '100%'
-            }}>
-                <Text style={{color : 'white', fontSize : 14, fontWeight: 'bold', textAlign: 'center'}}> 
-                  BOOK NOW 
-                </Text>
-          </View>
+          <FooterTab style={{
+            backgroundColor : Color.themeColor,
+            alignItems : 'center'
+          }}>
+            <Button 
+              onPress={e => {
+              }}
+              style={{ backgroundColor : Color.themeColor }}>
+              <Text style={{ color : Color.white }}>BOOK NOW</Text>
+            </Button>
+          </FooterTab>
         </Footer>
       </Container>
     );
@@ -328,35 +369,32 @@ class HomeDetails extends Component {
 function mapStateToProps(state, props) {
   return {
     selectedApartment : state.testReducer.selectedApartment,
-    userInfo : state.testReducer.userInfo,
-    apartmentList : state.testReducer.apartmentList || []
+    userInfo : state.testReducer.userInfo
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    setData
+    setData,
+    deleteApartment
   }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeDetails);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-    borderWidth : 1,
-    padding : 1, 
-    borderColor : 'black'
-  },
-  scrollContainer: {
-    height,
-  },
-  image: {
-    width,
-    height,
-  },
-});
+let textObj = {
+  position : 'absolute',
+  top : -8,
+  left : 8,
+  fontSize : 12,
+  backgroundColor : Color.white,
+  paddingHorizontal : 2,
+  backgroundColor : Color.backgroundThemeColor
+}
 
+let viewObj = {
+  marginTop : 16, 
+  borderWidth: StyleSheet.hairlineWidth, 
+  borderRadius : 4, 
+  padding : 16
+}
