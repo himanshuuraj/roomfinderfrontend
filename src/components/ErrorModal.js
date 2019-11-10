@@ -4,7 +4,7 @@ import { Color } from "./../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setData } from "./../redux/action";
-
+import GradientView from './gradientView';
 const width = Math.round(Dimensions.get('window').width);  
 const height = Math.round(Dimensions.get('window').height);  
 
@@ -45,16 +45,17 @@ class ErrorModal extends Component{
                             marginBottom : 5,
                             height : 36,
                             width : '100%',
-                            backgroundColor : Color.themeColor,
                             borderRadius : 4
                         }}
                         onPress={e => {
                             errorModalInfo.onClose();
                         }}
                     >
+                    <GradientView h={36} w={width - 72}>
                         <Text style={{ fontSize : 14, color : Color.themeFontColor, fontWeight: 'bold', textAlign : 'center' }}>
                             { errorModalInfo.buttonText }
                         </Text>
+                    </GradientView>
                     </TouchableOpacity>
                 </View>
             </View>

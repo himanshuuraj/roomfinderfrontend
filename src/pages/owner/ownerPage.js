@@ -22,6 +22,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { getApartment } from "../../redux/action";
 import * as Permissions from 'expo-permissions';
+import GradientView from '../../components/gradientView';
 
 class OwnerPage extends Component {
 
@@ -97,14 +98,14 @@ class OwnerPage extends Component {
                 {
                     this.separator()
                 }
+                <GradientView>
                 <TouchableOpacity
                     style={{
                         width : 200,
                         height : getHeight(5),
                         borderRadius : 4,
                         justifyContent : 'center',
-                        alignItems : 'center',
-                        backgroundColor : Color.themeColor
+                        alignItems : 'center'
                     }}
                     onPress={() => {
                         this.props.setData({ addType : "apartment" });
@@ -115,6 +116,7 @@ class OwnerPage extends Component {
                         ADD
                     </Text>
                 </TouchableOpacity>
+                </GradientView>
         </View>
       </Container>
     );

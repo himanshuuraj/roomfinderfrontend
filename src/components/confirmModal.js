@@ -4,6 +4,7 @@ import { Color } from "../global/util";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import { setData } from "../redux/action";
+import GradientView from './gradientView';
 
 let { width, height } = Dimensions.get('window');
 width = width;
@@ -68,6 +69,7 @@ class ConfirmModal extends Component{
                                 { confirmModalInfo.primaryText }
                             </Text>
                         </TouchableOpacity>
+                        <GradientView h={48} w={width - 72}>
                         <TouchableOpacity
                             style={{
                                 flex : 1,
@@ -84,10 +86,11 @@ class ConfirmModal extends Component{
                                 confirmModalInfo.secondaryAction();
                             }}
                         >
-                            <Text style={{ fontSize : 14, color : Color.black, fontWeight: 'bold', textAlign : 'center' }}>
+                            <Text style={{ fontSize : 14, color : Color.black }}>
                                 { confirmModalInfo.secondaryText }
                             </Text>
                         </TouchableOpacity>
+                        </GradientView>
                     </View>
                 </View>
             </View>

@@ -4,28 +4,30 @@ import { connect } from 'react-redux';
 import {
     TouchableOpacity,
     StatusBar,
-    Text
+    Text,
+    Dimensions
 } from "react-native";
 import { Header, Icon } from "native-base";
 import { testAction } from "./../redux/action";
 import { Color, getFont } from "./../global/util";
+import GradientView from './gradientView';
+const width = Math.round(Dimensions.get('window').width);  
+const height = Math.round(Dimensions.get('window').height);  
 
 class HeaderPage extends Component {
 
     render() {
         return (
             <Header style={{
-                backgroundColor : Color.themeColor,
                 alignItems : "center",
-                justifyContent : "flex-start",
-                paddingLeft : "5%",
                 marginTop: StatusBar.currentHeight
               }}>
+                <GradientView w={width} h={'100%'}>
                 <TouchableOpacity style={{
                     display : "flex",
                     flexDirection : "row",
-                    justifyContent : "center",
-                    alignItems : "center"
+                    alignItems : "center",
+                    marginLeft : 20
                 }}
                 onPress={e => {
                     this.props.onBackPress();
@@ -42,6 +44,7 @@ class HeaderPage extends Component {
                     { this.props.headerText.toUpperCase() }
                   </Text>
                 </TouchableOpacity>
+                </GradientView>
               </Header>
         )
     }

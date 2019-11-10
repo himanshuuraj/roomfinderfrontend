@@ -17,6 +17,7 @@ import ImageLogoComponent from "../../components/imageLogoComponent";
 import { sendOTP, verifyOTP, verifyEmail, setData } from "../../redux/action";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
+import GradientView from "./../../components/gradientView";
 
 class Login extends Component {
 
@@ -167,19 +168,20 @@ class Login extends Component {
   render() {
     return (
       <Container>
-      <Content style={{
-        backgroundColor : Color.themeColor,
-        paddingLeft : "4%",
-        width : "100%",
-        paddingRight : "4%"
-      }}>
-        <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
-         enabled>
-          <ImageLogoComponent/>
-          <LoginFormComponent sendOTP={this.sendOTP} onSubmit={this.onSubmit} updateData={this.updateData} screenType='login'/>
-          <RegisterationComponent toggleScreenType={this.toggleScreenType} screenType='login'/>
-        </KeyboardAvoidingView>
-      </Content>
+        <GradientView flex={1} v>
+        <Content style={{
+          paddingLeft : "4%",
+          width : "100%",
+          paddingRight : "4%"
+        }}>
+          <KeyboardAvoidingView behavior={Platform.select({android: "padding", ios: 'padding'})}
+          enabled>
+            <ImageLogoComponent/>
+            <LoginFormComponent sendOTP={this.sendOTP} onSubmit={this.onSubmit} updateData={this.updateData} screenType='login'/>
+            <RegisterationComponent toggleScreenType={this.toggleScreenType} screenType='login'/>
+          </KeyboardAvoidingView>
+        </Content>
+        </GradientView>
       </Container>
     );
   }
@@ -195,7 +197,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     sendOTP,
     verifyOTP,
-    verifyEmail
+    verifyEmail,
+    setData
   }, dispatch);
 }
 
